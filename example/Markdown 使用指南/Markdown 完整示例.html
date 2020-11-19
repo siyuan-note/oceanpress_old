@@ -1,0 +1,302 @@
+<h2 id="教程">教程</h2>
+<p>这是一篇讲解如何正确使用 <strong>Markdown</strong> 的排版示例，学会这个很有必要，能让你的文章有更佳清晰的排版。</p>
+<blockquote>
+<p>引用文本：Markdown is a text formatting syntax inspired</p>
+</blockquote>
+<h2 id="语法指导">语法指导</h2>
+<h3 id="内容块引用">内容块引用</h3>
+<p><code>((20200817123136-in6y5m1 &quot;内容块引用&quot;))</code></p>
+<p>((20200817123136-in6y5m1 &quot;内容块引用&quot;))</p>
+<h3 id="内容块嵌入">内容块嵌入</h3>
+<p><code>!((20200817123136-in6y5m1 &quot;内容块嵌入​&quot;))​</code></p>
+<p>!((20200920190726-xw7fial &quot;内容块嵌入&quot;))</p>
+<h3 id="普通内容">普通内容</h3>
+<p>这段内容展示了在内容里面一些排版格式，比如：</p>
+<ul>
+<li><strong>加粗</strong> - <code>**加粗**</code></li>
+<li><em>倾斜</em> - <code>*倾斜*</code></li>
+<li><del>删除线</del> - <code>~~删除线~~</code></li>
+<li><code>Code 标记</code> - <code>`Code 标记`</code></li>
+<li><a href="https://ld246.com">超级链接</a> - <code>[超级链接](https://ld246.com)</code></li>
+<li><a href="mailto:username@gmail.com">username@gmail.com</a> - <code>[username@gmail.com](mailto:username@gmail.com)</code></li>
+</ul>
+<h3 id="表情符号-Emoji">表情符号 Emoji</h3>
+<p>支持大部分标准的表情符号，可使用输入法直接输入，也可手动输入字符格式。通过输入 <code>:</code> 触发自动完成。</p>
+<h4 id="一些表情例子">一些表情例子</h4>
+<p>😄 😆 😵 😭 😰 😅  😢 😤 😍 😌👍 👎 💯 👏 🔔 🎁 ❓ 💣 ❤️ ☕️ 🌀 🙇 💋 🙏 💢</p>
+<h3 id="标题">标题</h3>
+<p>使用一个 <code>#</code> 是一级标题，两个 <code>##</code> 是二级标题，以此类推，最多支持六级标题。</p>
+<blockquote>
+<p>NOTE: 别忘了 # 后面需要有空格！</p>
+</blockquote>
+<h3 id="图片">图片</h3>
+<pre><code class="highlight-chroma">![alt 文本](http://image-path.png)
+![alt 文本](http://image-path.png &#34;图片 Title 值&#34;)
+</code></pre>
+<p>支持直接复制粘贴。</p>
+<h3 id="代码块">代码块</h3>
+<h4 id="普通">普通</h4>
+<pre><code class="highlight-chroma">*emphasize*    **strong**
+_emphasize_    __strong__
+var a = 1
+</code></pre>
+<h4 id="语法高亮支持">语法高亮支持</h4>
+<p>如果在 ``` 后面跟随语言名称，可以有语法高亮的效果哦，比如：</p>
+<h5 id="演示-Go-代码高亮">演示 Go 代码高亮</h5>
+<pre><code class="language-go highlight-chroma"><span class="highlight-kn">package</span> <span class="highlight-nx">main</span>
+
+<span class="highlight-kn">import</span> <span class="highlight-s">&#34;fmt&#34;</span>
+
+<span class="highlight-kd">func</span> <span class="highlight-nf">main</span><span class="highlight-p">()</span> <span class="highlight-p">{</span>
+	<span class="highlight-nx">fmt</span><span class="highlight-p">.</span><span class="highlight-nf">Println</span><span class="highlight-p">(</span><span class="highlight-s">&#34;Hello, 世界&#34;</span><span class="highlight-p">)</span>
+<span class="highlight-p">}</span>
+</code></pre>
+<h5 id="演示-Java-高亮">演示 Java 高亮</h5>
+<pre><code class="language-java highlight-chroma"><span class="highlight-kd">public</span> <span class="highlight-kd">class</span> <span class="highlight-nc">HelloWorld</span> <span class="highlight-o">{</span>
+
+    <span class="highlight-kd">public</span> <span class="highlight-kd">static</span> <span class="highlight-kt">void</span> <span class="highlight-nf">main</span><span class="highlight-o">(</span><span class="highlight-n">String</span><span class="highlight-o">[]</span> <span class="highlight-n">args</span><span class="highlight-o">)</span> <span class="highlight-o">{</span>
+        <span class="highlight-n">System</span><span class="highlight-o">.</span><span class="highlight-na">out</span><span class="highlight-o">.</span><span class="highlight-na">println</span><span class="highlight-o">(</span><span class="highlight-s">&#34;Hello World!&#34;</span><span class="highlight-o">);</span>
+    <span class="highlight-o">}</span>
+
+<span class="highlight-o">}</span>
+</code></pre>
+<blockquote>
+<p>Tip: 语言名称支持下面这些： <code>ruby</code>, <code>python</code>, <code>js</code>, <code>html</code>, <code>erb</code>, <code>css</code>, <code>coffee</code>, <code>bash</code>, <code>json</code>, <code>yml</code>, <code>xml</code> ...</p>
+</blockquote>
+<h3 id="有序-无序-任务列表">有序、无序、任务列表</h3>
+<h4 id="无序列表">无序列表</h4>
+<ul>
+<li>
+<p>Java</p>
+<ul>
+<li>Spring
+<ul>
+<li>IoC</li>
+<li>AOP</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Go</p>
+<ul>
+<li>gofmt</li>
+<li>Wide</li>
+</ul>
+</li>
+<li>
+<p>Node.js</p>
+<ul>
+<li>Koa</li>
+<li>Express</li>
+</ul>
+</li>
+</ul>
+<h4 id="有序列表">有序列表</h4>
+<ol>
+<li>
+<p>Node.js</p>
+<ol>
+<li>Express</li>
+<li>Koa</li>
+<li>Sails</li>
+</ol>
+</li>
+<li>
+<p>Go</p>
+<ol>
+<li>gofmt</li>
+<li>Wide</li>
+</ol>
+</li>
+<li>
+<p>Java</p>
+<ol>
+<li>Latke</li>
+<li>IDEA</li>
+</ol>
+</li>
+</ol>
+<h4 id="任务列表">任务列表</h4>
+<ul>
+<li class="vditor-task"><input checked="" disabled="" type="checkbox" /> 发布 Sym</li>
+<li class="vditor-task"><input checked="" disabled="" type="checkbox" /> 发布 Solo</li>
+<li class="vditor-task"><input disabled="" type="checkbox" /> 预约牙医</li>
+</ul>
+<h3 id="表格">表格</h3>
+<p>如果需要展示数据什么的，可以选择使用表格。</p>
+<table>
+<thead>
+<tr>
+<th>header 1</th>
+<th>header 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cell 1</td>
+<td>cell 2</td>
+</tr>
+<tr>
+<td>cell 3</td>
+<td>cell 4</td>
+</tr>
+<tr>
+<td>cell 5</td>
+<td>cell 6</td>
+</tr>
+</tbody>
+</table>
+<h3 id="段落">段落</h3>
+<p>空行可以将内容进行分段，便于阅读。（这是第一段）</p>
+<p>使用空行在 Markdown 排版中相当重要。（这是第二段）</p>
+<h3 id="链接引用">链接引用</h3>
+<p>[链接文本][链接标识]</p>
+<pre><code class="highlight-chroma">[链接文本][链接标识]
+
+[链接标识]: https://b3log.org
+</code></pre>
+<h3 id="数学公式">数学公式</h3>
+<p>多行公式块：</p>
+<div class="vditor-math">\frac{1}{
+  \Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{
+  \frac25 \pi}} = 1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}} {
+    1+\frac{e^{-6\pi}}
+    {1+\frac{e^{-8\pi}}{1+\cdots}}
+  }
+}</div>
+<p>行内公式：</p>
+<p>公式 <span class="vditor-math">a^2 + b^2 = \color{red}c^2</span> 是行内。</p>
+<h3 id="脑图">脑图</h3>
+<pre><code data-code="%7B%22name%22:%20%22Root%22,%20%22children%22:%20%5B%7B%22name%22:%20%22%E6%95%99%E7%A8%8B%22%7D,%20%7B%22name%22:%20%22%E8%AF%AD%E6%B3%95%E6%8C%87%E5%AF%BC%22,%20%22children%22:%20%5B%7B%22name%22:%20%22%E6%99%AE%E9%80%9A%E5%86%85%E5%AE%B9%22%7D,%20%7B%22name%22:%20%22%E6%8F%90%E5%8F%8A%E7%94%A8%E6%88%B7%22%7D,%20%7B%22name%22:%20%22%E8%A1%A8%E6%83%85%E7%AC%A6%E5%8F%B7%20Emoji%22,%20%22children%22:%20%5B%7B%22name%22:%20%22%E4%B8%80%E4%BA%9B%E8%A1%A8%E6%83%85%E4%BE%8B%E5%AD%90%22%7D%5D%7D,%20%7B%22name%22:%20%22%E5%A4%A7%E6%A0%87%E9%A2%98%20-%20Heading%203%22,%20%22children%22:%20%5B%7B%22name%22:%20%22Heading%204%22,%20%22children%22:%20%5B%7B%22name%22:%20%22Heading%205%22,%20%22children%22:%20%5B%7B%22name%22:%20%22Heading%206%22%7D%5D%7D%5D%7D%5D%7D,%20%7B%22name%22:%20%22%E5%9B%BE%E7%89%87%22%7D,%20%7B%22name%22:%20%22%E4%BB%A3%E7%A0%81%E5%9D%97%22,%20%22children%22:%20%5B%7B%22name%22:%20%22%E6%99%AE%E9%80%9A%22%7D,%20%7B%22name%22:%20%22%E8%AF%AD%E6%B3%95%E9%AB%98%E4%BA%AE%E6%94%AF%E6%8C%81%22,%20%22children%22:%20%5B%7B%22name%22:%20%22%E6%BC%94%E7%A4%BA%20Go%20%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE%22%7D,%20%7B%22name%22:%20%22%E6%BC%94%E7%A4%BA%20Java%20%E9%AB%98%E4%BA%AE%22%7D%5D%7D%5D%7D,%20%7B%22name%22:%20%22%E6%9C%89%E5%BA%8F%E3%80%81%E6%97%A0%E5%BA%8F%E3%80%81%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%22,%20%22children%22:%20%5B%7B%22name%22:%20%22%E6%97%A0%E5%BA%8F%E5%88%97%E8%A1%A8%22%7D,%20%7B%22name%22:%20%22%E6%9C%89%E5%BA%8F%E5%88%97%E8%A1%A8%22%7D,%20%7B%22name%22:%20%22%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%22%7D%5D%7D,%20%7B%22name%22:%20%22%E8%A1%A8%E6%A0%BC%22%7D,%20%7B%22name%22:%20%22%E9%9A%90%E8%97%8F%E7%BB%86%E8%8A%82%22%7D,%20%7B%22name%22:%20%22%E6%AE%B5%E8%90%BD%22%7D,%20%7B%22name%22:%20%22%E9%93%BE%E6%8E%A5%E5%BC%95%E7%94%A8%22%7D,%20%7B%22name%22:%20%22%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%22%7D,%20%7B%22name%22:%20%22%E8%84%91%E5%9B%BE%22%7D,%20%7B%22name%22:%20%22%E6%B5%81%E7%A8%8B%E5%9B%BE%22%7D,%20%7B%22name%22:%20%22%E6%97%B6%E5%BA%8F%E5%9B%BE%22%7D,%20%7B%22name%22:%20%22%E7%94%98%E7%89%B9%E5%9B%BE%22%7D,%20%7B%22name%22:%20%22%E5%9B%BE%E8%A1%A8%22%7D,%20%7B%22name%22:%20%22%E4%BA%94%E7%BA%BF%E8%B0%B1%22%7D,%20%7B%22name%22:%20%22Graphviz%22%7D,%20%7B%22name%22:%20%22%E5%A4%9A%E5%AA%92%E4%BD%93%22%7D,%20%7B%22name%22:%20%22%E8%84%9A%E6%B3%A8%22%7D%5D%7D,%20%7B%22name%22:%20%22%E5%BF%AB%E6%8D%B7%E9%94%AE%22%7D%5D%7D" class="language-mindmap">- 教程
+- 语法指导
+  - 普通内容
+  - 提及用户
+  - 表情符号 Emoji
+    - 一些表情例子
+  - 大标题 - Heading 3
+    - Heading 4
+      - Heading 5
+        - Heading 6
+  - 图片
+  - 代码块
+    - 普通
+    - 语法高亮支持
+      - 演示 Go 代码高亮
+      - 演示 Java 高亮
+  - 有序、无序、任务列表
+    - 无序列表
+    - 有序列表
+    - 任务列表
+  - 表格
+  - 隐藏细节
+  - 段落
+  - 链接引用
+  - 数学公式
+  - 脑图
+  - 流程图
+  - 时序图
+  - 甘特图
+  - 图表
+  - 五线谱
+  - Graphviz
+  - 多媒体
+  - 脚注
+- 快捷键
+</code></pre>
+<h3 id="流程图">流程图</h3>
+<pre><code class="language-mermaid">graph TB
+    c1--&gt;a2
+    subgraph one
+    a1--&gt;a2
+    end
+    subgraph two
+    b1--&gt;b2
+    end
+    subgraph three
+    c1--&gt;c2
+    end
+</code></pre>
+<h3 id="时序图">时序图</h3>
+<pre><code class="language-mermaid">sequenceDiagram
+    Alice-&gt;&gt;John: Hello John, how are you?
+    loop Every minute
+        John--&gt;&gt;Alice: Great!
+    end
+</code></pre>
+<h3 id="甘特图">甘特图</h3>
+<pre><code class="language-mermaid">gantt
+    title A Gantt Diagram
+    dateFormat  YYYY-MM-DD
+    section Section
+    A task           :a1, 2019-01-01, 30d
+    Another task     :after a1  , 20d
+    section Another
+    Task in sec      :2019-01-12  , 12d
+    another task      : 24d
+</code></pre>
+<h3 id="图表">图表</h3>
+<pre><code class="language-echarts">{
+  &quot;title&quot;: { &quot;text&quot;: &quot;最近 30 天&quot; },
+  &quot;tooltip&quot;: { &quot;trigger&quot;: &quot;axis&quot;, &quot;axisPointer&quot;: { &quot;lineStyle&quot;: { &quot;width&quot;: 0 } } },
+  &quot;legend&quot;: { &quot;data&quot;: [&quot;帖子&quot;, &quot;用户&quot;, &quot;回帖&quot;] },
+  &quot;xAxis&quot;: [{
+      &quot;type&quot;: &quot;category&quot;,
+      &quot;boundaryGap&quot;: false,
+      &quot;data&quot;: [&quot;2019-05-08&quot;,&quot;2019-05-09&quot;,&quot;2019-05-10&quot;,&quot;2019-05-11&quot;,&quot;2019-05-12&quot;,&quot;2019-05-13&quot;,&quot;2019-05-14&quot;,&quot;2019-05-15&quot;,&quot;2019-05-16&quot;,&quot;2019-05-17&quot;,&quot;2019-05-18&quot;,&quot;2019-05-19&quot;,&quot;2019-05-20&quot;,&quot;2019-05-21&quot;,&quot;2019-05-22&quot;,&quot;2019-05-23&quot;,&quot;2019-05-24&quot;,&quot;2019-05-25&quot;,&quot;2019-05-26&quot;,&quot;2019-05-27&quot;,&quot;2019-05-28&quot;,&quot;2019-05-29&quot;,&quot;2019-05-30&quot;,&quot;2019-05-31&quot;,&quot;2019-06-01&quot;,&quot;2019-06-02&quot;,&quot;2019-06-03&quot;,&quot;2019-06-04&quot;,&quot;2019-06-05&quot;,&quot;2019-06-06&quot;,&quot;2019-06-07&quot;],
+      &quot;axisTick&quot;: { &quot;show&quot;: false },
+      &quot;axisLine&quot;: { &quot;show&quot;: false }
+  }],
+  &quot;yAxis&quot;: [{ &quot;type&quot;: &quot;value&quot;, &quot;axisTick&quot;: { &quot;show&quot;: false }, &quot;axisLine&quot;: { &quot;show&quot;: false }, &quot;splitLine&quot;: { &quot;lineStyle&quot;: { &quot;color&quot;: &quot;rgba(0, 0, 0, .38)&quot;, &quot;type&quot;: &quot;dashed&quot; } } }],
+  &quot;series&quot;: [
+    {
+      &quot;name&quot;: &quot;帖子&quot;, &quot;type&quot;: &quot;line&quot;, &quot;smooth&quot;: true, &quot;itemStyle&quot;: { &quot;color&quot;: &quot;#d23f31&quot; }, &quot;areaStyle&quot;: { &quot;normal&quot;: {} }, &quot;z&quot;: 3,
+      &quot;data&quot;: [&quot;18&quot;,&quot;14&quot;,&quot;22&quot;,&quot;9&quot;,&quot;7&quot;,&quot;18&quot;,&quot;10&quot;,&quot;12&quot;,&quot;13&quot;,&quot;16&quot;,&quot;6&quot;,&quot;9&quot;,&quot;15&quot;,&quot;15&quot;,&quot;12&quot;,&quot;15&quot;,&quot;8&quot;,&quot;14&quot;,&quot;9&quot;,&quot;10&quot;,&quot;29&quot;,&quot;22&quot;,&quot;14&quot;,&quot;22&quot;,&quot;9&quot;,&quot;10&quot;,&quot;15&quot;,&quot;9&quot;,&quot;9&quot;,&quot;15&quot;,&quot;0&quot;]
+    },
+    {
+      &quot;name&quot;: &quot;用户&quot;, &quot;type&quot;: &quot;line&quot;, &quot;smooth&quot;: true, &quot;itemStyle&quot;: { &quot;color&quot;: &quot;#f1e05a&quot; }, &quot;areaStyle&quot;: { &quot;normal&quot;: {} }, &quot;z&quot;: 2,
+      &quot;data&quot;: [&quot;31&quot;,&quot;33&quot;,&quot;30&quot;,&quot;23&quot;,&quot;16&quot;,&quot;29&quot;,&quot;23&quot;,&quot;37&quot;,&quot;41&quot;,&quot;29&quot;,&quot;16&quot;,&quot;13&quot;,&quot;39&quot;,&quot;23&quot;,&quot;38&quot;,&quot;136&quot;,&quot;89&quot;,&quot;35&quot;,&quot;22&quot;,&quot;50&quot;,&quot;57&quot;,&quot;47&quot;,&quot;36&quot;,&quot;59&quot;,&quot;14&quot;,&quot;23&quot;,&quot;46&quot;,&quot;44&quot;,&quot;51&quot;,&quot;43&quot;,&quot;0&quot;]
+    },
+    {
+      &quot;name&quot;: &quot;回帖&quot;, &quot;type&quot;: &quot;line&quot;, &quot;smooth&quot;: true, &quot;itemStyle&quot;: { &quot;color&quot;: &quot;#4285f4&quot; }, &quot;areaStyle&quot;: { &quot;normal&quot;: {} }, &quot;z&quot;: 1,
+      &quot;data&quot;: [&quot;35&quot;,&quot;42&quot;,&quot;73&quot;,&quot;15&quot;,&quot;43&quot;,&quot;58&quot;,&quot;55&quot;,&quot;35&quot;,&quot;46&quot;,&quot;87&quot;,&quot;36&quot;,&quot;15&quot;,&quot;44&quot;,&quot;76&quot;,&quot;130&quot;,&quot;73&quot;,&quot;50&quot;,&quot;20&quot;,&quot;21&quot;,&quot;54&quot;,&quot;48&quot;,&quot;73&quot;,&quot;60&quot;,&quot;89&quot;,&quot;26&quot;,&quot;27&quot;,&quot;70&quot;,&quot;63&quot;,&quot;55&quot;,&quot;37&quot;,&quot;0&quot;]
+    }
+  ]
+}
+</code></pre>
+<h3 id="五线谱">五线谱</h3>
+<pre><code class="language-abc">X: 24
+T: Clouds Thicken
+C: Paul Rosen
+S: Copyright 2005, Paul Rosen
+M: 6/8
+L: 1/8
+Q: 3/8=116
+R: Creepy Jig
+K: Em
+|:&quot;Em&quot;EEE E2G|&quot;C7&quot;_B2A G2F|&quot;Em&quot;EEE E2G|\
+&quot;C7&quot;_B2A &quot;B7&quot;=B3|&quot;Em&quot;EEE E2G|
+&quot;C7&quot;_B2A G2F|&quot;Em&quot;GFE &quot;D (Bm7)&quot;F2D|\
+1&quot;Em&quot;E3-E3:|2&quot;Em&quot;E3-E2B|:&quot;Em&quot;e2e gfe|
+&quot;G&quot;g2ab3|&quot;Em&quot;gfeg2e|&quot;D&quot;fedB2A|&quot;Em&quot;e2e gfe|\
+&quot;G&quot;g2ab3|&quot;Em&quot;gfe&quot;D&quot;f2d|&quot;Em&quot;e3-e3:|
+</code></pre>
+<h3 id="Graphviz">Graphviz</h3>
+<pre><code class="language-graphviz">digraph finite_state_machine {
+    rankdir=LR;
+    size=&quot;8,5&quot;
+    node [shape = doublecircle]; S;
+    node [shape = point ]; qi
+
+    node [shape = circle];
+    qi -&gt; S;
+    S  -&gt; q1 [ label = &quot;a&quot; ];
+    S  -&gt; S  [ label = &quot;a&quot; ];
+    q1 -&gt; S  [ label = &quot;a&quot; ];
+    q1 -&gt; q2 [ label = &quot;ddb&quot; ];
+    q2 -&gt; q1 [ label = &quot;b&quot; ];
+    q2 -&gt; q2 [ label = &quot;b&quot; ];
+}
+</code></pre>
+<h2 id="快捷键">快捷键</h2>
+<p>我们的编辑器支持很多快捷键，具体请参考((20200813004551-gm0pbn1 &quot;编辑器和快捷键&quot;))。</p>

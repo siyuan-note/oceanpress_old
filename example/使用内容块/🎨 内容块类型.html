@@ -1,0 +1,151 @@
+<h2 id="内容块类型简述">内容块类型简述</h2>
+<p>鼠标悬浮在内容块上左侧会出现该内容块对应的图标，排版用法请参考 ((20200825162036-4dx365o &quot;Markdown 完整示例&quot;))。</p>
+<table>
+<thead>
+<tr>
+<th>标识</th>
+<th>类型</th>
+<th>((20200925095848-aon4lem &quot;元类型&quot;))</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="assets/paragraph.svg" alt="paragraph" /></td>
+<td>段落块</td>
+<td>叶子块</td>
+</tr>
+<tr>
+<td><img src="assets/heading.svg" alt="heading" /></td>
+<td>标题块</td>
+<td>叶子块</td>
+</tr>
+<tr>
+<td><img src="assets/math-block.svg" alt="math-block" /></td>
+<td>数学公式块</td>
+<td>叶子块</td>
+</tr>
+<tr>
+<td><img src="assets/code-block.svg" alt="code-block" /></td>
+<td>代码块</td>
+<td>叶子块</td>
+</tr>
+<tr>
+<td><img src="assets/table.svg" alt="table" /></td>
+<td>表格块</td>
+<td>叶子块</td>
+</tr>
+<tr>
+<td><img src="assets/unordered-list.svg" alt="unordered-list" /></td>
+<td>无序列表块</td>
+<td>容器块</td>
+</tr>
+<tr>
+<td><img src="assets/ordered-list.svg" alt="ordered-list" /></td>
+<td>有序列表块</td>
+<td>容器块</td>
+</tr>
+<tr>
+<td><img src="assets/task-list.svg" alt="task-list" /></td>
+<td>待办列表块</td>
+<td>容器块</td>
+</tr>
+<tr>
+<td><img src="assets/list-item.svg" alt="list-item" /></td>
+<td>列表项块</td>
+<td>容器块</td>
+</tr>
+<tr>
+<td><img src="assets/blockquote.svg" alt="blockquote" /></td>
+<td>块引用块</td>
+<td>容器块</td>
+</tr>
+<tr>
+<td><img src="assets/doc.svg" alt="doc" /></td>
+<td>文档块</td>
+<td>容器块</td>
+</tr>
+</tbody>
+</table>
+<h2 id="内容块类型详解">内容块类型详解</h2>
+<p>下面我们分别介绍一下这些内容块类型的细节。#内容块/类型#</p>
+<h3 id="段落块">段落块</h3>
+<p><img src="assets/paragraph.svg" alt="paragraph" /></p>
+<p>这里是一个示例段落。</p>
+<p>在一个段落后直接回车会形成新的段落。</p>
+<h3 id="标题块">标题块</h3>
+<p><img src="assets/heading.svg" alt="heading" /></p>
+<p>以上就是标题块，支持一级到六级。</p>
+<p>使用((20200817123136-in6y5m1 &quot;内容块引用&quot;))或((20200920190726-xw7fial &quot;内容块嵌入&quot;))时会按照标题级别自动聚合该标题块下面相关的内容块。</p>
+<h3 id="数学公式块">数学公式块</h3>
+<p><img src="assets/math-block.svg" alt="math-block" /></p>
+<div class="vditor-math">a^2 + b^2 = c^2</div>
+<p>可以在设置中切换数学公式块渲染引擎，默认是 <code>MathJax</code>。</p>
+<h3 id="代码块">代码块</h3>
+<p><img src="assets/code-block.svg" alt="math-block" /></p>
+<pre><code class="language-js highlight-chroma"><span class="highlight-kd">function</span> <span class="highlight-nx">hello</span><span class="highlight-p">()</span> <span class="highlight-p">{}</span>
+</code></pre>
+<h3 id="表格块">表格块</h3>
+<p><img src="assets/table.svg" alt="math-block" /></p>
+<table>
+<thead>
+<tr>
+<th>列一</th>
+<th>列二</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>行一列一</td>
+<td>行一列二</td>
+</tr>
+<tr>
+<td>行二列一</td>
+<td>行二列二</td>
+</tr>
+</tbody>
+</table>
+<p>表格中如需使用 <code>|</code> 请使用 <code>\</code> 转义，即需要输入 <code>\|</code>。</p>
+<h3 id="无序列表块">无序列表块</h3>
+<p><img src="assets/unordered-list.svg" alt="math-block" /></p>
+<ul>
+<li>列表项一</li>
+<li>列表项二</li>
+</ul>
+<p>无序列表块是一种((20200925095848-aon4lem &quot;块容器&quot;))。</p>
+<p>如果需要在列表项中进行换行，请使用 <kbd>Shift Enter</kbd>。</p>
+<h3 id="有序列表块">有序列表块</h3>
+<p><img src="assets/ordered-list.svg" alt="math-block" /></p>
+<ol>
+<li>列表项一</li>
+<li>列表项二</li>
+</ol>
+<p>有序列表块是一种((20200925095848-aon4lem &quot;块容器&quot;))。</p>
+<h3 id="待办列表块">待办列表块</h3>
+<p><img src="assets/task-list.svg" alt="math-block" /></p>
+<ul>
+<li class="vditor-task"><input checked="" disabled="" type="checkbox" /> 待办一</li>
+<li class="vditor-task"><input disabled="" type="checkbox" /> 待办二</li>
+</ul>
+<p>待办列表块是一种((20200925095848-aon4lem &quot;块容器&quot;))。</p>
+<h3 id="列表项块">列表项块</h3>
+<p><img src="assets/list-item.svg" alt="list-item" /></p>
+<p>通过列表项块可以实现大纲式笔记的基本用法，列表项块是一种((20200925095848-aon4lem &quot;块容器&quot;))。</p>
+<h3 id="块引用块">块引用块</h3>
+<p><img src="assets/blockquote.svg" alt="math-block" /></p>
+<blockquote>
+<p>注意不是内容块引用，而是块引用（Blockquote）。</p>
+</blockquote>
+<p>块引用块是一种((20200925095848-aon4lem &quot;块容器&quot;))。</p>
+<h3 id="文档">文档</h3>
+<p><img src="assets/doc.svg" alt="doc" /></p>
+<p>整个文档是一个块，文档块是一种((20200925095848-aon4lem &quot;块容器&quot;))。</p>
+<h2 id="内容块元类型">内容块元类型</h2>
+<p>{: id=&quot;20200925095848-aon4lem&quot;}</p>
+<p>内容块在逻辑上分为叶子块和容器块，叶子块不能包含其他块，容器块可以包含其他块，遵循 CommonMark/GFM 规范。</p>
+<p>容器块有以下几种：</p>
+<ul>
+<li>列表块：只能包含列表项块</li>
+<li>列表项块：可以包含任意非文档块</li>
+<li>块引用块：可以包含任意非文档块</li>
+<li>文档块：可以包含任意非文档块</li>
+</ul>

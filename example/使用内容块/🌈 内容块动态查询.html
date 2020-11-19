@@ -1,0 +1,28 @@
+<h2 id="动态查询嵌入语法">动态查询嵌入语法</h2>
+<p>内容块动态查询嵌入的语法是：</p>
+<pre><code class="language-sql highlight-chroma"><span class="highlight-o">!</span><span class="highlight-err">{{</span> <span class="highlight-k">SELECT</span> <span class="highlight-o">*</span> <span class="highlight-k">FROM</span> <span class="highlight-n">blocks</span> <span class="highlight-k">WHERE</span> <span class="highlight-n">content</span> <span class="highlight-k">LIKE</span> <span class="highlight-s1">&#39;%内容块%&#39;</span> <span class="highlight-err">}}</span>
+</code></pre>
+<p>需要独占一行使用。使用的脚本语法是 SQL，具体细节请参考((20201117103851-l9cahuc &quot;这里&quot;))。</p>
+<h3 id="示例">示例</h3>
+<ul>
+<li>
+<p>查询内容中包含 <code>内容块</code> 的列表项：</p>
+<pre><code class="language-sql highlight-chroma"><span class="highlight-o">!</span><span class="highlight-err">{{</span> <span class="highlight-k">SELECT</span> <span class="highlight-o">*</span> <span class="highlight-k">FROM</span> <span class="highlight-n">blocks</span> <span class="highlight-k">WHERE</span> <span class="highlight-n">content</span> <span class="highlight-k">LIKE</span> <span class="highlight-s1">&#39;%内容块%&#39;</span> <span class="highlight-k">AND</span> <span class="highlight-k">type</span> <span class="highlight-o">=</span> <span class="highlight-s1">&#39;NodeListItem&#39;</span> <span class="highlight-err">}}</span>
+</code></pre>
+</li>
+<li>
+<p>查询内容中同时包含 <code>内容块</code> 和 <code>引用</code> 段落块：</p>
+<pre><code class="language-sql highlight-chroma"><span class="highlight-o">!</span><span class="highlight-err">{{</span> <span class="highlight-k">SELECT</span> <span class="highlight-o">*</span> <span class="highlight-k">FROM</span> <span class="highlight-n">blocks</span> <span class="highlight-k">WHERE</span> <span class="highlight-n">content</span> <span class="highlight-k">LIKE</span> <span class="highlight-s1">&#39;%内容块%&#39;</span> <span class="highlight-k">AND</span> <span class="highlight-n">content</span> <span class="highlight-k">LIKE</span> <span class="highlight-s1">&#39;%引用%&#39;</span> <span class="highlight-err">}}</span>
+</code></pre>
+</li>
+<li>
+<p>查询内容中同时包含 <code>内容块</code> 和 <code>嵌入</code> 的标题块并按时间降序结果取前 2 条：</p>
+<pre><code class="language-sql highlight-chroma"><span class="highlight-o">!</span><span class="highlight-err">{{</span> <span class="highlight-k">SELECT</span> <span class="highlight-o">*</span> <span class="highlight-k">FROM</span> <span class="highlight-n">blocks</span> <span class="highlight-k">WHERE</span> <span class="highlight-p">(</span><span class="highlight-n">content</span> <span class="highlight-k">LIKE</span> <span class="highlight-s1">&#39;%内容块%&#39;</span> <span class="highlight-k">AND</span> <span class="highlight-n">content</span> <span class="highlight-k">LIKE</span> <span class="highlight-s1">&#39;%嵌入%&#39;</span><span class="highlight-p">)</span> <span class="highlight-k">AND</span> <span class="highlight-k">type</span> <span class="highlight-o">=</span> <span class="highlight-s1">&#39;NodeHeading&#39;</span> <span class="highlight-k">ORDER</span> <span class="highlight-k">BY</span> <span class="highlight-n">block_id</span> <span class="highlight-k">DESC</span> <span class="highlight-k">LIMIT</span> <span class="highlight-mi">4</span> <span class="highlight-err">}}</span>
+</code></pre>
+</li>
+</ul>
+<p>下面我们实际跑一下试试看效果。</p>
+<p>查询同时包含 <code>在思源笔记中</code> 和 <code>核心概念</code> 文本的段落块，并排除当前文档（否则当段落块也会包含到结果集中，因为当前段落同样包含了这两个文本，下面的案例类似）：</p>
+<p>!{{SELECT * FROM blocks WHERE (content LIKE '% 在思源笔记中 %' AND content LIKE '% 核心概念 %') AND path NOT LIKE '% 内容块动态查询 %'}}</p>
+<p>查询同时包含 <code>#内容块/嵌入#</code> 标签和 <code>#内容块/引用#</code> 的段落块：</p>
+<p>!{{SELECT * FROM blocks WHERE (content LIKE '%#内容块/嵌入#%' OR content LIKE '%#内容块/引用#%') AND path NOT LIKE '% 内容块动态查询 %'}}</p>

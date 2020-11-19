@@ -1,0 +1,7 @@
+<h2 id="导入">导入</h2>
+<p>当我们打开本地文件夹或者连接 WebDAV 后，思源笔记会将该路径下的 Markdown 文件（<code>.md</code>）转换为 <code>.sy.md</code> 文件，从而完成导入。</p>
+<p>导入时思源笔记会自动处理原有 Markdown 文本中的 <code>[[link|text]]</code>，将它们转换为内容块引用。导入完成以后，思源笔记不会对原有的 Markdown 文件进行写入，之后新的编辑操作都将保存在 <code>.sy.md</code> 文件中。</p>
+<p><code>.sy.md</code> 是一种 Markdown 的扩展语法，具体介绍请看((20200822124602-wx0kvpc &quot;存储格式&quot;))。</p>
+<h2 id="导出">导出</h2>
+<p>在编辑器中复制（Ctrl C）是 ((20200813125800-7t67jak &quot;Markdown 格式化&quot;))好的文本。如果你需要导出标准 Markdown 文件，可以在文件树文档上右键选择“导出”。如果需要在编辑时自动导出，请在 <code>设置 - 导出</code> 中勾选“自动导出”。</p>
+<p>文件树上右键的导出也支持通过 <a href="http://textbundle.org">TextBundle</a> 打包 Markdown 及其关联的资源文件，这样可以提供更好的 Markdown 迁移性。</p>

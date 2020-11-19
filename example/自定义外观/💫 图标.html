@@ -1,0 +1,75 @@
+<h2 id="安装">安装</h2>
+<ol>
+<li>获取图标并解压</li>
+<li>在思源中依次点击 设置 - 外观 - 图标 - 打开图标文件夹</li>
+<li>将图标拷贝到该文件夹中</li>
+<li>重启思源后在 设置 - 外观 - 图标 中选择安装好的图标</li>
+</ol>
+<h2 id="开发">开发</h2>
+<h3 id="步骤">步骤</h3>
+<ol>
+<li>
+<p>为你的图标取一个好听的名字，如 <code>alice</code></p>
+</li>
+<li>
+<p>在思源中依次点击 设置 - 外观 - 图标 - 打开图标文件夹</p>
+</li>
+<li>
+<p>在打开的文件夹中新建文件夹 <code>alice</code>，在 <code>alice</code> 中新建 <code>icon.js</code> 和 <code>icon.json</code> 文件 <code>icon.json</code> 文件如下：</p>
+<pre><code class="language-json highlight-chroma"><span class="highlight-p">{</span>
+  <span class="highlight-nt">&#34;author&#34;</span><span class="highlight-p">:</span> <span class="highlight-s2">&#34;Vanessa&#34;</span><span class="highlight-p">,</span>
+  <span class="highlight-nt">&#34;url&#34;</span><span class="highlight-p">:</span> <span class="highlight-s2">&#34;https://github.com/Vanessa219&#34;</span>
+  <span class="highlight-s2">&#34;version&#34;</span><span class="highlight-p">:</span> <span class="highlight-s2">&#34;1.0.0&#34;</span>
+<span class="highlight-p">}</span>
+</code></pre>
+</li>
+<li>
+<p>打开 <code>icon.js</code> 文件，贴入制作完成的图标</p>
+</li>
+<li>
+<p>重启思源后在 设置 - 外观 - 图标 中选择安装好的图标</p>
+</li>
+</ol>
+<h3 id="图标的制作">图标的制作</h3>
+<ul>
+<li>
+<p>使用浏览器打开图标文件夹中的 <code>index.html</code> 文件</p>
+</li>
+<li>
+<p>根据图标名称和形状制作相似的图标</p>
+<ul>
+<li>前往 <a href="https://www.iconfont.cn">Iconfont</a> 搜索中意的图标，下载 SVG 格式</li>
+<li>使用矢量图工具自行制作 SVG 格式的图标</li>
+<li>前往 <a href="https://www.pngtosvg.com/">pngtosvg</a> 将图片转换为 SVG 格式</li>
+</ul>
+</li>
+<li>
+<p>前往 <a href="https://icomoon.io/app/#/select">IcoMoon App</a> 制作 <code>icon.js</code></p>
+<ul>
+<li>点击右上角的 <code>Import Icons</code> 导入上一步制作好的图片</li>
+<li>选中图标并生成 SVG<img src="assets/image.png" alt="image.png" /></li>
+<li>修改大小并下载<img src="assets/image-krr52x1.png" alt="image.png" /></li>
+<li>修改 <code>&lt;symbol id=&quot;icon-markdown&quot; viewBox=&quot;0 0 32 32&quot;&gt;</code> 中的 <code>id</code> 为 <code>index.html</code> 对应的图标名</li>
+<li>将 <code>&lt;defs&gt;...&lt;/defs&gt;</code> 中的内容替换到 <code>icon.js</code> 中对应的位置</li>
+</ul>
+</li>
+<li>
+<p>测试</p>
+<ul>
+<li>
+<p>将 <code>index.html</code> 中 <code>material</code> 替换为 <code>alice</code></p>
+<pre><code class="language-html highlight-chroma"><span class="highlight-p">&lt;</span><span class="highlight-nt">script</span> <span class="highlight-na">src</span><span class="highlight-o">=</span><span class="highlight-s">&#34;material/icon.js&#34;</span><span class="highlight-p">&gt;&lt;/</span><span class="highlight-nt">script</span><span class="highlight-p">&gt;</span>
+</code></pre>
+</li>
+<li>
+<p>刷新 <code>index.html</code> 查看最终效果</p>
+</li>
+<li>
+<p>打开思源在 设置 - 外观 - 图标 中选择开发完成的图标进行查看</p>
+</li>
+</ul>
+</li>
+<li>
+<p>上架发布（联系 QQ：84588990）</p>
+</li>
+</ul>

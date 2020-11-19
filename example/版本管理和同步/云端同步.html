@@ -1,0 +1,7 @@
+<h3 id="仓库同步">仓库同步</h3>
+<p>我们选择使用 Git 实现版本管理不仅是因为 Git 的强大和稳定，更因为它是开放的。思源笔记的付费用户可以使用我们伺服的云端仓库服务来实现数据同步，但使用我们伺服的云端仓库并不是唯一的选择，所有用户都可以通过 Git 开放协作的特性来实现数据同步。</p>
+<p>通过编辑 Git 的配置文件（.git/config）或者使用 <code>git add remote</code> 命令可以很方便地添加其他远程仓库服务（比如 GitHub 仓库），细节可参考 GitHub 的文档 <a href="https://docs.github.com/en/free-pro-team@latest/github/using-git/adding-a-remote">Adding a remote</a>。</p>
+<p>在界面上点击“同步”按钮后，思源笔记会通过 <code>git pull</code> 以及 <code>git push</code> 进行远程仓库数据同步。如果遇到数据冲突，请使用 Git 工具来解决冲突，后续版本我们会逐步增加对 Git 操作的内置支持。</p>
+<h3 id="云端仓库">云端仓库</h3>
+<p>云端仓库是思源笔记的<a href="https://github.com/siyuan-note/siyuan/projects/1">高级特性</a>，需要付费才能使用。但因为受服务器运维成本的制约，付费后也并不能无限量使用，同一用户下所有笔记本加起来最大存储空间为 <code>4G</code>。付费订阅到期以后，我们将保留数据 3 个月，如果在此期间没有续费，3 个月以后我们将彻底删除数据。</p>
+<p>我们伺服的云端仓库位于 <code>git@siyuan.b3logfile.com:/siyuan/{uid}/{notebook}.git</code>，使用自动生成的 SSH 密钥对进行身份认证。如果在使用同步功能时遇到身份认证方面的问题，请在“设置 - 同步”中查看公钥，并确认该公钥是否已经自动添加到链滴社区个人<a href="https://ld246.com/settings/key">设置 - 公钥</a>中，如果没有添加的话，请查看程序日志确定是否为网络问题，如果依然不能解决问题，请((20200824160622-uf2eu77 &quot;联系我们进行反馈&quot;))。</p>
