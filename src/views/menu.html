@@ -1,0 +1,24 @@
+{{ define "menu" }}
+<!doctype html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ .PageTitle }}</title>
+</head>
+
+<body>
+    {{range $i, $v := .SonEntityList}}
+    <div class="item">
+        <a href=".{{ $v.WebPath }}">{{ $v.WebPath }}</a>
+    </div>
+    {{else}}
+        <div>
+            当前目录下没有 md 文件
+        </div>
+    {{end}}
+</body>
+{{ end }}

@@ -15,8 +15,8 @@ import (
 func main() {
 	// 流程 1  用户输入 {源目录 输出目录}
 	util.Log("----- 流程 1 用户输入 -----")
-	sourceDir := os.Args[1]
-	outDir := os.Args[2]
+	sourceDir := SourceDir
+	outDir := OutDir
 	util.Log("sourceDir:" + sourceDir + "\n" + "outDir:" + outDir)
 
 	// 流程 2  copy 源目录中资源文件至输出目录
@@ -76,18 +76,30 @@ func main() {
 					// 这个条件去除了间隔一层以上的其他路径
 					strings.LastIndex(f.virtualPath[len(virtualPath):], "/") == 0
 			})
-
-			var html string
+			type sonEntityI struct {
+				WebPath string
+			}
+			var sonEntityList []sonEntityI
 			for _, sonEntity := range sonList {
 				webPath := sonEntity.virtualPath[len(virtualPath):]
 				if sonEntity.info.IsDir() {
 					webPath += "/index.html"
 				}
-				html += "<div><a href=\"." + webPath + "\">" + webPath + "</a></div>"
+				sonEntityList = append(sonEntityList, sonEntityI{
+					WebPath: webPath,
+				})
 			}
 
+			type menuInfo struct {
+				SonEntityList []sonEntityI
+				PageTitle     string
+			}
+			html := ExecTemplate("menu", menuInfo{
+				SonEntityList: sonEntityList,
+				PageTitle:     "菜单页",
+			})
 			ioutil.WriteFile(targetPath, []byte(html), 0777)
-			fmt.Println(relativePath, len(sonList))
+			fmt.Println(relativePath, len(sonEntityList))
 		} else {
 			// 这里的 targetPath 是有问题的，他隐含了一个条件就是md文档一定包含id
 			targetPath := filepath.Join(outDir, relativePath[0:len(relativePath)-29]) + ".html"
