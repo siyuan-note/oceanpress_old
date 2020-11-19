@@ -7,5 +7,5 @@
 `go run .\src\main.go (sourceDir) (outDir)`
 
 ```go
-go run .\src\main.go "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resources\\guide\\思源笔记用户指南" "D:\\code\\md2website\\example"
+go run .\src\main.go "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resources\\guide\\思源笔记用户指南" "D:\\code\\md2website\\docs"
 ```
