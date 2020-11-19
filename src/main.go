@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -76,9 +77,7 @@ func main() {
 					// 这个条件去除了间隔一层以上的其他路径
 					strings.LastIndex(f.virtualPath[len(virtualPath):], "/") == 0
 			})
-			type sonEntityI struct {
-				WebPath string
-			}
+
 			var sonEntityList []sonEntityI
 			for _, sonEntity := range sonList {
 				webPath := sonEntity.virtualPath[len(virtualPath):]
@@ -94,7 +93,7 @@ func main() {
 				SonEntityList []sonEntityI
 				PageTitle     string
 			}
-			html := ExecTemplate("menu", menuInfo{
+			html := MenuRender(MenuInfo{
 				SonEntityList: sonEntityList,
 				PageTitle:     "菜单页",
 			})
@@ -109,9 +108,11 @@ func main() {
 			}
 			mdStr := string(mdByte)
 
-			html := luteEngine.MarkdownStr("", mdStr)
+			html := ArticleRender(ArticleInfo{
+				Content:   template.HTML(luteEngine.MarkdownStr("", mdStr)),
+				PageTitle: "{文档标题}",
+			})
 			ioutil.WriteFile(targetPath, []byte(html), 0777)
-			// fmt.Println(relativePath, info.Size())
 		}
 	}
 	// End
