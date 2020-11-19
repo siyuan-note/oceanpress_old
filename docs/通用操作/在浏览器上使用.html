@@ -1,4 +1,17 @@
-<h2 id="工作空间">工作空间</h2>
+
+<!doctype html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{文档标题}</title>
+</head>
+
+<body>
+    <h2 id="工作空间">工作空间</h2>
 <p>思源笔记桌面端是基于 <a href="https://www.electronjs.org">Electron</a> 打包的独立应用，但这并不唯一的使用方式。只要启动思源笔记内核后，就能在浏览器上直接使用了，支持移动端浏览器。</p>
 <ul>
 <li>桌面端网页版：使用体验几乎和 Electron 独立应用一致</li>
@@ -20,3 +33,5 @@
 <p>通过访问 <code>/blocks/{id}</code> 后在编辑器页签中打开。</p>
 <p>文档块 id 因为已经固化在文件名上，所以只要不在外部修改文件名的话，文档块的 id 是持久化的。在文件树上选中文档右键然后在选择“复制 URL”即可获取到该文档的 URL，可以在浏览器上打开。</p>
 <p>其他类型的内容块 id 可以在编辑器中点击内容块标识后看到“复制 URL”。<strong>请注意</strong>：非文档块的 id 默认不是持久化的，在关闭思源内核时会自动清理未被引用内容块 id，下次启动时会重新生成 id，这将导致之前复制的内容块 URL 失效。如果需要持久化所有内容块 id，请在设置 - 编辑中打开保持内容块 id 选项。</p>
+
+</body>

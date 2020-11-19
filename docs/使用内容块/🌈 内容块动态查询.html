@@ -1,4 +1,17 @@
-<h2 id="动态查询嵌入语法">动态查询嵌入语法</h2>
+
+<!doctype html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{文档标题}</title>
+</head>
+
+<body>
+    <h2 id="动态查询嵌入语法">动态查询嵌入语法</h2>
 <p>内容块动态查询嵌入的语法是：</p>
 <pre><code class="language-sql highlight-chroma"><span class="highlight-o">!</span><span class="highlight-err">{{</span> <span class="highlight-k">SELECT</span> <span class="highlight-o">*</span> <span class="highlight-k">FROM</span> <span class="highlight-n">blocks</span> <span class="highlight-k">WHERE</span> <span class="highlight-n">content</span> <span class="highlight-k">LIKE</span> <span class="highlight-s1">&#39;%内容块%&#39;</span> <span class="highlight-err">}}</span>
 </code></pre>
@@ -26,3 +39,5 @@
 <p>!{{SELECT * FROM blocks WHERE (content LIKE '% 在思源笔记中 %' AND content LIKE '% 核心概念 %') AND path NOT LIKE '% 内容块动态查询 %'}}</p>
 <p>查询同时包含 <code>#内容块/嵌入#</code> 标签和 <code>#内容块/引用#</code> 的段落块：</p>
 <p>!{{SELECT * FROM blocks WHERE (content LIKE '%#内容块/嵌入#%' OR content LIKE '%#内容块/引用#%') AND path NOT LIKE '% 内容块动态查询 %'}}</p>
+
+</body>

@@ -1,4 +1,17 @@
-<p>思源笔记整体上采用前后端分离的技术架构，通过 HTTP 实现前后端通讯。</p>
+
+<!doctype html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{文档标题}</title>
+</head>
+
+<body>
+    <p>思源笔记整体上采用前后端分离的技术架构，通过 HTTP 实现前后端通讯。</p>
 <h3 id="前端">前端</h3>
 <p>前端目前主要是基于浏览器技术，实现用户交互界面和操作系统平台相关的业务逻辑等。</p>
 <ul>
@@ -17,3 +30,5 @@
 <li>桌面应用：基于 Electron 打包，主进程启动后拉起 kernel 内核进程。由 kernel  HTTP 伺服界面相关静态资源，Electron 主窗口通过 <code>loadURL</code> 加载界面</li>
 <li>服务器应用：仅打包 kernel 内核和外观、文档等资源，通过 Docker 镜像 <code>b3log/siyuan</code> 分发</li>
 </ul>
+
+</body>
