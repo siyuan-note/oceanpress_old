@@ -13,3 +13,6 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# vscode 好像有 bug f5 执行的时候会生成这个文件
+__debug_bin
