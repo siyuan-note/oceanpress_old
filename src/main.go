@@ -15,8 +15,8 @@ import (
 func main() {
 	// 流程 1  用户输入 {源目录 输出目录}
 	util.Log("----- 流程 1 用户输入 -----")
-	sourceDir := "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resources\\guide\\思源笔记用户指南"
-	outDir := "D:\\res\\go2website_test_out"
+	sourceDir := os.Args[1]
+	outDir := os.Args[2]
 	util.Log("sourceDir:" + sourceDir + "\n" + "outDir:" + outDir)
 
 	// 流程 2  copy 源目录中资源文件至输出目录

@@ -1,5 +1,5 @@
 {
-    // 使用 IntelliSense 了解相关属性。 
+    // 使用 IntelliSense 了解相关属性。
     // 悬停以查看现有属性的描述。
     // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
@@ -11,7 +11,10 @@
             "mode": "auto",
             "program": "${fileDirname}",
             "env": {},
-            "args": []
+            "args": [
+                "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resources\\guide\\思源笔记用户指南",
+                "D:\\res\\go2website_test_out"
+            ]
         }
     ]
 }
