@@ -9,3 +9,6 @@ var SourceDir = os.Args[1]
 
 // OutDir 输出到的目录
 var OutDir = os.Args[2]
+
+// TemplateDir 模板文件所在的目录
+var TemplateDir = "./views/"

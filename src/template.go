@@ -6,11 +6,11 @@ import (
 )
 
 // HTMLtemplate 包含一些模板
-var HTMLtemplate = template.Must(
-	template.ParseFiles(
-		"./views/menu.html",
-	),
-)
+var HTMLtemplate = template.Must(template.ParseGlob(TemplateDir + "*.html"))
+
+func init() {
+	template.Must(HTMLtemplate.ParseGlob(TemplateDir + "*/*.html"))
+}
 
 // ExecTemplate 执行模板
 /**
