@@ -986,7 +986,7 @@
   vertical-align: middle;
 }
 
-/** ------------------------ */
+/** ----------  样式扩展 -------------- */
 
 .markdown-body {
   box-sizing: border-box;
@@ -1000,4 +1000,67 @@
   .markdown-body {
     padding: 15px;
   }
+}
+/** 从 思源笔记 中 copy 过来的变量定义 */
+:root {
+  --b3-theme-primary: #4285f4;
+  --b3-theme-primary-light: rgba(66, 133, 244, 0.54);
+  --b3-theme-primary-lighter: rgba(66, 133, 244, 0.38);
+  --b3-theme-primary-lightest: rgba(66, 133, 244, 0.12);
+  --b3-theme-secondary: #f3a92f;
+  --b3-theme-background: #212224;
+  --b3-theme-surface: #292a2d;
+  --b3-theme-error: #d23f31;
+  --b3-theme-on-primary: #fff;
+  --b3-theme-on-secondary: #fff;
+  --b3-theme-on-background: #e8eaed;
+  --b3-theme-on-surface: #9aa0a6;
+  --b3-theme-on-error: #fff;
+  --b3-font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", "Hiragino Sans GB", "Microsoft Yahei", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
+  --b3-font-family-code: mononoki, Consolas, "Liberation Mono", Menlo, Courier, monospace, "Apple Color Emoji",
+    "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
+  --b3-border-color: rgba(255, 255, 255, 0.12);
+  --b3-scroll-color: rgba(230, 230, 230, 0.3);
+  --b3-list-hover: rgba(255, 255, 255, 0.06);
+  --b3-tab-background: #212224;
+  --b3-tooltips-color: rgba(70, 72, 76, 0.86);
+  --b3-transition: all 0.15s cubic-bezier(0, 0, 0.2, 1) 0ms;
+  --b3-point-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  --b3-dialog-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.4);
+  --b3-diff-add: #133a1c;
+  --b3-diff-add-surface: #28853e;
+  --b3-diff-del: #440c10;
+  --b3-diff-del-surface: #b1202d;
+  --b3-graph-point: #e8eaed;
+  --b3-graph-line: #9aa0a6;
+  --b3-graph-hl-point: #f3a92f;
+  --b3-graph-hl-line: #d23f31;
+  --b3-vditor-toolbar-height: 35px;
+  --b3-vditor-toolbar-height-space: 8px;
+  --b3-vditor-code-background: rgba(66, 133, 244, 0.36);
+  --b3-vditor-mark-heading-color: #9876aa;
+  --b3-vditor-mark-title-color: #808080;
+  --b3-vditor-mark-em-color: #cc7832;
+  --b3-vditor-mark-strong-color: #cc7832;
+  --b3-vditor-mark-backslash-color: #cc7832;
+  --b3-vditor-mark-s-color: #9aa0a6;
+  --b3-vditor-mark-mark-color: #9aa0a6;
+  --b3-vditor-mark-link-color: #ffc66d;
+  --b3-vditor-mark-bracket-color: #287bde;
+  --b3-vditor-mark-paren-color: #6a8759;
+  --b3-vditor-mark-block-color: #9876aa;
+  --b3-vditor-mark-tag-color: #cc7832;
+  --b3-vditor-inline-strong-color: #e8eaed;
+  --b3-vditor-inline-em-color: #e8eaed;
+  --b3-vditor-inline-s-color: #e8eaed;
+  --b3-vditor-inline-link-color: #4285f4;
+  --b3-vditor-inline-tag-color: #9aa0a6;
+  --b3-vditor-inline-blockref-color: #9876aa;
+}
+
+/** 块引用文本类型 */
+.markdown-body [data-block-type="433"] {
+  color: var(--b3-vditor-mark-block-color);
 }

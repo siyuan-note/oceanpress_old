@@ -33,8 +33,6 @@ func main() {
 	util.Log("----- 流程 3 生成 html -----")
 	luteEngine := LuteEngine
 
-	// luteEngine.MarkdownStr("","foo\n!{{ SELECT * FROM blocks }}\nbar")
-	// return
 	var entityList []fileEntity
 	filepath.Walk(sourceDir,
 		func(path string, info os.FileInfo, err error) error {
