@@ -8,15 +8,16 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{文档标题}</title>
+    <link rel="stylesheet" href="../assets/github-markdown-css.css">
 </head>
 
-<body>
-    <h2 id="导入">导入</h2>
+<body class="markdown-body">
+    <h2 id="导入">导入<a id="vditorAnchor-导入" class="vditor-anchor" href="#导入"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
 <p>当我们打开本地文件夹或者连接 WebDAV 后，思源笔记会将该路径下的 Markdown 文件（<code>.md</code>）转换为 <code>.sy.md</code> 文件，从而完成导入。</p>
 <p>导入时思源笔记会自动处理原有 Markdown 文本中的 <code>[[link|text]]</code>，将它们转换为内容块引用。导入完成以后，思源笔记不会对原有的 Markdown 文件进行写入，之后新的编辑操作都将保存在 <code>.sy.md</code> 文件中。</p>
-<p><code>.sy.md</code> 是一种 Markdown 的扩展语法，具体介绍请看((20200822124602-wx0kvpc &quot;存储格式&quot;))。</p>
-<h2 id="导出">导出</h2>
-<p>在编辑器中复制（Ctrl C）是 ((20200813125800-7t67jak &quot;Markdown 格式化&quot;))好的文本。如果你需要导出标准 Markdown 文件，可以在文件树文档上右键选择“导出”。如果需要在编辑时自动导出，请在 <code>设置 - 导出</code> 中勾选“自动导出”。</p>
+<p><code>.sy.md</code> 是一种 Markdown 的扩展语法，具体介绍请看"存储格式"。</p>
+<h2 id="导出">导出<a id="vditorAnchor-导出" class="vditor-anchor" href="#导出"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<p>在编辑器中复制（Ctrl C）是 "Markdown 格式化"好的文本。如果你需要导出标准 Markdown 文件，可以在文件树文档上右键选择“导出”。如果需要在编辑时自动导出，请在 <code>设置 - 导出</code> 中勾选“自动导出”。</p>
 <p>文件树上右键的导出也支持通过 <a href="http://textbundle.org">TextBundle</a> 打包 Markdown 及其关联的资源文件，这样可以提供更好的 Markdown 迁移性。</p>
 
 </body>
