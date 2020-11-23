@@ -22,3 +22,19 @@
 <p>所有打过标签的内容块会在标签页签（<kbd>Alt 4</kbd> / <kbd>⌘ 4</kbd>）中列出。如果需要取消标签，在内容块中删掉该标签即可。</p>
 
 </body>
+<script>
+    function hashAndUpdate(e) {
+        
+        scrollIntoView(e.newURL)
+    }
+
+    function scrollIntoView(url) {
+        const hash = url.split("#").pop()
+        const target = document.querySelector(`[data-block-id="${hash}"]`)
+        if (target) {
+            target.scrollIntoView()
+        }
+    }
+    window.addEventListener('hashchange', hashAndUpdate);
+    window.addEventListener("load", () => scrollIntoView(location.href))
+</script>

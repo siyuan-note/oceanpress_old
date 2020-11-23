@@ -35,3 +35,19 @@
 <p>本软件及所附带的文件是作为不提供任何明确的或隐含的赔偿或担保的形式提供的。</p>
 
 </body>
+<script>
+    function hashAndUpdate(e) {
+        
+        scrollIntoView(e.newURL)
+    }
+
+    function scrollIntoView(url) {
+        const hash = url.split("#").pop()
+        const target = document.querySelector(`[data-block-id="${hash}"]`)
+        if (target) {
+            target.scrollIntoView()
+        }
+    }
+    window.addEventListener('hashchange', hashAndUpdate);
+    window.addEventListener("load", () => scrollIntoView(location.href))
+</script>

@@ -12,8 +12,24 @@
 </head>
 
 <body class="markdown-body">
-    <p>通过思源笔记的<a href="" class="c-block-ref" data-block-type="433">编辑器</a>编写的 Markdown 默认就是格式化好的、符合标准语法的 Markdown 文本，可以直接复制然后粘贴到其他地方。</p>
+    <p>通过思源笔记的编辑器<a href="编辑器和快捷键.html#20200813183139-quduiz9" class="c-block-ref" data-block-type="NodeBlockRefText">编辑器</a>编写的 Markdown 默认就是格式化好的、符合标准语法的 Markdown 文本，可以直接复制然后粘贴到其他地方。</p>
 <p>从其他地方（比如网页、Word、Excel）复制后也可以直接在思源笔记中进行粘贴，复制的内容会自动转换为 Markdown 文本。</p>
 <p>“让天下没有难写的 Markdown”也是我们的愿景之一 🤣</p>
 
 </body>
+<script>
+    function hashAndUpdate(e) {
+        
+        scrollIntoView(e.newURL)
+    }
+
+    function scrollIntoView(url) {
+        const hash = url.split("#").pop()
+        const target = document.querySelector(`[data-block-id="${hash}"]`)
+        if (target) {
+            target.scrollIntoView()
+        }
+    }
+    window.addEventListener('hashchange', hashAndUpdate);
+    window.addEventListener("load", () => scrollIntoView(location.href))
+</script>

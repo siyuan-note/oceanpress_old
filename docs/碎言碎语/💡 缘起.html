@@ -19,7 +19,7 @@
 <li>支持块级引用和双向链接。通过块链我可以更高效地发现和整理已有内容，形成知识体系且方便排版输出</li>
 </ul>
 <p>这两个需求拆分开来都有现成的产品能够实现，可一旦结合就没有好用的产品了。既然没有，那就创造一个吧。</p>
-<h2 id="存储格式">存储格式<a id="vditorAnchor-存储格式" class="vditor-anchor" href="#存储格式"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<h2 id="存储格式" data-block-id="20200822124602-wx0kvpc">存储格式<a id="vditorAnchor-存储格式" class="vditor-anchor" href="#存储格式"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
 <p>Markdown 的成功除了语法简洁之外，很大一个因素是因为它是一种开放的纯文本格式，使用普通的文本编辑器就可以打开查看和编辑。但随着 Markdown 用户的增多，更多的“高阶”需求逐渐浮出，为了满足这些需求，有不少项目在 Markdown 基础语法的基础上设计了扩展语法。</p>
 <p>经过一段时间的调研和尝试，我们确认了使用标准 Markdown 语法（CommonMark/GFM）是无法实现块级引用的，必须引入扩展语法。在众多的 Markdown 扩展语法中，我们选择了 <a href="https://kramdown.gettalong.org">kramdown</a> 提供的内联属性列表（<a href="https://kramdown.gettalong.org/syntax.html#inline-attribute-lists">Inline Attribute Lists</a>）语法给块级元素做标识，让每个块级元素都拥有唯一的 ID。这样在引用的时候就能精确地获取到该块。保持 Markdown 文本人类易读写的前提下最大限度地实现通用性和互操作性。</p>
 <p>目前并没有太多平台支持 kramdown 扩展语法，如果需要将笔记内容发布到其他平台上，可以通过导出功能来导出标准的 Markdown 文件。</p>
@@ -29,3 +29,19 @@
 <p>使用云笔记的唯一优势是方便分享，但作为个人知识管理工具来说，分享并不是刚需，或者说并不是高频需求。综上，我的结论是：无离线，不笔记。</p>
 
 </body>
+<script>
+    function hashAndUpdate(e) {
+        
+        scrollIntoView(e.newURL)
+    }
+
+    function scrollIntoView(url) {
+        const hash = url.split("#").pop()
+        const target = document.querySelector(`[data-block-id="${hash}"]`)
+        if (target) {
+            target.scrollIntoView()
+        }
+    }
+    window.addEventListener('hashchange', hashAndUpdate);
+    window.addEventListener("load", () => scrollIntoView(location.href))
+</script>
