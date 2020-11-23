@@ -27,6 +27,7 @@ func ExecTemplate(t *template.Template, data interface{}) string {
 type ArticleInfo struct {
 	PageTitle string
 	Content   interface{}
+	LevelRoot string
 }
 
 var globalF = template.FuncMap{"unescaped": unescaped}

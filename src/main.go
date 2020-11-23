@@ -33,6 +33,8 @@ func main() {
 	util.Log("----- 流程 3 生成 html -----")
 	luteEngine := LuteEngine
 
+	// luteEngine.MarkdownStr("","foo\n!{{ SELECT * FROM blocks }}\nbar")
+	// return
 	var entityList []fileEntity
 	filepath.Walk(sourceDir,
 		func(path string, info os.FileInfo, err error) error {
@@ -107,9 +109,12 @@ func main() {
 			}
 			mdStr := string(mdByte)
 			rawHTML := luteEngine.MarkdownStr("", mdStr)
+			Level := strings.Count(relativePath, "/") - 1
+			LevelRoot := strings.Repeat("../", Level)
 			html := ArticleRender(ArticleInfo{
 				Content:   template.HTML(rawHTML),
 				PageTitle: "{文档标题}",
+				LevelRoot: LevelRoot,
 			})
 			ioutil.WriteFile(targetPath, []byte(html), 0777)
 		}
