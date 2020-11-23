@@ -12,6 +12,9 @@ import (
 	copy "github.com/otiai10/copy"
 )
 
+// FileEntityList 解析后的所有对象
+var FileEntityList []FileEntity
+
 func main() {
 	// 流程 1  用户输入 {源目录 输出目录}
 	util.Log("----- 流程 1 用户输入 -----")
@@ -31,9 +34,8 @@ func main() {
 
 	// 流程 3  遍历源目录 生成 html 到输出目录
 	util.Log("----- 流程 3 生成 html -----")
-	luteEngine := LuteEngine
 
-	var entityList []fileEntity
+	// 转换数据结构 filepath => entityList
 	filepath.Walk(sourceDir,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
@@ -43,27 +45,38 @@ func main() {
 			} else {
 				relativePath := strings.ReplaceAll(path[len(sourceDir):], string(os.PathSeparator), "/")
 				var virtualPath string
+				var mdStr string
+				var mdStructInfo []MdStructInfo
 				if info.IsDir() {
 					virtualPath = relativePath
 				} else {
-					virtualPath = relativePath[0:len(relativePath)-29] + ".html"
+					virtualPath = FilePathToWebPath(relativePath)
+					mdByte, err := ioutil.ReadFile(path)
+					if err != nil {
+						util.Log("读取文件失败", err)
+					}
+					mdStr = string(mdByte)
+
+					mdStructInfo = GetMdStructInfo("", mdStr)
+
 				}
 
-				entityList = append(entityList, fileEntity{
-					path:         path,
-					info:         info,
-					relativePath: relativePath,
-					virtualPath:  virtualPath,
+				FileEntityList = append(FileEntityList, FileEntity{
+					path:             path,
+					info:             info,
+					relativePath:     relativePath,
+					virtualPath:      virtualPath,
+					mdStr:            mdStr,
+					MdStructInfoList: mdStructInfo,
 				})
 				return nil
 			}
 		})
 
-	fmt.Println("开始生成html,共", len(entityList), "项")
+	fmt.Println("开始生成html,共", len(FileEntityList), "项")
 
-	for _, entity := range entityList {
+	for _, entity := range FileEntityList {
 		info := entity.info
-		path := entity.path
 		relativePath := entity.relativePath
 		virtualPath := entity.virtualPath
 
@@ -71,7 +84,7 @@ func main() {
 			// 这里要生成一个类似于当前目录菜单的东西
 			targetPath := filepath.Join(outDir, relativePath, "index.html")
 			// 当前目录的 子路径 不包含更深层级的
-			sonList := fileEntityListFilter(entityList, func(f fileEntity) bool {
+			sonList := fileEntityListFilter(FileEntityList, func(f FileEntity) bool {
 				return strings.HasPrefix(f.virtualPath, virtualPath) &&
 					// 这个条件去除了间隔一层以上的其他路径
 					strings.LastIndex(f.virtualPath[len(virtualPath):], "/") == 0
@@ -101,12 +114,8 @@ func main() {
 		} else {
 			// TODO: 这里的 targetPath 是有问题的，他隐含了一个条件就是md文档一定包含id
 			targetPath := filepath.Join(outDir, relativePath[0:len(relativePath)-29]) + ".html"
-			mdByte, err := ioutil.ReadFile(path)
-			if err != nil {
-				util.Log("读取文件失败", err)
-			}
-			mdStr := string(mdByte)
-			rawHTML := luteEngine.MarkdownStr("", mdStr)
+
+			rawHTML := FileEntityToHTML(entity)
 			Level := strings.Count(relativePath, "/") - 1
 			LevelRoot := strings.Repeat("../", Level)
 			html := ArticleRender(ArticleInfo{
@@ -126,16 +135,19 @@ func isSkipPath(path string) bool {
 	return strings.Contains(path, ".git")
 }
 
-type fileEntity struct {
+// FileEntity md 文件被解析后的结构
+type FileEntity struct {
 	path         string
 	relativePath string
 	// 最终要可以访问的路径
-	virtualPath string
-	info        os.FileInfo
+	virtualPath      string
+	info             os.FileInfo
+	mdStr            string
+	MdStructInfoList []MdStructInfo
 }
 
 // go 怎么写类似于其他语言泛型的过滤方式 ？// https://medium.com/@habibridho/here-is-why-no-one-write-generic-slice-filter-in-go-8b3d1063674e
-func fileEntityListFilter(list []fileEntity, test func(fileEntity) bool) (ret []fileEntity) {
+func fileEntityListFilter(list []FileEntity, test func(FileEntity) bool) (ret []FileEntity) {
 	for _, s := range list {
 		if test(s) {
 			ret = append(ret, s)

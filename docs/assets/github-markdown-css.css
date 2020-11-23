@@ -1061,6 +1061,6 @@
 }
 
 /** 块引用文本类型 */
-.markdown-body [data-block-type="433"] {
+.markdown-body [data-block-type="NodeBlockRefText"] {
   color: var(--b3-vditor-mark-block-color);
 }
