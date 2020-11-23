@@ -9,7 +9,6 @@ import (
 	"strings"
 
 	"github.com/2234839/md2website/src/util"
-	"github.com/88250/lute"
 	copy "github.com/otiai10/copy"
 )
 
@@ -32,7 +31,7 @@ func main() {
 
 	// 流程 3  遍历源目录 生成 html 到输出目录
 	util.Log("----- 流程 3 生成 html -----")
-	luteEngine := lute.New()
+	luteEngine := LuteEngine
 
 	var entityList []fileEntity
 	filepath.Walk(sourceDir,
@@ -100,16 +99,16 @@ func main() {
 			ioutil.WriteFile(targetPath, []byte(html), 0777)
 			fmt.Println(relativePath, len(sonEntityList))
 		} else {
-			// 这里的 targetPath 是有问题的，他隐含了一个条件就是md文档一定包含id
+			// TODO: 这里的 targetPath 是有问题的，他隐含了一个条件就是md文档一定包含id
 			targetPath := filepath.Join(outDir, relativePath[0:len(relativePath)-29]) + ".html"
 			mdByte, err := ioutil.ReadFile(path)
 			if err != nil {
 				util.Log("读取文件失败", err)
 			}
 			mdStr := string(mdByte)
-
+			rawHTML := luteEngine.MarkdownStr("", mdStr)
 			html := ArticleRender(ArticleInfo{
-				Content:   template.HTML(luteEngine.MarkdownStr("", mdStr)),
+				Content:   template.HTML(rawHTML),
 				PageTitle: "{文档标题}",
 			})
 			ioutil.WriteFile(targetPath, []byte(html), 0777)
