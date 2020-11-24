@@ -16,7 +16,6 @@ go run .\src\main.go "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resourc
 
 | 可用 | 功能名 | 大致进度 |
 | - | - | - |
-| ✅🔨 | [#1 块引用链接](https://github.com/2234839/md2website/issues/1) | `90%` |
 | ❌🔨 | [#2 嵌入块渲染](https://github.com/2234839/md2website/issues/2) | `0%` |
 | ⭕ | 菜单页面美化 |   |
 | ⭕ | 块引用当前页面预览 |   |
@@ -24,6 +23,7 @@ go run .\src\main.go "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resourc
 | ⭕ | 书签页 |   |
 | ⭕ | 标签页 |   |
 | ⭕ | 反链 |   |
+| ✅🔨 | [#1 块引用链接](https://github.com/2234839/md2website/issues/1) | `90%` |
 | ⭕ | 嵌入块查询渲染 |   |
 
 
