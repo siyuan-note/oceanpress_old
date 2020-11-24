@@ -16,7 +16,8 @@ go run .\src\main.go "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resourc
 
 | 可用 | 功能名 | 大致进度 |
 | - | - | - |
-| ❎🔨 | [#2 嵌入块渲染](https://github.com/2234839/md2website/issues/2) | `30%` |
+| ❌🔨 | [#3 代码高亮 以及 数学公式和脑图等渲染](https://github.com/2234839/md2website/issues/3) |   |
+| ✅🔨 | [#2 嵌入块渲染](https://github.com/2234839/md2website/issues/2) 目前不支持循环引用 | `60%` |
 | ⭕ | 菜单页面美化 |   |
 | ⭕ | 页面 header 与 footer  |   |
 | ⭕ | 块引用当前页面预览 |   |
