@@ -68,13 +68,15 @@ func init() {
 			if fileEntity.path != "" {
 				src = FileEntityRelativePath(baseEntity, fileEntity, id)
 			}
-
+			// 修改 base 路径以使用 ../ 这样的形式指向根目录 ,就在下面一点点会再重置回去
+			LuteEngine.LinkBase = strings.Repeat("../", strings.Count(baseEntity.relativePath, "/")-1)
 			html = EmbeddedBlockRender(EmbeddedBlockInfo{
 				Src:   src,
 				Title: n.Text(),
 				// 这里涉及到一个套娃问题，还有 baseEntity 该怎么处理。以及他们的路径怎么办
 				Content: template.HTML(LuteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node))),
 			})
+			LuteEngine.LinkBase = ""
 		}
 		return html, ast.WalkSkipChildren
 	}
@@ -134,8 +136,6 @@ func renderBlockMarkdown(node *ast.Node) string {
 // FileEntityToHTML 转 html
 func FileEntityToHTML(entity FileEntity) string {
 	baseEntity = entity
-	// 修改 base 路径以使用 ../ 这样的形式指向根目录
-	LuteEngine.LinkBase = strings.Repeat("../", strings.Count(entity.relativePath, "/")-1)
 	return LuteEngine.MarkdownStr("", entity.mdStr)
 }
 
