@@ -61,13 +61,12 @@ func init() {
 		if entering {
 			fileEntity, _ := FindFileEntityFromID(id)
 			var src string
-			test := baseEntity
 			if fileEntity.path != "" {
 				src = FileEntityRelativePath(baseEntity, fileEntity, id)
 			}
 
 			html = `<div title="尚未开发完成，完成后应该直接渲染对应部分的数据">
-			<a href="` + src + `">块引用-> ` + n.ID + "||" + id + "||" + n.Text() + test.id + `</a>
+			<a href="` + src + `">` + n.Text() + `</a>
 		  </div>`
 		}
 		return html, ast.WalkSkipChildren
