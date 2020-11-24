@@ -30,17 +30,20 @@ func init() {
 
 	mdStructuredLuteEngine.SetKramdownIAL(true)
 	mdStructuredLuteEngine.SetKramdownIALIDRenderName("data-block-id")
-
+	// 当前正在被渲染的块的 id
 	var id string
-	LuteEngine.Md2HTMLRendererFuncs[ast.NodeBlockRefID] = func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
+	/** 获取块的id */
+	var getBlockID = func(n *ast.Node, _ bool) (string, ast.WalkStatus) {
 		id = n.TokensStr()
 		return "", ast.WalkContinue
 	}
+	LuteEngine.Md2HTMLRendererFuncs[ast.NodeBlockRefID] = getBlockID
+	LuteEngine.Md2HTMLRendererFuncs[ast.NodeBlockEmbedID] = getBlockID
 
+	/** 块引用渲染 */
 	LuteEngine.Md2HTMLRendererFuncs[ast.NodeBlockRefText] = func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
 		var html string
 		if entering {
-			// TODO: 这里之后应该重构成根据 id 直接获取对应的信息
 			fileEntity, _ := FindFileEntityFromID(id)
 			var src string
 			if fileEntity.path != "" {
@@ -51,7 +54,24 @@ func init() {
 		}
 		return html, ast.WalkSkipChildren
 	}
+	/** 嵌入块渲染 */
+	LuteEngine.Md2HTMLRendererFuncs[ast.NodeBlockEmbedText] = func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
 
+		var html string
+		if entering {
+			fileEntity, _ := FindFileEntityFromID(id)
+			var src string
+			test := baseEntity
+			if fileEntity.path != "" {
+				src = FileEntityRelativePath(baseEntity, fileEntity, id)
+			}
+
+			html = `<div title="尚未开发完成，完成后应该直接渲染对应部分的数据">
+			<a href="` + src + `">块引用-> ` + n.ID + "||" + id + "||" + n.Text() + test.id + `</a>
+		  </div>`
+		}
+		return html, ast.WalkSkipChildren
+	}
 }
 
 // MdStructInfo md 结构信息
@@ -107,25 +127,13 @@ func FileEntityToHTML(entity FileEntity) string {
 
 // FileEntityRelativePath 计算他们变成 html 文件之后的相对路径
 func FileEntityRelativePath(base FileEntity, cur FileEntity, id string) string {
-	l1 := strings.Split(base.relativePath, "/")
-	l2 := strings.Split(cur.relativePath, "/")
-	url := ""
-	var l []string
-	if len(l1) < len(l2) {
-		l = l1
-	} else {
-		l = l2
-	}
+	// 减一是因为 路径开头必有 / 而这里只需要跳到这一层
+	count := strings.Count(base.relativePath, "/") - 1
 
-	offset := 0
-	for i := range l {
-		if l1[i] == l2[i] {
-			offset = i + 1
-		} else {
-			break
-		}
-	}
-	url += strings.Join(l2[offset:], "/")
+	l2 := strings.Split(cur.relativePath, "/")
+
+	url := strings.Repeat("../", count)
+	url += strings.Join(l2[1:], "/")
 	url = FilePathToWebPath(url)
 	url += "#" + id
 	return url

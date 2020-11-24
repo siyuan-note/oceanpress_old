@@ -66,7 +66,7 @@ func FileToFileEntity(path string, info os.FileInfo) FileEntity {
 	}
 }
 
-// FindFileEntityFromID 通过id找到对应的数据
+// FindFileEntityFromID 通过id找到对应的数据 这里之后要改一下，用 map 会比 for 好一些
 func FindFileEntityFromID(id string) (FileEntity, MdStructInfo) {
 	var fileEntity FileEntity
 	var mdInfo MdStructInfo
