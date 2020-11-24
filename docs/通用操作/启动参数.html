@@ -34,19 +34,4 @@
 <p>该参数用于指定链接和图片地址前缀，仅在使用相对路径时会添加。</p>
 
 </body>
-<script>
-    function hashAndUpdate(e) {
-        
-        scrollIntoView(e.newURL)
-    }
-
-    function scrollIntoView(url) {
-        const hash = url.split("#").pop()
-        const target = document.querySelector(`[data-block-id="${hash}"]`)
-        if (target) {
-            target.scrollIntoView()
-        }
-    }
-    window.addEventListener('hashchange', hashAndUpdate);
-    window.addEventListener("load", () => scrollIntoView(location.href))
-</script>
+<script src="../assets/global.js"></script>

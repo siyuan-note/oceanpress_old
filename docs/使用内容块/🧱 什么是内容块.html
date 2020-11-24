@@ -24,19 +24,4 @@
 <p>至此，我们已经能够用内容块来描述所有的内容了，这样就能通过统一的用法来链接内容块<a href="" class="c-block-ref" data-block-type="NodeBlockRefText">链接内容块</a>了。逻辑上没有页面（Page）概念，减少使用中不必要的负担，让用户将注意力集中在内容块上。</p>
 
 </body>
-<script>
-    function hashAndUpdate(e) {
-        
-        scrollIntoView(e.newURL)
-    }
-
-    function scrollIntoView(url) {
-        const hash = url.split("#").pop()
-        const target = document.querySelector(`[data-block-id="${hash}"]`)
-        if (target) {
-            target.scrollIntoView()
-        }
-    }
-    window.addEventListener('hashchange', hashAndUpdate);
-    window.addEventListener("load", () => scrollIntoView(location.href))
-</script>
+<script src="../assets/global.js"></script>

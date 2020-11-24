@@ -21,19 +21,4 @@
 <p>如果勾选了设置 - 资源 - 自动拉取远程图片到本地，则剪藏是会将网页中的图片文件下载到 assets 中并将内容中的图片地址替换为本地 assets 路径。</p>
 
 </body>
-<script>
-    function hashAndUpdate(e) {
-        
-        scrollIntoView(e.newURL)
-    }
-
-    function scrollIntoView(url) {
-        const hash = url.split("#").pop()
-        const target = document.querySelector(`[data-block-id="${hash}"]`)
-        if (target) {
-            target.scrollIntoView()
-        }
-    }
-    window.addEventListener('hashchange', hashAndUpdate);
-    window.addEventListener("load", () => scrollIntoView(location.href))
-</script>
+<script src="../assets/global.js"></script>

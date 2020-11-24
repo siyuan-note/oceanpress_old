@@ -30,19 +30,4 @@
 <p>前 512 个早期支持者可通过<a href="https://ld246.com/sponsor?price=128&amp;product=siyuan">一次性支付 ￥128</a> 买断个人终身订阅（务必登录链滴社区后再进行支付），公司实体商用授权请邮件联系 support@b3log.org。如果需要开具发票请在支付完成后邮件联系。</p>
 
 </body>
-<script>
-    function hashAndUpdate(e) {
-        
-        scrollIntoView(e.newURL)
-    }
-
-    function scrollIntoView(url) {
-        const hash = url.split("#").pop()
-        const target = document.querySelector(`[data-block-id="${hash}"]`)
-        if (target) {
-            target.scrollIntoView()
-        }
-    }
-    window.addEventListener('hashchange', hashAndUpdate);
-    window.addEventListener("load", () => scrollIntoView(location.href))
-</script>
+<script src="assets/global.js"></script>

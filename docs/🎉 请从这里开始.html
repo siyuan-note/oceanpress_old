@@ -39,19 +39,4 @@
 <p>请浏览<a href="https://github.com/siyuan-note/siyuan/projects/1">思源笔记开发计划和进度</a>，版本变更细节请浏览<a href="https://github.com/siyuan-note/siyuan/blob/master/CHANGE_LOGS.md">思源笔记版本变更记录</a>。</p>
 
 </body>
-<script>
-    function hashAndUpdate(e) {
-        
-        scrollIntoView(e.newURL)
-    }
-
-    function scrollIntoView(url) {
-        const hash = url.split("#").pop()
-        const target = document.querySelector(`[data-block-id="${hash}"]`)
-        if (target) {
-            target.scrollIntoView()
-        }
-    }
-    window.addEventListener('hashchange', hashAndUpdate);
-    window.addEventListener("load", () => scrollIntoView(location.href))
-</script>
+<script src="assets/global.js"></script>

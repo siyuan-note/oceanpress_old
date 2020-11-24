@@ -21,19 +21,4 @@
 <p>文件树上右键的导出也支持通过 <a href="http://textbundle.org">TextBundle</a> 打包 Markdown 及其关联的资源文件，这样可以提供更好的 Markdown 迁移性。</p>
 
 </body>
-<script>
-    function hashAndUpdate(e) {
-        
-        scrollIntoView(e.newURL)
-    }
-
-    function scrollIntoView(url) {
-        const hash = url.split("#").pop()
-        const target = document.querySelector(`[data-block-id="${hash}"]`)
-        if (target) {
-            target.scrollIntoView()
-        }
-    }
-    window.addEventListener('hashchange', hashAndUpdate);
-    window.addEventListener("load", () => scrollIntoView(location.href))
-</script>
+<script src="../assets/global.js"></script>
