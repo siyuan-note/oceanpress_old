@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"html/template"
-	"path"
 	"strings"
 
 	"github.com/88250/lute"
@@ -135,6 +134,8 @@ func renderBlockMarkdown(node *ast.Node) string {
 // FileEntityToHTML 转 html
 func FileEntityToHTML(entity FileEntity) string {
 	baseEntity = entity
+	// 修改 base 路径以使用 ../ 这样的形式指向根目录
+	LuteEngine.LinkBase = strings.Repeat("../", strings.Count(entity.relativePath, "/")-1)
 	return LuteEngine.MarkdownStr("", entity.mdStr)
 }
 
@@ -165,7 +166,6 @@ func FilePathToWebPath(filePath string) string {
 	}
 }
 
-
 // 将 Node 渲染为 md 对于 header 节点特殊处理，会将他的 child 包含进来
 func renderNodeMarkdown(node *ast.Node) string {
 	// 收集块
@@ -187,7 +187,7 @@ func renderNodeMarkdown(node *ast.Node) string {
 	luteEngine := lute.New()
 	tree := &parse.Tree{Root: root, Context: &parse.Context{Option: luteEngine.Options}}
 	tree.Context.Option.KramdownIAL = false // 关闭 IAL
-	tree.Context.Option.LinkBase = lute.NormalizeLinkBase(nodes[0].URL+path.Dir(nodes[0].Path)[1:], "test/")
+	tree.Context.Option.LinkBase = "http://domain.com/"
 	renderer := render.NewFormatRenderer(tree)
 	renderer.Writer = &bytes.Buffer{}
 	renderer.NodeWriterStack = append(renderer.NodeWriterStack, renderer.Writer) // 因为有可能不是从 root 开始渲染，所以需要初始化
