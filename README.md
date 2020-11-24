@@ -15,7 +15,7 @@ go run .\src\main.go "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resourc
 ## 待完成的功能点（按优先级降序排序）
 
 * [ ] [#1 块引用链接](https://github.com/2234839/md2website/issues/1) `90%`
-* [ ] 嵌入块渲染
+* [ ] [#2 嵌入块渲染](https://github.com/2234839/md2website/issues/2) `0%`
 * [ ] 菜单页面美化
 * [ ] 代码块渲染
 * [ ] 块引用当前页面预览
