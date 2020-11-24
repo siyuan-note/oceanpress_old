@@ -1091,6 +1091,8 @@
   border-bottom: 1px solid var(--b3-border-color);
   padding: 8px 16px;
   background-color: var(--b3-theme-surface);
+  display: flex;
+  align-items: center;
 }
 .embedded_block-content {
   padding: 8px 16px;
