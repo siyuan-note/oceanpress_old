@@ -16,9 +16,8 @@ go run .\src\main.go "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resourc
 
 | 可用 | 功能名 | 大致进度 |
 | - | - | - |
-| ❌🔨 | [#3 代码高亮 以及 数学公式和脑图等渲染](https://github.com/2234839/md2website/issues/3) | `0%`  |
-| ✅🔨 | [#2 嵌入块渲染](https://github.com/2234839/md2website/issues/2) 目前不支持循环引用 | `60%` |
 | ⭕ | 菜单页面美化 |   |
+| ✅🔨 | [#2 嵌入块渲染](https://github.com/2234839/md2website/issues/2) 目前不支持循环引用 | `60%` |
 | ⭕ | 页面 header 与 footer  |   |
 | ⭕ | 块引用当前页面预览 |   |
 | ⭕ | 块链接可 copy |   |
@@ -27,6 +26,7 @@ go run .\src\main.go "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resourc
 | ⭕ | 反链 |   |
 | ✅🔨 | [#1 块引用链接](https://github.com/2234839/md2website/issues/1) | `90%` |
 | ⭕ | 嵌入块查询渲染 |   |
+| ✅ | [#3 代码高亮 以及 数学公式和脑图等渲染](https://github.com/2234839/md2website/issues/3) [点击这里查看生成后的效果](https://2234839.github.io/md2website/Markdown%20%e4%bd%bf%e7%94%a8%e6%8c%87%e5%8d%97/Markdown%20%e5%ae%8c%e6%95%b4%e7%a4%ba%e4%be%8b.html) 、还需要修改vditor等资源的引用为本地文件（不是很重要之后再说）| `100%`  |
 
 
 1. ✅ 表示基本可以使用了
