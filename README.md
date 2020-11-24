@@ -14,13 +14,20 @@ go run .\src\main.go "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resourc
 
 ## 待完成的功能点（按优先级降序排序）
 
-* [ ] [#1 块引用链接](https://github.com/2234839/md2website/issues/1) `90%`
-* [ ] [#2 嵌入块渲染](https://github.com/2234839/md2website/issues/2) `0%`
-* [ ] 菜单页面美化
-* [ ] 代码块渲染
-* [ ] 块引用当前页面预览
-* [ ] 块链接可 copy
-* [ ] 书签页
-* [ ] 标签页
-* [ ] 反链
-* [ ] 嵌入块查询渲染
+| 可用 | 功能名 | 大致进度 |
+| - | - | - |
+| ✅🔨 | [#1 块引用链接](https://github.com/2234839/md2website/issues/1) | `90%` |
+| ❌🔨 | [#2 嵌入块渲染](https://github.com/2234839/md2website/issues/2) | `0%` |
+| ⭕ | 菜单页面美化 |   |
+| ⭕ | 块引用当前页面预览 |   |
+| ⭕ | 块链接可 copy |   |
+| ⭕ | 书签页 |   |
+| ⭕ | 标签页 |   |
+| ⭕ | 反链 |   |
+| ⭕ | 嵌入块查询渲染 |   |
+
+
+1. ✅ 表示基本可以使用了
+2. 🔨 表示还在修改中
+3. ❌ 表示不可用
+4. ⭕ 表示尚未开始
