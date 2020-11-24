@@ -13,18 +13,18 @@ import (
 	copy "github.com/otiai10/copy"
 )
 
-// FileEntityList 解析后的所有对象
-var FileEntityList []FileEntity
-
 func main() {
+	util.RunningLog("0", "=== 🛬 开始转换 🛫 ===")
 	// 流程 1  用户输入 {源目录 输出目录}
-	util.Log("----- 流程 1 用户输入 -----")
+	util.RunningLog("1", "用户输入")
 	sourceDir := SourceDir
 	outDir := OutDir
-	util.Log("sourceDir:" + sourceDir + "\n" + "outDir:" + outDir)
+	util.RunningLog("1.1", "sourceDir:"+sourceDir)
+	util.RunningLog("1.2", "outDir:"+outDir)
 
 	// 流程 2  copy 源目录中资源文件至输出目录
-	util.Log("----- 流程 2 copy 资源 -----")
+	util.RunningLog("2", "copy 资源到 outDir")
+
 	copy.Copy(sourceDir, outDir, copy.Options{
 		// 跳过一些不必要的目录以及 md 文件
 		Skip: func(src string) (bool, error) {
@@ -33,10 +33,10 @@ func main() {
 	})
 	// copy views 中的资源文件
 	copy.Copy(path.Join(TemplateDir, "./assets"), path.Join(outDir, "./assets"))
-	util.Log("copy 完成")
+	util.RunningLog("2.1", "copy 完成")
 
 	// 流程 3  遍历源目录 生成 html 到输出目录
-	util.Log("----- 流程 3 生成 html -----")
+	util.RunningLog("3", "生成 html")
 
 	// 转换数据结构 filepath => entityList
 	filepath.Walk(sourceDir,
@@ -46,37 +46,12 @@ func main() {
 			} else if isSkipPath(path) || (!info.IsDir() && !strings.HasSuffix(path, ".md")) {
 				return nil
 			} else {
-				relativePath := strings.ReplaceAll(path[len(sourceDir):], string(os.PathSeparator), "/")
-				var virtualPath string
-				var mdStr string
-				var mdStructInfo []MdStructInfo
-				if info.IsDir() {
-					virtualPath = relativePath
-				} else {
-					virtualPath = FilePathToWebPath(relativePath)
-					mdByte, err := ioutil.ReadFile(path)
-					if err != nil {
-						util.Log("读取文件失败", err)
-					}
-					mdStr = string(mdByte)
-
-					mdStructInfo = GetMdStructInfo("", mdStr)
-
-				}
-
-				FileEntityList = append(FileEntityList, FileEntity{
-					path:             path,
-					info:             info,
-					relativePath:     relativePath,
-					virtualPath:      virtualPath,
-					mdStr:            mdStr,
-					MdStructInfoList: mdStructInfo,
-				})
+				FileEntityList = append(FileEntityList, FileToFileEntity(path, info))
 				return nil
 			}
 		})
 
-	fmt.Println("开始生成html,共", len(FileEntityList), "项")
+	util.RunningLog("3.1", "从文件到数据结构转换完毕，开始生成html,共", len(FileEntityList), "项")
 
 	for _, entity := range FileEntityList {
 		info := entity.info
@@ -136,17 +111,6 @@ func main() {
 
 func isSkipPath(path string) bool {
 	return strings.Contains(path, ".git")
-}
-
-// FileEntity md 文件被解析后的结构
-type FileEntity struct {
-	path         string
-	relativePath string
-	// 最终要可以访问的路径
-	virtualPath      string
-	info             os.FileInfo
-	mdStr            string
-	MdStructInfoList []MdStructInfo
 }
 
 // go 怎么写类似于其他语言泛型的过滤方式 ？// https://medium.com/@habibridho/here-is-why-no-one-write-generic-slice-filter-in-go-8b3d1063674e

@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"strings"
 
-	"github.com/2234839/md2website/src/util"
 	"github.com/88250/lute"
 	"github.com/88250/lute/ast"
 	"github.com/88250/lute/parse"
@@ -39,31 +38,17 @@ func init() {
 	}
 
 	LuteEngine.Md2HTMLRendererFuncs[ast.NodeBlockRefText] = func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
+		var html string
 		if entering {
-			return "", ast.WalkContinue
-		}
-		// TODO: 这里之后应该重构成根据 id 直接获取对应的信息
-		var fileEntity FileEntity
-		for _, entity := range FileEntityList {
-			for _, info := range entity.MdStructInfoList {
-				if info.blockID == id {
-					fileEntity = entity
-					break
-				} else {
-					continue
-				}
-			}
+			// TODO: 这里之后应该重构成根据 id 直接获取对应的信息
+			fileEntity, _ := FindFileEntityFromID(id)
+			var src string
 			if fileEntity.path != "" {
-				break
+				src = FileEntityRelativePath(baseEntity, fileEntity, id)
 			}
+
+			html = `<a href="` + src + `" class="c-block-ref" data-block-type="` + n.Type.String() + `">` + n.Text() + `</a>`
 		}
-		var src string
-		if fileEntity.path == "" {
-			util.Log("未找到对应fileEntity", id)
-		} else {
-			src = FileEntityRelativePath(baseEntity, fileEntity, id)
-		}
-		html := `<a href="` + src + `" class="c-block-ref" data-block-type="` + n.Type.String() + `">` + n.Text() + `</a>`
 		return html, ast.WalkSkipChildren
 	}
 
