@@ -986,7 +986,7 @@
   vertical-align: middle;
 }
 
-/** ----------  样式扩展 -------------- */
+/** ---------- 以下是 样式扩展 -------------- */
 
 .markdown-body {
   box-sizing: border-box;
@@ -1063,4 +1063,15 @@
 /** 块引用文本类型 */
 .markdown-body [data-block-type="NodeBlockRefText"] {
   color: var(--b3-vditor-mark-block-color);
+}
+
+/** 被 hash 指定要跳转到的元素 */
+.hash_selected {
+}
+/** 给 hash 指定要跳转到的元素提供选中高亮效果 */
+.hash_selected-highlight {
+  border-radius: 4px;
+  transition: all 0.15s cubic-bezier(0, 0, 0.2, 1) 0ms;
+  background-color: var(--b3-theme-primary-light);
+  box-shadow: 4px 0px 0 var(--b3-theme-primary-light), -4px 0px 0 var(--b3-theme-primary-light);
 }
