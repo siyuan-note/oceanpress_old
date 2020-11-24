@@ -16,7 +16,7 @@ go run .\src\main.go "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resourc
 
 | 可用 | 功能名 | 大致进度 |
 | - | - | - |
-| ❌🔨 | [#2 嵌入块渲染](https://github.com/2234839/md2website/issues/2) | `0%` |
+| ❌🔨 | [#2 嵌入块渲染](https://github.com/2234839/md2website/issues/2) | `6%` |
 | ⭕ | 菜单页面美化 |   |
 | ⭕ | 页面 header 与 footer  |   |
 | ⭕ | 块引用当前页面预览 |   |
