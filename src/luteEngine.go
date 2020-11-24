@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"html/template"
+	"path"
 	"strings"
 
 	"github.com/88250/lute"
@@ -73,7 +74,7 @@ func init() {
 				Src:   src,
 				Title: n.Text(),
 				// 这里涉及到一个套娃问题，还有 baseEntity 该怎么处理。以及他们的路径怎么办
-				Content: template.HTML(LuteEngine.MarkdownStr("", mdInfo.mdContent)),
+				Content: template.HTML(LuteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node))),
 			})
 		}
 		return html, ast.WalkSkipChildren
@@ -85,6 +86,7 @@ type MdStructInfo struct {
 	blockID   string
 	blockType string
 	mdContent string
+	node      *ast.Node
 }
 
 // GetMdStructInfo 从 md 获取结构信息
@@ -103,7 +105,12 @@ func GetMdStructInfo(name string, md string) []MdStructInfo {
 			return ast.WalkSkipChildren
 		}
 		content := renderBlockMarkdown(n)
-		infoList = append(infoList, MdStructInfo{blockID: n.IALAttr("id"), blockType: n.Type.String(), mdContent: content})
+		infoList = append(infoList, MdStructInfo{
+			blockID:   n.IALAttr("id"),
+			blockType: n.Type.String(),
+			mdContent: content,
+			node:      n,
+		})
 
 		return ast.WalkContinue
 	})
@@ -156,4 +163,54 @@ func FilePathToWebPath(filePath string) string {
 		// 大概率是空
 		return filePath
 	}
+}
+
+
+// 将 Node 渲染为 md 对于 header 节点特殊处理，会将他的 child 包含进来
+func renderNodeMarkdown(node *ast.Node) string {
+	// 收集块
+	var nodes []*ast.Node
+	ast.Walk(node, func(n *ast.Node, entering bool) ast.WalkStatus {
+		if entering {
+			nodes = append(nodes, n)
+			if ast.NodeHeading == node.Type {
+				// 支持“标题块”引用
+				children := headingChildren(n)
+				nodes = append(nodes, children...)
+			}
+		}
+		return ast.WalkSkipChildren
+	})
+
+	// 渲染块
+	root := &ast.Node{Type: ast.NodeDocument}
+	luteEngine := lute.New()
+	tree := &parse.Tree{Root: root, Context: &parse.Context{Option: luteEngine.Options}}
+	tree.Context.Option.KramdownIAL = false // 关闭 IAL
+	tree.Context.Option.LinkBase = lute.NormalizeLinkBase(nodes[0].URL+path.Dir(nodes[0].Path)[1:], "test/")
+	renderer := render.NewFormatRenderer(tree)
+	renderer.Writer = &bytes.Buffer{}
+	renderer.NodeWriterStack = append(renderer.NodeWriterStack, renderer.Writer) // 因为有可能不是从 root 开始渲染，所以需要初始化
+	for _, node := range nodes {
+		ast.Walk(node, func(n *ast.Node, entering bool) ast.WalkStatus {
+			rendererFunc := renderer.RendererFuncs[n.Type]
+			return rendererFunc(n, entering)
+		})
+	}
+	return strings.TrimSpace(renderer.Writer.String())
+}
+
+func headingChildren(heading *ast.Node) (ret []*ast.Node) {
+	currentLevel := heading.HeadingLevel
+	var blocks []*ast.Node
+	for n := heading.Next; nil != n; n = n.Next {
+		if ast.NodeHeading == n.Type {
+			if currentLevel >= n.HeadingLevel {
+				break
+			}
+		}
+		blocks = append(blocks, n)
+	}
+	ret = append(ret, blocks...)
+	return
 }
