@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"io/ioutil"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 
@@ -30,6 +31,8 @@ func main() {
 			return (isSkipPath(src) || strings.HasSuffix(src, ".md")), nil
 		},
 	})
+	// copy views 中的资源文件
+	copy.Copy(path.Join(TemplateDir, "./assets"), path.Join(outDir, "./assets"))
 	util.Log("copy 完成")
 
 	// 流程 3  遍历源目录 生成 html 到输出目录
