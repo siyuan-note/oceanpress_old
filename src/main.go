@@ -98,7 +98,7 @@ func main() {
 			LevelRoot := strings.Repeat("../", Level)
 			html := ArticleRender(ArticleInfo{
 				Content:   template.HTML(rawHTML),
-				PageTitle: "{文档标题}",
+				PageTitle: entity.name,
 				LevelRoot: LevelRoot,
 			})
 			ioutil.WriteFile(targetPath, []byte(html), 0777)
