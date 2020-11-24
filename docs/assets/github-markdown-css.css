@@ -1097,3 +1097,9 @@
 .embedded_block-content {
   padding: 8px 16px;
 }
+
+.language-echarts,
+.language-mindmap {
+  overflow: hidden;
+  height: 420px;
+}
