@@ -51,7 +51,10 @@ func init() {
 				src = FileEntityRelativePath(baseEntity, fileEntity, id)
 			}
 
-			html = `<a href="` + src + `" class="c-block-ref" data-block-type="` + n.Type.String() + `">` + n.Text() + `</a>`
+			html = BlockRefRender(BlockRefInfo{
+				Src:   src,
+				Title: n.Text(),
+			})
 		}
 		return html, ast.WalkSkipChildren
 	}

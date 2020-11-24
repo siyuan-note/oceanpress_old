@@ -28,6 +28,7 @@ var globalF = template.FuncMap{"unescaped": unescaped}
 var articleTemplate = HTMLtemplate.New("article").Funcs(globalF)
 var menuTemplate = HTMLtemplate.New("menu").Funcs(globalF)
 var embeddedBlockTemplate = HTMLtemplate.New("embeddedBlock").Funcs(globalF)
+var blockRefTemplate = HTMLtemplate.New("blockRef").Funcs(globalF)
 
 type sonEntityI struct {
 	WebPath string
@@ -53,6 +54,12 @@ type EmbeddedBlockInfo struct {
 	Content interface{}
 }
 
+// BlockRefInfo 块引用所需信息
+type BlockRefInfo struct {
+	Title string
+	Src   string
+}
+
 // ArticleRender 渲染文章html
 func ArticleRender(info ArticleInfo) string {
 	return ExecTemplate(articleTemplate, info)
@@ -66,4 +73,9 @@ func MenuRender(info MenuInfo) string {
 // EmbeddedBlockRender 渲染嵌入块
 func EmbeddedBlockRender(info EmbeddedBlockInfo) string {
 	return ExecTemplate(embeddedBlockTemplate, info)
+}
+
+// BlockRefRender 渲染块引用
+func BlockRefRender(info BlockRefInfo) string {
+	return ExecTemplate(blockRefTemplate, info)
 }

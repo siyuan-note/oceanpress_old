@@ -1,7 +1,8 @@
 {{ define "embeddedBlock" }}
 <article class="embedded_block">
     <header class="embedded_block-header">
-        <a href="{{ .Src }}">{{ .Title }}</a>
+        {{template "blockRef" .}}
+        <!-- <a href="{{ .Src }}">{{ .Title }}</a> -->
     </header>
 
     <div class="embedded_block-content">
