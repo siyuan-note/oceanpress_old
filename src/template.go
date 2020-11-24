@@ -23,26 +23,21 @@ func ExecTemplate(t *template.Template, data interface{}) string {
 	return buf.String()
 }
 
+var globalF = template.FuncMap{"unescaped": unescaped}
+
+var articleTemplate = HTMLtemplate.New("article").Funcs(globalF)
+var menuTemplate = HTMLtemplate.New("menu").Funcs(globalF)
+var embeddedBlockTemplate = HTMLtemplate.New("embeddedBlock").Funcs(globalF)
+
+type sonEntityI struct {
+	WebPath string
+}
+
 // ArticleInfo 结构
 type ArticleInfo struct {
 	PageTitle string
 	Content   interface{}
 	LevelRoot string
-}
-
-var globalF = template.FuncMap{"unescaped": unescaped}
-
-var articleTemplate = HTMLtemplate.New("article").Funcs(globalF)
-
-// ArticleRender 渲染文章html
-func ArticleRender(info ArticleInfo) string {
-	return ExecTemplate(articleTemplate, info)
-}
-
-var menuTemplate = HTMLtemplate.New("menu").Funcs(globalF)
-
-type sonEntityI struct {
-	WebPath string
 }
 
 // MenuInfo 菜单结构
@@ -51,7 +46,24 @@ type MenuInfo struct {
 	PageTitle     string
 }
 
+// EmbeddedBlockInfo 嵌入块所需信息
+type EmbeddedBlockInfo struct {
+	Title   string
+	Src     string
+	Content interface{}
+}
+
+// ArticleRender 渲染文章html
+func ArticleRender(info ArticleInfo) string {
+	return ExecTemplate(articleTemplate, info)
+}
+
 // MenuRender 渲染菜单
 func MenuRender(info MenuInfo) string {
 	return ExecTemplate(menuTemplate, info)
+}
+
+// EmbeddedBlockRender 渲染嵌入块
+func EmbeddedBlockRender(info EmbeddedBlockInfo) string {
+	return ExecTemplate(embeddedBlockTemplate, info)
 }

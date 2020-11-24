@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"html/template"
 	"strings"
 
 	"github.com/88250/lute"
@@ -59,15 +60,18 @@ func init() {
 
 		var html string
 		if entering {
-			fileEntity, _ := FindFileEntityFromID(id)
+			fileEntity, mdInfo := FindFileEntityFromID(id)
 			var src string
 			if fileEntity.path != "" {
 				src = FileEntityRelativePath(baseEntity, fileEntity, id)
 			}
 
-			html = `<div title="尚未开发完成，完成后应该直接渲染对应部分的数据">
-			<a href="` + src + `">` + n.Text() + `</a>
-		  </div>`
+			html = EmbeddedBlockRender(EmbeddedBlockInfo{
+				Src:   src,
+				Title: n.Text(),
+				// 这里涉及到一个套娃问题，还有 baseEntity 该怎么处理。以及他们的路径怎么办
+				Content: template.HTML(LuteEngine.MarkdownStr("", mdInfo.mdContent)),
+			})
 		}
 		return html, ast.WalkSkipChildren
 	}
