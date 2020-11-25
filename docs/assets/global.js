@@ -28,7 +28,7 @@ window.addEventListener("load", () => {
     document.body.appendChild(d);
 
     const vditor = new Vditor(id).vditor;
-    const previewElement = document.querySelector('.markdown-body');
+    const previewElement = document.querySelector('.vditor-reset');
     Vditor.setContentTheme(vditor.options.preview.theme.current, vditor.options.preview.theme.path);
     Vditor.codeRender(previewElement);
     Vditor.highlightRender(JSON.stringify(vditor.options.preview.hljs), previewElement, vditor.options.cdn);
