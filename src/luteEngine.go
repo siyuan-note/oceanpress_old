@@ -72,7 +72,7 @@ func init() {
 			LuteEngine.LinkBase = strings.Repeat("../", strings.Count(baseEntity.relativePath, "/")-1)
 			html = EmbeddedBlockRender(EmbeddedBlockInfo{
 				Src:   src,
-				Title: n.Text(),
+				Title: fileEntity.virtualPath,
 				// 这里涉及到一个套娃问题，还有 baseEntity 该怎么处理。以及他们的路径怎么办
 				Content: template.HTML(LuteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node))),
 			})
