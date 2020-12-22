@@ -41,19 +41,28 @@ func init() {
 	LuteEngine.Md2HTMLRendererFuncs[ast.NodeBlockRefID] = getBlockID
 	LuteEngine.Md2HTMLRendererFuncs[ast.NodeBlockEmbedID] = getBlockID
 
-	/** 块引用渲染 */
+	/** 块引用渲染,类似于超链接 */
 	LuteEngine.Md2HTMLRendererFuncs[ast.NodeBlockRefText] = func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
 		var html string
 		if entering {
-			fileEntity, _ := FindFileEntityFromID(id)
+			fileEntity, mdInfo := FindFileEntityFromID(id)
 			var src string
 			if fileEntity.path != "" {
 				src = FileEntityRelativePath(baseEntity, fileEntity, id)
 			}
+			var title = n.Text()
 
+			// 锚文本模板变量处理 使用定义块内容文本填充。如定义块是文档块，则使用文档名填充。
+			if title == "{{.text}}" {
+				if mdInfo.blockType == "NodeDocument" {
+					title = fileEntity.name
+				} else {
+					title = mdInfo.node.Text()
+				}
+			}
 			html = BlockRefRender(BlockRefInfo{
 				Src:   src,
-				Title: n.Text(),
+				Title: title,
 			})
 		}
 		return html, ast.WalkSkipChildren
@@ -80,6 +89,7 @@ func init() {
 		}
 		return html, ast.WalkSkipChildren
 	}
+
 }
 
 // MdStructInfo md 结构信息
