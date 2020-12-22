@@ -18,6 +18,8 @@ go run .\src\ "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resources\\gui
 | --- | --- | --- |
 | ❎🔨 | [#4 菜单页面美化](https://github.com/2234839/md2website/issues/4) | `5%` |
 | ✅🔨 | [#2 嵌入块渲染](https://github.com/2234839/md2website/issues/2) 目前不支持循环引用 | `60%` |
+| ⭕ | 支持 {.text} 这样的锚文本 |  |
+| ⭕ | 目录树 |  |
 | ⭕ | 页面 header 与 footer |  |
 | ⭕ | 块引用当前页面预览 |  |
 | ⭕ | 块链接可 copy |  |
