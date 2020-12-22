@@ -90,8 +90,7 @@ func main() {
 			ioutil.WriteFile(targetPath, []byte(html), 0777)
 			fmt.Println(relativePath, len(sonEntityList))
 		} else {
-			// TODO: 这里的 targetPath 是有问题的，他隐含了一个条件就是md文档一定包含id
-			targetPath := filepath.Join(outDir, relativePath[0:len(relativePath)-29]) + ".html"
+			targetPath := filepath.Join(outDir, relativePath[0:len(relativePath)-3]) + ".html"
 
 			rawHTML := FileEntityToHTML(entity)
 			Level := strings.Count(relativePath, "/") - 1
@@ -101,7 +100,12 @@ func main() {
 				PageTitle: entity.name,
 				LevelRoot: LevelRoot,
 			})
-			ioutil.WriteFile(targetPath, []byte(html), 0777)
+			var err = ioutil.WriteFile(targetPath, []byte(html), 0777)
+			if err != nil {
+
+				util.Log(err)
+			}
+
 		}
 	}
 	// End

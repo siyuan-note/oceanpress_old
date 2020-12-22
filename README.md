@@ -6,10 +6,10 @@
 
 ## 运行方式 run
 
-`go run .\src\main.go (sourceDir) (outDir)`
+`go run .\src\ (sourceDir) (outDir) (viewDir)`
 
 ```go
-go run .\src\main.go "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resources\\guide\\思源笔记用户指南" "D:\\code\\md2website\\docs"
+go run .\src\ "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resources\\guide\\思源笔记用户指南" "D:\\code\\md2website\\docs" "./views/"
 ```
 
 ## 待完成的功能点（按优先级降序排序）

@@ -47,10 +47,11 @@ func FileToFileEntity(path string, info os.FileInfo) FileEntity {
 		}
 		mdStr = string(mdByte)
 		mdStructInfo = GetMdStructInfo("", mdStr)
-		if strings.HasSuffix(relativePath, ".sy.md") {
+		if strings.HasSuffix(relativePath, ".md") {
 			baseName := filepath.Base(relativePath)
-			name = baseName[:len(baseName)-29]
-			id = baseName[len(baseName)-28 : len(baseName)-6]
+			name = baseName[:len(baseName)-3]
+			//TODO: 这里的id 要怎么获取呢？
+			// id = baseName[len(baseName)-28 : len(baseName)-6]
 		}
 	}
 

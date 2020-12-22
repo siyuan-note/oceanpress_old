@@ -155,15 +155,11 @@ func FileEntityRelativePath(base FileEntity, cur FileEntity, id string) string {
 
 // FilePathToWebPath 将相对文件路径转为 web路径，主要是去除文件中的id 以及添加 .html
 func FilePathToWebPath(filePath string) string {
-	// 这里的判定其实未必准，但先不考虑用户自定义如此后缀的情况
-	if strings.HasSuffix(filePath, ".sy.md") {
-		return filePath[0:len(filePath)-29] + ".html"
-	} else if strings.HasSuffix(filePath, ".md") {
+	if strings.HasSuffix(filePath, ".md") {
 		return filePath[0:len(filePath)-3] + ".html"
-	} else {
-		// 大概率是空
-		return filePath
 	}
+	// 大概率是空
+	return filePath
 }
 
 // 将 Node 渲染为 md 对于 header 节点特殊处理，会将他的 child 包含进来

@@ -1,6 +1,8 @@
 package main
 
-import "os"
+import (
+	"os"
+)
 
 // 用于获取用户输入的参数
 
@@ -11,4 +13,4 @@ var SourceDir = os.Args[1]
 var OutDir = os.Args[2]
 
 // TemplateDir 模板文件所在的目录
-var TemplateDir = "./views/"
+var TemplateDir = os.Args[3]
