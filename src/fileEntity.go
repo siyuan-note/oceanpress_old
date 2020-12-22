@@ -14,8 +14,6 @@ var FileEntityList []FileEntity
 
 // FileEntity md 文件被解析后的结构
 type FileEntity struct {
-	// 这个 id 是有很大可能为空的
-	id   string
 	name string
 	// 文件绝对路径
 	path string
@@ -35,7 +33,6 @@ func FileToFileEntity(path string, info os.FileInfo) FileEntity {
 	var virtualPath string
 	var mdStr string
 	var name string
-	var id string
 	var mdStructInfo []MdStructInfo
 	if info.IsDir() {
 		virtualPath = relativePath
@@ -50,8 +47,6 @@ func FileToFileEntity(path string, info os.FileInfo) FileEntity {
 		if strings.HasSuffix(relativePath, ".md") {
 			baseName := filepath.Base(relativePath)
 			name = baseName[:len(baseName)-3]
-			//TODO: 这里的id 要怎么获取呢？
-			// id = baseName[len(baseName)-28 : len(baseName)-6]
 		}
 	}
 
@@ -62,7 +57,6 @@ func FileToFileEntity(path string, info os.FileInfo) FileEntity {
 		virtualPath:      virtualPath,
 		mdStr:            mdStr,
 		MdStructInfoList: mdStructInfo,
-		id:               id,
 		name:             name,
 	}
 }
@@ -72,10 +66,6 @@ func FindFileEntityFromID(id string) (FileEntity, MdStructInfo) {
 	var fileEntity FileEntity
 	var mdInfo MdStructInfo
 	for _, entity := range FileEntityList {
-		if entity.id == id {
-			fileEntity = entity
-			break
-		}
 		for _, info := range entity.MdStructInfoList {
 			if info.blockID == id {
 				fileEntity = entity
