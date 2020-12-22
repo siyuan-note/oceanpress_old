@@ -71,11 +71,18 @@ func main() {
 			var sonEntityList []sonEntityI
 			for _, sonEntity := range sonList {
 				webPath := sonEntity.virtualPath[len(virtualPath):]
+				var name string
 				if sonEntity.info.IsDir() {
+					name = webPath + "/"
 					webPath += "/index.html"
+				} else {
+					name = sonEntity.name
 				}
+
 				sonEntityList = append(sonEntityList, sonEntityI{
 					WebPath: webPath,
+					Name:    name,
+					IsDir:   sonEntity.info.IsDir(),
 				})
 			}
 
@@ -102,7 +109,6 @@ func main() {
 			})
 			var err = ioutil.WriteFile(targetPath, []byte(html), 0777)
 			if err != nil {
-
 				util.Log(err)
 			}
 

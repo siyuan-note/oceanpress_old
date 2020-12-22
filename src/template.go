@@ -32,6 +32,8 @@ var blockRefTemplate = HTMLtemplate.New("blockRef").Funcs(globalF)
 
 type sonEntityI struct {
 	WebPath string
+	IsDir   bool
+	Name    string
 }
 
 // ArticleInfo 结构
