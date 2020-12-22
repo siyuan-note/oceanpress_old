@@ -19,6 +19,11 @@ window.addEventListener('hashchange', hashAndUpdate);
 window.addEventListener("load", () => {
     // 当前链接可能指向了某一个块，尝试跳过去
     scrollIntoView(location.href);
+    document.addEventListener("click", (e) => {
+        if (e.target instanceof HTMLAnchorElement) {
+            scrollIntoView(e.target.href);
+        }
+    });
 
     /** 用来获取 vditor 实例的工具元素 */
     const d = document.createElement("div");
