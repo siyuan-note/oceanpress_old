@@ -47,6 +47,7 @@ type ArticleInfo struct {
 type MenuInfo struct {
 	SonEntityList []sonEntityI
 	PageTitle     string
+	LevelRoot string
 }
 
 // EmbeddedBlockInfo 嵌入块所需信息

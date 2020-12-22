@@ -16,7 +16,7 @@ go run .\src\ "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resources\\gui
 
 | 可用 | 功能名 | 大致进度 |
 | --- | --- | --- |
-| ❎🔨 | [#4 菜单页面美化](https://github.com/2234839/md2website/issues/4) | `5%` |
+| ❎🔨 | [#4 菜单页面美化](https://github.com/2234839/md2website/issues/4) | `15%` |
 | ✅🔨 | [#2 嵌入块渲染](https://github.com/2234839/md2website/issues/2) 目前不支持循环引用 | `60%` |
 | ⭕ | 目录树 |  |
 | ⭕ | 页面 header 与 footer |  |

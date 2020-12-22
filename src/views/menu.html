@@ -12,17 +12,24 @@
 </head>
 
 <body>
+    {{ $LevelRoot := .LevelRoot }}
     {{range $i, $v := .SonEntityList}}
-    <div class="item">
-        {{if $v.IsDir }}
-            <a href=".{{ $v.WebPath }}">{{ $v.Name }}</a>
-        {{else}}
-            <a href=".{{ $v.WebPath }}">{{ $v.Name }}</a>
-        {{end}}
-    </div>
+        <div class="item">
+            {{if $v.IsDir }}
+                <a href=".{{ $v.WebPath }}">
+                    <img src="{{$LevelRoot}}/assets/icon/文件夹.png" style="height:36px"/>
+                    {{ $v.Name }}
+                </a>
+            {{else}}
+                <a href=".{{ $v.WebPath }}">
+                    <img src="{{$LevelRoot}}/assets/icon/文件.png" style="height:36px"/>
+                    {{ $v.Name }}
+                </a>
+            {{end}}
+        </div>
     {{else}}
         <div>
-            当前目录下没有 md 文件
+            当前目录下没有文件
         </div>
     {{end}}
 </body>
