@@ -59,12 +59,13 @@ func main() {
 		virtualPath := entity.virtualPath
 
 		Level := strings.Count(relativePath, "/") - 1
+		if info.IsDir() {
+			Level++
+		}
 		// relativePath 通过 LevelRoot 可以跳转到生成目录，即根目录
-		var LevelRoot string
-		if Level < 0 {
-			LevelRoot = "./"
-		} else {
-			LevelRoot = strings.Repeat("../", Level)
+		var LevelRoot = "./"
+		if Level > 0 {
+			LevelRoot += strings.Repeat("../", Level)
 		}
 
 		if info.IsDir() {
@@ -89,9 +90,9 @@ func main() {
 				}
 
 				sonEntityList = append(sonEntityList, sonEntityI{
-					WebPath:   webPath,
-					Name:      name,
-					IsDir:     sonEntity.info.IsDir(),
+					WebPath: webPath,
+					Name:    name,
+					IsDir:   sonEntity.info.IsDir(),
 				})
 			}
 
@@ -102,7 +103,7 @@ func main() {
 			html := MenuRender(MenuInfo{
 				SonEntityList: sonEntityList,
 				PageTitle:     "菜单页",
-				LevelRoot: LevelRoot,
+				LevelRoot:     LevelRoot,
 			})
 			ioutil.WriteFile(targetPath, []byte(html), 0777)
 			fmt.Println(relativePath, len(sonEntityList))
