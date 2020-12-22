@@ -29,9 +29,10 @@
 <li><code>`</code> 代码块</li>
 <li><code>&gt;</code> 块引用块</li>
 <li><code>$</code> 数学公式块</li>
+<li><code>{</code> 超级块</li>
 <li><code>p</code> 段落块</li>
 </ul>
-<p>比如想要搜索所有包含 <code>Markdown</code> 的标题块，则可以使用 <code>#Markdown</code> 作为搜索条件。</p>
+<p>比如想要搜索所有包含 <code>Markdown</code> 的标题块，则可以使用 <code>#Markdown</code> 作为搜索条件。如果需要搜索的关键字开头字符在上述列表中，则需要使用 <code>\</code> 转义。比如想要搜索 <code>doc</code> 关键字，<code>d</code> 会命中文档块过滤，这样实际上搜索的关键字是 <code>oc</code>，需要通过 <code>\doc</code> 转义。</p>
 <h2 id="给极客准备的---" data-block-id="20201117103851-l9cahuc">给极客准备的...<a id="vditorAnchor-给极客准备的---" class="vditor-anchor" href="#给极客准备的---"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
 <p>全局文本搜索支持：</p>
 <ul>
@@ -106,6 +107,7 @@
 <li><code>NodeCodeBlock</code> 代码块</li>
 <li><code>NodeBlockquote</code> 块引用块</li>
 <li><code>NodeTable</code> 表格块</li>
+<li><code>NodeSuperBlock</code> 超级块</li>
 </ul>
 <h3 id="默认查询条件">默认查询条件<a id="vditorAnchor-默认查询条件" class="vditor-anchor" href="#默认查询条件"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h3>
 <ul>

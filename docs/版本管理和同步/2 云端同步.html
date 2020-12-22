@@ -1,0 +1,57 @@
+
+<!doctype html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>2 云端同步</title>
+    <link rel="stylesheet" href="../assets/github-markdown-css.css">
+</head>
+
+<body class="markdown-body vditor-reset">
+    <h2 id="仓库同步">仓库同步<a id="vditorAnchor-仓库同步" class="vditor-anchor" href="#仓库同步"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<p>同步功能是思源笔记的<a href="https://github.com/siyuan-note/siyuan/projects/1">高级特性</a>，需要付费才能使用。在界面上点击同步按钮后，思源笔记会通过 <code>git pull</code> 以及 <code>git push</code> 进行数据同步。如果遇到数据冲突，请使用 Git 工具来解决冲突，后续版本我们会逐步增加对 Git 操作的内置支持 #TODO#。</p>
+<p>#注意#：WebDAV 笔记本是不会同步的，因为 WebDAV 服务端本身就已经在云端了。</p>
+<p>我们选择使用 Git 实现版本管理不仅是因为 Git 的强大和稳定，更因为它是开放的。所以使用我们伺服的云端仓库并不是唯一的选择，你可以通过 <code>git remote add</code> 命令来添加其他远程仓库（比如 GitHub 仓库），然后通过 Git 就可以和这些远程仓库进行同步了，操作细节请参考：</p>
+<ul>
+<li>
+<a href="../%e7%89%88%e6%9c%ac%e7%ae%a1%e7%90%86%e5%92%8c%e5%90%8c%e6%ad%a5/3%20%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98.html#20201213105440-oac0z1d" class="c-block-ref" data-block-type="NodeBlockRefText">
+    {{.text}}
+</a>
+</li>
+<li>
+<a href="../%e7%89%88%e6%9c%ac%e7%ae%a1%e7%90%86%e5%92%8c%e5%90%8c%e6%ad%a5/3%20%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98.html#20201213114140-o3maocy" class="c-block-ref" data-block-type="NodeBlockRefText">
+    {{.text}}
+</a>
+</li>
+</ul>
+<h2 id="云端仓库">云端仓库<a id="vditorAnchor-云端仓库" class="vditor-anchor" href="#云端仓库"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<p>我们伺服的云端仓库位于 <code>git@siyuan.b3logfile.com:/siyuan/{uid}/{notebook}.git</code>，使用自动生成的 SSH 密钥对进行身份认证。如果在使用同步功能时遇到身份认证方面的问题，请在“设置 - 同步”中查看公钥，并确认该公钥是否已经自动添加到链滴社区个人<a href="https://ld246.com/settings/key">设置 - 公钥</a>中，如果没有添加的话，请查看程序日志确定是否为网络问题，如果依然不能解决问题，请
+<a href="../0%20%e8%af%b7%e4%bb%8e%e8%bf%99%e9%87%8c%e5%bc%80%e5%a7%8b.html#20200824160622-uf2eu77" class="c-block-ref" data-block-type="NodeBlockRefText">
+    联系我们进行反馈
+</a>
+。</p>
+<ul>
+<li>同一用户下所有笔记本加起来最大存储空间为 <code>4G</code>（包括版本历史）</li>
+<li>付费订阅到期以后，会保留数据 1 个月，如果在此期间没有续费，1 个月以后将彻底删除数据</li>
+</ul>
+<h2 id="同步使用流程">同步使用流程<a id="vditorAnchor-同步使用流程" class="vditor-anchor" href="#同步使用流程"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<ol>
+<li>在当前设备上点击同步按钮（此时如果云端没有仓库，则会创建云端仓库），数据会通过 Git SSH 协议推送到云端，同时也会将云端数据拉取至本地</li>
+<li>在新设备上通过设置 - 同步 - 云端笔记本 - 克隆到本地来将数据从云端下载下来。只有在新设备上第一次获取数据时需要进行克隆操作，后续就可以直接点击同步按钮进行同步了</li>
+<li>同步后，界面会进行整体刷新，并重新加载数据。如果出现冲突，会以 
+<a href="../%e7%89%88%e6%9c%ac%e7%ae%a1%e7%90%86%e5%92%8c%e5%90%8c%e6%ad%a5/3%20%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98.html#20201210001447-tesjqkf" class="c-block-ref" data-block-type="NodeBlockRefText">
+    Git 冲突标记
+</a>
+进行展现（目前编辑器中渲染冲突有缺陷，所以看起来有些奇怪 #TODO#）</li>
+</ol>
+
+</body>
+<script src="../assets/global.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css" />
+<script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js" defer>
+
+</script>

@@ -1,0 +1,64 @@
+
+<!doctype html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>3 常见问题</title>
+    <link rel="stylesheet" href="../assets/github-markdown-css.css">
+</head>
+
+<body class="markdown-body vditor-reset">
+    <h2 id="-Git-冲突标记-是什么样的-" data-block-id="20201210001447-tesjqkf">“Git 冲突标记”是什么样的？<a id="vditorAnchor--Git-冲突标记-是什么样的-" class="vditor-anchor" href="#-Git-冲突标记-是什么样的-"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<p>出现冲突的地方在文档文本（可以通过外部文本编辑器打开文档查看）中看起来是这个样子的：</p>
+<pre><code class="language-text highlight-chroma">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+这里是本地原来的内容
+=======
+这里是云端拉取下来的内容
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feebfeb6bef44cf1384d51cdd7aef7e4197b8180
+</code></pre>
+<p>可手动编辑解决，也可以使用 diff 工具进行编辑。</p>
+<h2 id="为什么不能同步空文件夹-">为什么不能同步空文件夹？<a id="vditorAnchor-为什么不能同步空文件夹-" class="vditor-anchor" href="#为什么不能同步空文件夹-"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<p>这是 Git 设计如此，文件夹下至少需要一个文件（文件内容可以为空）才会纳入版本管理。</p>
+<h2 id="如何同步到-GitHub-仓库-" data-block-id="20201213105440-oac0z1d">如何同步到 GitHub 仓库？<a id="vditorAnchor-如何同步到-GitHub-仓库-" class="vditor-anchor" href="#如何同步到-GitHub-仓库-"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<ol>
+<li>在 GitHub 上创建一个仓库，并<a href="https://docs.github.com/cn/free-pro-team@latest/github/authenticating-to-github/connecting-to-github-with-ssh">配置 SSH</a></li>
+<li>在笔记本文件夹下通过 <code>git remote add github git@github.com:user/repo.git</code> 配置远程仓库，其中：
+<ul>
+<li><code>github</code> 是远程仓库名，请勿使用 <code>origin</code>，因为 <code>origin</code> 是思源官方远程仓库名</li>
+<li><code>user/repo</code> 请改为你自己的仓库名称</li>
+</ul>
+</li>
+<li>通过 <code>git pull github main --allow-unrelated-histories</code> 从远程拉取</li>
+<li>通过 <code>git push github master</code> 推送远程 <em>master</em> 分支。请注意，GitHub 从 2020 年 10 月起新建的仓库默认分支名称为 <em>main</em>，使用该命令后远程仓库上会创建 <code>master</code> 分支，可在仓库 Settings - Branches 中将默认分支设置为 <em>master</em></li>
+</ol>
+<h2 id="如何同步到-Gitee-仓库-" data-block-id="20201213114140-o3maocy">如何同步到 Gitee 仓库？<a id="vditorAnchor-如何同步到-Gitee-仓库-" class="vditor-anchor" href="#如何同步到-Gitee-仓库-"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<ol>
+<li>在 Gitee 上创建一个仓库，并<a href="https://gitee.com/help/articles/4191">配置 SSH</a></li>
+<li>在笔记本文件夹下通过 <code>git remote add gitee git@gitee.com:user/repo.git</code> 配置远程仓库，其中：
+<ul>
+<li><code>gitee</code> 是远程仓库名，请勿使用 <code>origin</code>，因为 <code>origin</code> 是思源官方远程仓库名</li>
+<li><code>user/repo</code> 请改为你自己的仓库名称</li>
+</ul>
+</li>
+<li>通过 <code>git pull gitee master --allow-unrelated-histories</code> 从远程拉取</li>
+<li>通过 <code>git push gitee master</code> 推送远程 <em>master</em> 分支</li>
+</ol>
+<h2 id="如何删除不需要的历史记录以减少空间占用和提升性能-">如何删除不需要的历史记录以减少空间占用和提升性能？<a id="vditorAnchor-如何删除不需要的历史记录以减少空间占用和提升性能-" class="vditor-anchor" href="#如何删除不需要的历史记录以减少空间占用和提升性能-"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<ol>
+<li>请确认云端数据已经完全拉取到本地，本地已经存有完整的数据</li>
+<li>在设置 - 同步中删除云端仓库</li>
+<li>在文件系统上删除 .git 元数据文件夹</li>
+<li>重新启动思源笔记（会自动根据现有数据生成 .git 元数据文件夹）</li>
+<li>点击同步将数据同步到云端仓库</li>
+</ol>
+
+</body>
+<script src="../assets/global.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css" />
+<script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js" defer>
+
+</script>
