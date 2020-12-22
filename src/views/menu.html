@@ -14,7 +14,11 @@
 <body>
     {{range $i, $v := .SonEntityList}}
     <div class="item">
-        <a href=".{{ $v.WebPath }}">{{ $v.WebPath }}</a>
+        {{if $v.IsDir }}
+            <a href=".{{ $v.WebPath }}">{{ $v.Name }}</a>
+        {{else}}
+            <a href=".{{ $v.WebPath }}">{{ $v.Name }}</a>
+        {{end}}
     </div>
     {{else}}
         <div>
