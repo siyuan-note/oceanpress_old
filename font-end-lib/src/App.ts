@@ -1,5 +1,4 @@
 import { defineComponent, ref, watchEffect } from "vue";
-
 export const contentEL = ref(document.createElement("div"));
 export default defineComponent({
   name: "App",

@@ -20,12 +20,6 @@ function scrollIntoView(url) {
 }
 window.addEventListener('hashchange', hashAndUpdate);
 window.addEventListener("load", (e) => {
-    if (window.Dev === true) {
-        // 调试用
-        throw "已经有程序在运行了";
-    } else {
-        window.Dev = true;
-    }
 
     const appEL = document.getElementById("app");
     if (appEL) {
