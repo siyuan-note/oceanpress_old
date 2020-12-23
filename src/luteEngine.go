@@ -5,7 +5,6 @@ import (
 	"html/template"
 	"strings"
 
-	"github.com/2234839/md2website/src/util"
 	"github.com/88250/lute"
 	"github.com/88250/lute/ast"
 	"github.com/88250/lute/parse"
@@ -156,7 +155,6 @@ func FileEntityRelativePath(base FileEntity, cur FileEntity, id string) string {
 	count := strings.Count(base.relativePath, "/") - 1
 
 	l2 := strings.Split(cur.relativePath, "/")
-	util.Log(base.relativePath)
 	url := strings.Repeat("../", count)
 	url += strings.Join(l2[1:], "/")
 	url = FilePathToWebPath(url)

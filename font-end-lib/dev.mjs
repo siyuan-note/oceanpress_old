@@ -13,3 +13,5 @@ const assetsCode = `<!-- font-end-lib 生成的资源 star --><script type="modu
 const newHeadHtml = headHtml
     .replace(/<!-- font-end-lib 生成的资源 star -->([\s\S]*)<!-- font-end-lib 生成的资源 end -->/, assetsCode);
 fs.writeFileSync(headHtmlPath, newHeadHtml);
+
+
