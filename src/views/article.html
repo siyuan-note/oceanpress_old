@@ -4,12 +4,10 @@
 
 {{template "head" .}}
 
-<body class="markdown-body vditor-reset">
+<body id="app" class="markdown-body">
     {{.Content}}
 </body>
 <script src="{{.LevelRoot}}assets/global.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css" />
-<script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js" defer>
 
 </script>
 {{ end }}

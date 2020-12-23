@@ -7,6 +7,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ .PageTitle }}</title>
     <link rel="stylesheet" href="{{.LevelRoot}}assets/github-markdown-css.css">
+
+    <!-- vditor 编辑器 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js" defer></script>
+
+    <!-- font-end-lib 生成的资源 star -->
+
+<script  src="{{.LevelRoot}}assets/font-end-lib/index.cbcf24e8.js"></script>
+
+<!-- font-end-lib 生成的资源 end -->
+
+    <!-- 下面的代码是调试用的，正式使用应该要删去 -->
+    <script type="module" src="http://localhost:3000/vite/client"></script>
+    <script type="module" src="http://localhost:3000/src/main.js"></script>
+
 </head>
 
 {{end}}

@@ -4,26 +4,26 @@
 
 {{template "head" .}}
 
-<body>
+<body id="app" class="markdown-body">
     {{ $LevelRoot := .LevelRoot }}
     {{range $i, $v := .SonEntityList}}
-        <div class="item">
-            {{if $v.IsDir }}
-                <a href=".{{ $v.WebPath }}">
-                    <img src="{{$LevelRoot}}/assets/icon/文件夹.png" style="height:36px"/>
-                    {{ $v.Name }}
-                </a>
-            {{else}}
-                <a href=".{{ $v.WebPath }}">
-                    <img src="{{$LevelRoot}}/assets/icon/文件.png" style="height:36px"/>
-                    {{ $v.Name }}
-                </a>
+    <div class="item">
+        {{if $v.IsDir }}
+        <a href=".{{ $v.WebPath }}">
+            <img src="{{$LevelRoot}}/assets/icon/文件夹.png" style="height:36px" />
+            {{ $v.Name }}
+        </a>
+        {{else}}
+            <a href=".{{ $v.WebPath }}">
+                <img src="{{$LevelRoot}}/assets/icon/文件.png" style="height:36px" />
+                {{ $v.Name }}
+            </a>
             {{end}}
-        </div>
+    </div>
     {{else}}
         <div>
             当前目录下没有文件
         </div>
-    {{end}}
+        {{end}}
 </body>
 {{ end }}

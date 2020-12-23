@@ -1,0 +1,16 @@
+{
+  "name": "font-end-lib",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && node copy.mjs"
+  },
+  "dependencies": {
+    "fs-extra": "^9.0.1",
+    "vue": "^3.0.4"
+  },
+  "devDependencies": {
+    "vite": "^1.0.0-rc.13",
+    "@vue/compiler-sfc": "^3.0.4"
+  }
+}
