@@ -37,3 +37,10 @@ go run .\src\ "C:/Users/llej/AppData/Local/Programs/SiYuan/resources/guide/思�
 3. ❎ 表示有一小部分功能可以使用了但还存在比较大的问题
 4. ❌ 表示不可用
 5. ⭕ 表示尚未开始
+
+
+## 开发
+
+### build
+
+`go build -o md2website.exe .\src\`
