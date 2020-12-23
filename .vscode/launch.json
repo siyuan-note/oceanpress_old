@@ -14,7 +14,7 @@
             "args": [
                 "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resources\\guide\\思源笔记用户指南",
                 "D:\\code\\md2website\\docs",
-                ".\\views\\"
+                "./views/"
             ]
         }
     ]

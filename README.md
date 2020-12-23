@@ -8,8 +8,10 @@
 
 `go run .\src\ (sourceDir) (outDir) (viewDir)`
 
+示例：
+
 ```go
-go run .\src\ "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resources\\guide\\思源笔记用户指南" "D:\\code\\md2website\\docs" "./views/"
+go run .\src\ "C:/Users/llej/AppData/Local/Programs/SiYuan/resources/guide/思源笔记用户指南" "D:/code/md2website/docs" "./src/views/"
 ```
 
 ## 待完成的功能点（按优先级降序排序）
