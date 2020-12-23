@@ -12,7 +12,7 @@
 
 | 平台    | 命令                                                | 备注                         |
 | ------- | --------------------------------------------------- | ---------------------------- |
-| Windows | `.\md2website.exe (sourceDir) (outDir) (viewDir)`   |                              |
+| Windows | `.\windows_md2website.exe (sourceDir) (outDir) (viewDir)`   |                              |
 | Linux   | `.\linux_md2website (sourceDir) (outDir) (viewDir)` |                              |
 | Mac     | `.\mac_md2website (sourceDir) (outDir) (viewDir)`   | 我没有尝试过，因为我没有 mac |
 | 源码    | `go run .\src\ (sourceDir) (outDir) (viewDir)`      |                              |
