@@ -6,9 +6,16 @@
 
 ## 运行方式 run
 
-`go run .\src\ (sourceDir) (outDir) (viewDir)`
+### 可执行文件
 
-示例：
+| 平台 | 命令 |
+| ---- | ---- |
+| Windows|`.\md2website.exe (sourceDir) (outDir) (viewDir)`|
+| 源码|`go run .\src\ (sourceDir) (outDir) (viewDir)`|
+
+`(sourceDir)` 是文档所在目录, `(outDir)` 是你要输出的目录， `(viewDir)` 是视图文件的目录可以直接使用 `./src/views/` (src 内携带了一些 .go 文件，这个是可以不要的，重点在于 views 目录下的文件，可以自行修改其中的文件来定制一些效果)
+
+示例（使用源码，重点是后面的三个参数）：
 
 ```go
 go run .\src\ "C:/Users/llej/AppData/Local/Programs/SiYuan/resources/guide/思源笔记用户指南" "D:/code/md2website/docs" "./src/views/"
@@ -37,7 +44,6 @@ go run .\src\ "C:/Users/llej/AppData/Local/Programs/SiYuan/resources/guide/思�
 3. ❎ 表示有一小部分功能可以使用了但还存在比较大的问题
 4. ❌ 表示不可用
 5. ⭕ 表示尚未开始
-
 
 ## 开发
 
