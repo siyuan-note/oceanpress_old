@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -62,7 +63,7 @@ func FileToFileEntity(path string, info os.FileInfo) FileEntity {
 }
 
 // FindFileEntityFromID 通过id找到对应的数据 这里之后要改一下，用 map 会比 for 好一些
-func FindFileEntityFromID(id string) (FileEntity, MdStructInfo) {
+func FindFileEntityFromID(id string) (FileEntity, MdStructInfo, error) {
 	var fileEntity FileEntity
 	var mdInfo MdStructInfo
 	for _, entity := range FileEntityList {
@@ -81,8 +82,9 @@ func FindFileEntityFromID(id string) (FileEntity, MdStructInfo) {
 		}
 	}
 	if fileEntity.path == "" {
-		test := FileEntityList
-		util.Log("未找到对应fileEntity", id, len(test))
+		var msg = "未找到id " + id + " 对应的fileEntity"
+		util.Warn(msg)
+		return fileEntity, mdInfo, errors.New(msg)
 	}
-	return fileEntity, mdInfo
+	return fileEntity, mdInfo, nil
 }

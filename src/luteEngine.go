@@ -45,7 +45,10 @@ func init() {
 	LuteEngine.Md2HTMLRendererFuncs[ast.NodeBlockRefText] = func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
 		var html string
 		if entering {
-			fileEntity, mdInfo := FindFileEntityFromID(id)
+			fileEntity, mdInfo, err := FindFileEntityFromID(id)
+			if err != nil {
+				return "", ast.WalkContinue
+			}
 			var src string
 			if fileEntity.path != "" {
 				src = FileEntityRelativePath(baseEntity, fileEntity, id)
@@ -72,7 +75,10 @@ func init() {
 
 		var html string
 		if entering {
-			fileEntity, mdInfo := FindFileEntityFromID(id)
+			fileEntity, mdInfo, err := FindFileEntityFromID(id)
+			if err != nil {
+				return "", ast.WalkContinue
+			}
 			var src string
 			if fileEntity.path != "" {
 				src = FileEntityRelativePath(baseEntity, fileEntity, id)
