@@ -5,6 +5,9 @@
 *.so
 *.dylib
 
+linux_md2website
+mac_md2website
+
 *.zip
 
 # Test binary, built with `go test -c`

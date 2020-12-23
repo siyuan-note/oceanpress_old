@@ -8,10 +8,14 @@
 
 ### 可执行文件
 
-| 平台 | 命令 |
-| ---- | ---- |
-| Windows|`.\md2website.exe (sourceDir) (outDir) (viewDir)`|
-| 源码|`go run .\src\ (sourceDir) (outDir) (viewDir)`|
+[下载地址](https://github.com/2234839/md2website/releases)
+
+| 平台    | 命令                                                | 备注                         |
+| ------- | --------------------------------------------------- | ---------------------------- |
+| Windows | `.\md2website.exe (sourceDir) (outDir) (viewDir)`   |                              |
+| Linux   | `.\linux_md2website (sourceDir) (outDir) (viewDir)` |                              |
+| Mac     | `.\mac_md2website (sourceDir) (outDir) (viewDir)`   | 我没有尝试过，因为我没有 mac |
+| 源码    | `go run .\src\ (sourceDir) (outDir) (viewDir)`      |                              |
 
 `(sourceDir)` 是文档所在目录, `(outDir)` 是你要输出的目录， `(viewDir)` 是视图文件的目录可以直接使用 `./src/views/` (src 内携带了一些 .go 文件，这个是可以不要的，重点在于 views 目录下的文件，可以自行修改其中的文件来定制一些效果)
 
