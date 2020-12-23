@@ -11,11 +11,26 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>2 云端同步</title>
     <link rel="stylesheet" href="./../assets/github-markdown-css.css">
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js" defer></script>
+
+    
+
+<script  src="./../assets/font-end-lib/index.cbcf24e8.js"></script>
+
+
+
+    
+    <script type="module" src="http://localhost:3000/vite/client"></script>
+    <script type="module" src="http://localhost:3000/src/main.js"></script>
+
 </head>
 
 
 
-<body class="markdown-body vditor-reset">
+<body id="app" class="markdown-body">
     <h2 id="仓库同步">仓库同步<a id="vditorAnchor-仓库同步" class="vditor-anchor" href="#仓库同步"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
 <p>同步功能是思源笔记的<a href="https://github.com/siyuan-note/siyuan/projects/1">高级特性</a>，需要付费才能使用。在界面上点击同步按钮后，思源笔记会通过 <code>git pull</code> 以及 <code>git push</code> 进行数据同步。如果遇到数据冲突，请使用 Git 工具来解决冲突，后续版本我们会逐步增加对 Git 操作的内置支持 #TODO#。</p>
 <p>#注意#：WebDAV 笔记本是不会同步的，因为 WebDAV 服务端本身就已经在云端了。</p>
@@ -55,7 +70,5 @@
 
 </body>
 <script src="./../assets/global.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css" />
-<script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js" defer>
 
 </script>
