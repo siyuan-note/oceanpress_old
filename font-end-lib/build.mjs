@@ -15,7 +15,7 @@ const newHeadHtml = headHtml
     .replace(/<!-- font-end-lib 生成的资源 star -->([\s\S]*)<!-- font-end-lib 生成的资源 end -->/, assetsCode)
     .replace(`src="./assets`, `src="{{.LevelRoot}}assets/font-end-lib`)
     /** 在使用 file 模式的时候是没有办法访问 type="module" 资源的，但幸好也是不需要的  */
-    .replace(`type="module"`, ``);
+    .replace(`type="module"`, `defer`);
 fs.writeFileSync(headHtmlPath, newHeadHtml);
 
 fse.emptyDirSync('../src/views/assets/font-end-lib/');
