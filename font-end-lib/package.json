@@ -2,8 +2,8 @@
   "name": "font-end-lib",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite & node dev.mjs",
-    "build": "vite build && node copy.mjs"
+    "dev": "node dev.mjs & vite",
+    "build": "vite build && node build.mjs"
   },
   "dependencies": {
     "vue": "^3.0.4"
