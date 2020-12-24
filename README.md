@@ -10,12 +10,12 @@
 
 [下载地址](https://github.com/2234839/md2website/releases)
 
-| 平台    | 命令                                                | 备注                         |
-| ------- | --------------------------------------------------- | ---------------------------- |
-| Windows | `.\windows_md2website.exe (sourceDir) (outDir) (viewDir)`   |                              |
-| Linux   | `.\linux_md2website (sourceDir) (outDir) (viewDir)` |                              |
-| Mac     | `.\mac_md2website (sourceDir) (outDir) (viewDir)`   | 我没有尝试过，因为我没有 mac |
-| 源码    | `go run .\src\ (sourceDir) (outDir) (viewDir)`      |                              |
+| 平台    | 命令                                                      | 备注                         |
+| ------- | --------------------------------------------------------- | ---------------------------- |
+| Windows | `.\windows_md2website.exe (sourceDir) (outDir) (viewDir)` |                              |
+| Linux   | `.\linux_md2website (sourceDir) (outDir) (viewDir)`       |                              |
+| Mac     | `.\mac_md2website (sourceDir) (outDir) (viewDir)`         | 我没有尝试过，因为我没有 mac |
+| 源码    | `go run .\src\ (sourceDir) (outDir) (viewDir)`            |                              |
 
 `(sourceDir)` 是文档所在目录, `(outDir)` 是你要输出的目录， `(viewDir)` 是视图文件的目录可以直接使用 `./src/views/` (src 内携带了一些 .go 文件，这个是可以不要的，重点在于 views 目录下的文件，可以自行修改其中的文件来定制一些效果)
 
@@ -48,6 +48,14 @@ go run .\src\ "C:/Users/llej/AppData/Local/Programs/SiYuan/resources/guide/思�
 3. ❎ 表示有一小部分功能可以使用了但还存在比较大的问题
 4. ❌ 表示不可用
 5. ⭕ 表示尚未开始
+
+## 相关
+
+### 使用本产品的网站
+
+> 欢迎您向我提交您的网站地址，我将在审阅后添加到此处
+
+- [崮生 • 一些随笔 🎨](https://shenzilong.cn)
 
 ## 开发
 
