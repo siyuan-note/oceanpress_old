@@ -4,7 +4,7 @@
 
 {{template "head" .}}
 
-<body id="app" class="markdown-body">
+<main id="app" class="markdown-body">
     {{ $LevelRoot := .LevelRoot }}
     {{range $i, $v := .SonEntityList}}
     <div class="item">
@@ -25,5 +25,5 @@
             当前目录下没有文件
         </div>
         {{end}}
-</body>
+</main>
 {{ end }}

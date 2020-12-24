@@ -21,7 +21,7 @@ function scrollIntoView(url) {
 window.addEventListener('hashchange', hashAndUpdate);
 window.addEventListener("load", (e) => {
 
-    const appEL = document.getElementById("app");
+    const appEL = document.getElementById("static_app_llej");
     if (appEL) {
         [ ...appEL.children ].forEach(el => contentEL.value.appendChild(el));
         createApp({ ...App }).mount(appEL);
