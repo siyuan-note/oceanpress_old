@@ -17,7 +17,4 @@ export default defineComponent({
       articleEl,
     };
   },
-  data() {
-    return { a: 33 };
-  },
 });
