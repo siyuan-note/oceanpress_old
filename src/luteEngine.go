@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"html/template"
+	"path"
 	"strings"
 
 	"github.com/88250/lute"
@@ -83,8 +84,8 @@ func init() {
 			if fileEntity.path != "" {
 				src = FileEntityRelativePath(baseEntity, fileEntity, id)
 			}
-			// 修改 base 路径以使用 ../ 这样的形式指向根目录 ,就在下面一点点会再重置回去
-			LuteEngine.LinkBase = strings.Repeat("../", strings.Count(baseEntity.relativePath, "/")-1)
+			// 修改 base 路径以使用 ../ 这样的形式指向根目录再深入到待解析的md文档所在的路径 ,就在下面一点点会再重置回去
+			LuteEngine.LinkBase = strings.Repeat("../", strings.Count(baseEntity.relativePath, "/")-1) + "." + path.Dir(fileEntity.relativePath)
 			html = EmbeddedBlockRender(EmbeddedBlockInfo{
 				Src:   src,
 				Title: fileEntity.virtualPath,
