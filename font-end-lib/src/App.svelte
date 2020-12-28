@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Test from "./components/test.svelte";
 	import Md from "./components/md.svelte";
+	export let md: any;
 </script>
 
 <style>
@@ -15,5 +16,5 @@
 	<md2website-test>444</md2website-test>
 </div>
 <div class="row" title="md渲染组件">
-	<md2website-md>444</md2website-md>
+	<md2website-md bind:this={md}>444</md2website-md>
 </div>
