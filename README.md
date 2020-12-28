@@ -57,6 +57,14 @@ go run .\src\ "C:/Users/llej/AppData/Local/Programs/SiYuan/resources/guide/思�
 
 ## 开发
 
+项目组织结构
+
+### /font-end-lib
+
+> 这个目录下是一个使用 svelte 的前端项目，目的是为了提供前端技术上的支持
+
+这个项目主要的思路是提供 web components 组件的 js 文件，然后再 html 的模板中使用
+
 ### build
 
 `go build -o md2website.exe .\src\`
