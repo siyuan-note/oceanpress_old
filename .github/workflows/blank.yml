@@ -32,7 +32,17 @@ jobs:
       - name: test 2
         run: ls
       - name: build doc
-        run: ./linux_md2website "./思源笔记用户指南" "./outHTML" "./src/views/"
+        run: ./linux_md2website "./test-doc" "./outHTML" "./src/views/"
       - name: test 3
         run: ls
+
+      -
+        name: Deploy to GitHub Pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: outHTML
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
 
