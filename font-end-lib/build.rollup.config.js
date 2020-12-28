@@ -85,7 +85,7 @@ const toRollupConfig = ({ src, dest }) => {
 };
 
 export default [
-	toRollupConfig({ src: "./src/main.ts", dest: "./public/build/app.js" }),
-	toRollupConfig({ src: "./src/components/test.svelte", dest: "./public/build/test.js" }),
-	toRollupConfig({ src: "./src/components/md.svelte", dest: "./public/build/md.js" }),
+	toRollupConfig({ src: "./src/all_components.ts", dest: "./public/build/all_components.js" }),
+	toRollupConfig({ src: "./src/components/test.svelte", dest: "./public/build/test.web_components.js" }),
+	toRollupConfig({ src: "./src/components/md.svelte", dest: "./public/build/md.web_components.js" }),
 ];
