@@ -2,7 +2,7 @@
 
 name: CI
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
@@ -27,4 +27,6 @@ jobs:
          # Runs a single command using the runners shell
       - name: test
         run: ls
-        
+      - name: download app
+        run: wget https://github.com/2234839/md2website/releases/download/v0.0.1/linux_md2website
+
