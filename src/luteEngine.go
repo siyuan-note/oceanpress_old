@@ -165,8 +165,10 @@ func FileEntityToHTML(entity FileEntity) string {
 // FileEntityRelativePath 计算他们变成 html 文件之后的相对路径
 func FileEntityRelativePath(base FileEntity, cur FileEntity, id string) string {
 	// 减一是因为 路径开头必有 / 而这里只需要跳到这一层
-	count := strings.Count(base.relativePath, "/") - 1
-
+	count := strings.Count(base.relativePath, "/")
+	if strings.HasPrefix(base.relativePath, "/") {
+		count --
+	}
 	l2 := strings.Split(cur.relativePath, "/")
 	url := strings.Repeat("../", count)
 	url += strings.Join(l2[1:], "/")

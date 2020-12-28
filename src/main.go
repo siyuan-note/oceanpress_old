@@ -18,8 +18,9 @@ func main() {
 	util.RunningLog("1", "用户输入")
 	sourceDir := SourceDir
 	outDir := OutDir
-	util.RunningLog("1.1", "sourceDir:"+sourceDir)
-	util.RunningLog("1.2", "outDir:"+outDir)
+	util.RunningLog("1.1", "sourceDir:" + sourceDir)
+	util.RunningLog("1.2", "outDir:" + outDir)
+	util.RunningLog("1.3", "viewsDir:" + TemplateDir)
 
 	// 流程 2  copy 源目录中资源文件至输出目录
 	util.RunningLog("2", "copy 资源到 outDir")

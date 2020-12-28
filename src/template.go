@@ -3,13 +3,14 @@ package main
 import (
 	"bytes"
 	"html/template"
+	"path"
 )
 
 // HTMLtemplate 包含一些模板
-var HTMLtemplate = template.Must(template.ParseGlob(TemplateDir + "*.html"))
+var HTMLtemplate = template.Must(template.ParseGlob(path.Join(TemplateDir, "./*.html")))
 
 func init() {
-	template.Must(HTMLtemplate.ParseGlob(TemplateDir + "*/*.html"))
+	template.Must(HTMLtemplate.ParseGlob(path.Join(TemplateDir, "./*/*.html")))
 }
 func unescaped(x string) interface{} { return template.HTML(x) }
 
@@ -47,7 +48,7 @@ type ArticleInfo struct {
 type MenuInfo struct {
 	SonEntityList []sonEntityI
 	PageTitle     string
-	LevelRoot string
+	LevelRoot     string
 }
 
 // EmbeddedBlockInfo 嵌入块所需信息
