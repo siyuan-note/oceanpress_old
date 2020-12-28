@@ -4,8 +4,15 @@
     export let title: string;
 </script>
 
-<svelte:options tag="md2website-block-ref" />
+<style>
+    [data-block-type="NodeBlockRefText"] {
+        color: var(--b3-vditor-mark-block-color);
+    }
+</style>
 
-<a class="c-block-ref" data-block-type="NodeBlockRefText" href={src}>
+<svelte:options tag="md2website-block-ref" /><a
+    class="c-block-ref"
+    data-block-type="NodeBlockRefText"
+    href={src}>
     {title}
 </a>
