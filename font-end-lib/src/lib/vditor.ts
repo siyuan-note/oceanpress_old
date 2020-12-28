@@ -6,7 +6,7 @@ export function vditorRender(previewElement: Element) {
   const id = "test__" + Date.now();
   d.setAttribute("id", id);
   d.style.display = "none";
-  previewElement.appendChild(d);
+  previewElement.parentElement.appendChild(d);
   const vditor = new Vditor(id).vditor;
 
   Vditor.setContentTheme(vditor.options.preview.theme.current, vditor.options.preview.theme.path);

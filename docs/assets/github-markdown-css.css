@@ -1103,3 +1103,8 @@
   overflow: hidden;
   height: 420px;
 }
+
+/** code 复制按钮的呈现 */
+pre:hover .vditor-copy{
+  display: block;
+}
