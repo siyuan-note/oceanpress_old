@@ -27,8 +27,10 @@ jobs:
          # Runs a single command using the runners shell
       - name: test 1
         run: ls
-      - name: download app
+      - name: download app file
         run: wget https://github.com/2234839/md2website/releases/download/v0.0.1/linux_md2website
+      - name: chmod app
+        run: chmod 777 linux_md2website
       - name: test 2
         run: ls
       - name: build doc
