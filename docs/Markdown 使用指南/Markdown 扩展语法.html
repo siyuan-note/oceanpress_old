@@ -1,0 +1,257 @@
+
+<!doctype html>
+<html lang="zh">
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Markdown 扩展语法</title>
+    <link rel="stylesheet" href="./../assets/github-markdown-css.css">
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js" defer></script>
+
+    
+
+    
+    <script src="./../assets/font-end-lib/app.js"></script>
+    
+    
+
+    
+</head>
+
+
+
+<main id="static_app_llej" class="markdown-body">
+    <blockquote>
+<p>本文主要介绍 Markdown 的扩展语法，Markdown 基础语法请参考
+<a href="../Markdown%20%e4%bd%bf%e7%94%a8%e6%8c%87%e5%8d%97/1%20Markdown%20%e5%9f%ba%e7%a1%80%e8%af%ad%e6%b3%95.html#20200824155152-to2u79e" class="c-block-ref" data-block-type="NodeBlockRefText">
+    这里
+</a>
+。<br />
+简洁版语法可浏览
+<a href="../Markdown%20%e4%bd%bf%e7%94%a8%e6%8c%87%e5%8d%97/0%20Markdown%20%e8%af%ad%e6%b3%95%e9%80%9f%e6%9f%a5%e6%89%8b%e5%86%8c.html#20200824155434-it5vq23" class="c-block-ref" data-block-type="NodeBlockRefText">
+    速查手册
+</a>
+。</p>
+</blockquote>
+<h2 id="总览">总览<a id="vditorAnchor-总览" class="vditor-anchor" href="#总览"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<p>在<a href="https://ld246.com/article/1583129520165">基础语法</a>中我们介绍了 Markdown 最常用的排版用法，但有些时候基础语法不足以满足复杂一些的排版需求，这时候就需要使用扩展语法了。</p>
+<p>一些个人和组织对基础语法进行了扩展，比如引入表格、围栏代码块、代码高亮、自动链接、脚注和目录等，这些扩展语法需要特定的 Markdown 引擎来支持。</p>
+<h2 id="可用性">可用性<a id="vditorAnchor-可用性" class="vditor-anchor" href="#可用性"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<p>不是所有的 Markdown 引擎都支持扩展语法，所以在使用扩展语法之前，你可能需要对具体的 Markdown 引擎支持情况进行确认，通过浏览它们的使用文档来了解具体哪些元素可以得到支持。</p>
+<h3 id="主流的-Markdown-语法规范">主流的 Markdown 语法规范<a id="vditorAnchor-主流的-Markdown-语法规范" class="vditor-anchor" href="#主流的-Markdown-语法规范"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h3>
+<p>Markdown 语法规范目前尚未形成标准，如下列出的几种语法规范较为主流。</p>
+<ul>
+<li><a href="https://commonmark.org">CommonMark</a></li>
+<li><a href="https://github.github.com/gfm">GitHub Flavored Markdown (GFM)</a></li>
+<li><a href="https://michelf.ca/projects/php-markdown/extra">Markdown Extra</a></li>
+<li><a href="https://fletcherpenney.net/multimarkdown">MultiMarkdown</a></li>
+<li><a href="https://rmarkdown.rstudio.com">R Markdown</a></li>
+</ul>
+<p>其中 CommonMark 和 GFM 是目前最有可能进行标准化的。GFM 是 GitHub 基于 CommonMark 进行的扩展，它几乎已经是事实标准了，关于 CommonMark 规范要点解读可参考<a href="https://ld246.com/article/1566893557720">这里</a>。</p>
+<h3 id="Markdown-引擎">Markdown 引擎<a id="vditorAnchor-Markdown-引擎" class="vditor-anchor" href="#Markdown-引擎"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h3>
+<p><a href="https://github.com/markdown/markdown.github.com/wiki/Implementations">这里</a>列出了很多 Markdown 引擎实现，它们中的大多数都支持通过设置开关来都支持扩展语法，具体细节请参考它们的文档。</p>
+<h2 id="表格">表格<a id="vditorAnchor-表格" class="vditor-anchor" href="#表格"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<p>使用短横线 <code>---</code> 来分隔表头和表身，使用竖线 <code>|</code> 来分隔列，每行开头和结尾的竖线是可选的。</p>
+<pre><code class="language-md highlight-chroma">| Syntax      | Description |
+| ----------- | ----------- |
+| Header      | Title       |
+| Paragraph   | Text        |
+</code></pre>
+<p>渲染结果：</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Header</td>
+<td>Title</td>
+</tr>
+<tr>
+<td>Paragraph</td>
+<td>Text</td>
+</tr>
+</tbody>
+</table>
+<p>每个列不一定要对齐，如下示例同样能够渲染：</p>
+<pre><code class="language-md highlight-chroma">| Syntax | Description |
+| --- | ----------- |
+| Header | Title |
+| Paragraph | Text |
+</code></pre>
+<h3 id="表格对齐">表格对齐<a id="vditorAnchor-表格对齐" class="vditor-anchor" href="#表格对齐"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h3>
+<p>如果需要左对齐、居中对齐或者右对齐表格内容，可以通过在 <code>---</code> 中添加冒号 <code>:</code> 实现。冒号仅出现在左边表示左对齐，出现在两边表示居中对齐，仅出现在右边表示右对齐。</p>
+<pre><code class="language-md highlight-chroma">| Syntax      | Description | Test Text     |
+| :---        |    :----:   |          ---: |
+| Header      | Title       | Here&#39;s this   |
+| Paragraph   | Text        | And more      |
+</code></pre>
+<p>渲染结果：</p>
+<table>
+<thead>
+<tr>
+<th align="left">Syntax</th>
+<th align="center">Description</th>
+<th align="right">Test Text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Header</td>
+<td align="center">Title</td>
+<td align="right">Here's this</td>
+</tr>
+<tr>
+<td align="left">Paragraph</td>
+<td align="center">Text</td>
+<td align="right">And more</td>
+</tr>
+</tbody>
+</table>
+<h3 id="表格内容排版">表格内容排版<a id="vditorAnchor-表格内容排版" class="vditor-anchor" href="#表格内容排版"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h3>
+<p>表格中的内容也可以进行排版，比如加粗、强调文本，插入超链接等。但仅限于使用“行级元素”进行排版，不能使用“块级元素”，比如不能使用标题、块引用、列表、分隔线等。</p>
+<h3 id="表格内容转义竖线">表格内容转义竖线<a id="vditorAnchor-表格内容转义竖线" class="vditor-anchor" href="#表格内容转义竖线"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h3>
+<p>如果需要在表格内容中使用竖线 <code>|</code>，那就需要对其进行转义。可以使用 <code>\|</code> 转义，但更稳妥的做法是写竖线的 HTML 实体表示 <code>&amp;#124;</code>，因为有的 Markdown 引擎不能正确处理表格内容中的 <code>\|</code>。</p>
+<h2 id="围栏代码块">围栏代码块<a id="vditorAnchor-围栏代码块" class="vditor-anchor" href="#围栏代码块"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<p>在<a href="https://ld246.com/article/1583129520165">基础语法</a>中我们介绍过可以通过四个空格或者制表符 <code>\t</code> 缩进来排版代码块。但我们更推荐的是使用围栏代码块语法，即使用大于等于三个反引号 span</code> 或者大于等于三个波浪线 <code>~~~</code> 来包裹代码块内容：</p>
+<pre><code class="language-md highlight-chroma"><span class="highlight-s">```
+</span><span class="highlight-s"></span>{
+  &#34;firstName&#34;: &#34;John&#34;,
+  &#34;lastName&#34;: &#34;Smith&#34;,
+  &#34;age&#34;: 25
+}
+<span class="highlight-s">```</span>
+</code></pre>
+<p>渲染结果：</p>
+<pre><code class="language-text highlight-chroma">{
+  &#34;firstName&#34;: &#34;John&#34;,
+  &#34;lastName&#34;: &#34;Smith&#34;,
+  &#34;age&#34;: 25
+}
+</code></pre>
+<p>如果需要展示代码块原文 Markdown（就像上面展示的例子那样），可以在最外层使用更多数量的反引号开始，闭合的反引号数量等于开始的数量即可。</p>
+<pre><code class="language-md highlight-chroma">````
+<span class="highlight-s">```
+</span><span class="highlight-s"></span>{
+  &#34;firstName&#34;: &#34;John&#34;,
+  &#34;lastName&#34;: &#34;Smith&#34;,
+  &#34;age&#34;: 25
+}
+<span class="highlight-s">```</span>
+````
+</code></pre>
+<h3 id="代码块语法高亮">代码块语法高亮<a id="vditorAnchor-代码块语法高亮" class="vditor-anchor" href="#代码块语法高亮"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h3>
+<p>代码块语法高亮需要 Markdown 引擎支持，通过在开始反引号后添加编程语言名称来排版。</p>
+<pre><code class="language-md highlight-chroma"><span class="highlight-s">```json
+</span><span class="highlight-s"></span><span class="highlight-p">{</span>
+  <span class="highlight-nt">&#34;firstName&#34;</span><span class="highlight-p">:</span> <span class="highlight-s2">&#34;John&#34;</span><span class="highlight-p">,</span>
+  <span class="highlight-nt">&#34;lastName&#34;</span><span class="highlight-p">:</span> <span class="highlight-s2">&#34;Smith&#34;</span><span class="highlight-p">,</span>
+  <span class="highlight-nt">&#34;age&#34;</span><span class="highlight-p">:</span> <span class="highlight-mi">25</span>
+<span class="highlight-p">}</span>
+<span class="highlight-s">```</span>
+</code></pre>
+<p>渲染结果：</p>
+<pre><code class="language-json highlight-chroma"><span class="highlight-p">{</span>
+  <span class="highlight-nt">&#34;firstName&#34;</span><span class="highlight-p">:</span> <span class="highlight-s2">&#34;John&#34;</span><span class="highlight-p">,</span>
+  <span class="highlight-nt">&#34;lastName&#34;</span><span class="highlight-p">:</span> <span class="highlight-s2">&#34;Smith&#34;</span><span class="highlight-p">,</span>
+  <span class="highlight-nt">&#34;age&#34;</span><span class="highlight-p">:</span> <span class="highlight-mi">25</span>
+<span class="highlight-p">}</span>
+</code></pre>
+<h2 id="脚注">脚注<a id="vditorAnchor-脚注" class="vditor-anchor" href="#脚注"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<p>脚注用于在文末添加细节说明或者参考，这样文章的正文部分看上去会更加简洁清晰。创建脚注后，正文中引用脚注的地方会出现一个上标数字链接，读者点击后跳转到文末脚注定义的对应位置。</p>
+<p>脚注引用通过 <code>[^标识符]</code> 创建，标识符部分可以是数字或者文本，但不能包含空格或者制表符。标识符仅用于关联引用和定义，在渲染时会自动根据脚注定义顺序进行数字递增渲染。不过这也不是绝对的，某些 Markdown 引擎也会将标识符部分用于渲染。</p>
+<p>脚注定义使用 <code>[^标识符]:</code> 来创建，冒号后面就是需要添加的细节说明或者参考。脚注定义不一定非要放在整个 Markdown 文本的末尾，夹在段落、列表或者块引用之间也是可以工作的。</p>
+<pre><code class="language-md highlight-chroma">这里是一个脚注引用[^1]，这里是另一个脚注引用[^bignote]。
+
+[^1]: 第一个脚注定义。
+[^bignote]: 脚注定义可使用多段内容。
+
+    缩进对齐的段落包含在这个脚注定义内。
+
+    ```
+    可以使用代码块。
+    ```
+
+    还有其他行级排版语法，比如**加粗**和[链接](https://b3log.org)。
+</code></pre>
+<h2 id="heading-ids">标题指定 ID<a id="vditorAnchor-heading-ids" class="vditor-anchor" href="#heading-ids"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<p>一些 Markdown 引擎支持为标题指定 ID，另一些 Markdown 引擎是自动添加 ID 的。标题 ID 的作用是允许其他地方通过锚点直接跳转到该标题。标题指定 ID 的语法是在标题后面通过花括号包裹 ID。</p>
+<pre><code class="language-md highlight-chroma"><span class="highlight-gu">### 这是一个标题 {#custom-id}
+</span></code></pre>
+<p>渲染的 HTML：</p>
+<pre><code class="language-html highlight-chroma"><span class="highlight-p">&lt;</span><span class="highlight-nt">h3</span> <span class="highlight-na">id</span><span class="highlight-o">=</span><span class="highlight-s">&#34;custom-id&#34;</span><span class="highlight-p">&gt;</span>这是一个标题<span class="highlight-p">&lt;/</span><span class="highlight-nt">h3</span><span class="highlight-p">&gt;</span>
+</code></pre>
+<h3 id="链接到指定的标题">链接到指定的标题<a id="vditorAnchor-链接到指定的标题" class="vditor-anchor" href="#链接到指定的标题"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h3>
+<p>可以通过超链接语法链接到文中的标题。</p>
+<table>
+<thead>
+<tr>
+<th>Markdown</th>
+<th>HTML</th>
+<th>渲染结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[标题指定 ID](#heading-ids)</code></td>
+<td><code>&lt;a href=&quot;#heading-ids&quot;&gt;标题指定 ID&lt;/a&gt;</code></td>
+<td><a href="https://ld246.com/article/1583305480675#heading-ids">标题指定 ID</a></td>
+</tr>
+</tbody>
+</table>
+<p>如果需要链接到其他页面的标题，需要写全链接路径，比如 <code>[标题指定 ID](https://ld246.com/article/1583305480675#heading-ids)</code>。</p>
+<h2 id="删除线">删除线<a id="vditorAnchor-删除线" class="vditor-anchor" href="#删除线"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<p>可以通过删除线划掉文本，排版结果<del>就像这样</del>。创建删除线可以通过一个 <code>~</code> 或两个波浪线 <code>~~</code> 包裹待删除的文本。</p>
+<pre><code class="highlight-chroma">~~地球是平的。~~ 现在我们知道地球是圆的了。
+</code></pre>
+<p>渲染结果：</p>
+<p><del>地球是平的。</del> 现在我们知道地球是圆的了。</p>
+<h2 id="任务列表">任务列表<a id="vditorAnchor-任务列表" class="vditor-anchor" href="#任务列表"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<p>通过在普通列表项中添加 <code>[ ]</code> 或者 <code>[x]</code> 来渲染任务列表项。</p>
+<pre><code class="language-md highlight-chroma"><span class="highlight-k">- [x]</span> 待办事项一
+<span class="highlight-k">- [ ]</span> 待办事项二
+<span class="highlight-k">- [ ]</span> 待办事项三
+</code></pre>
+<p>渲染结果：</p>
+<ul>
+<li class="vditor-task"><input checked="" disabled="" type="checkbox" /> 待办事项一</li>
+<li class="vditor-task"><input disabled="" type="checkbox" /> 待办事项二</li>
+<li class="vditor-task"><input disabled="" type="checkbox" /> 待办事项三</li>
+</ul>
+<h2 id="Emoji-表情">Emoji 表情<a id="vditorAnchor-Emoji-表情" class="vditor-anchor" href="#Emoji-表情"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<p>有两种方法使用 Emoji 表情：直接输入 Emoji 字符或者使用别名 <code>:smile:</code>。直接输入的话需要确认当前编辑器使用 UTF-8 编码。</p>
+<pre><code class="language-md highlight-chroma">今天天气真好 :sunny: 
+花儿 🌻 对我笑
+</code></pre>
+<p>渲染结果：</p>
+<p>今天天气真好 ☀️<br />
+花儿 🌻 对我笑</p>
+<h2 id="禁止自动链接">禁止自动链接<a id="vditorAnchor-禁止自动链接" class="vditor-anchor" href="#禁止自动链接"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<p>大部分 Markdown 引擎都是默认开启自动链接的，所以当我们想把一个链接渲染为纯文本时，需要把它变成代码：</p>
+<pre><code class="language-md highlight-chroma"><span class="highlight-sb">`https://b3log.org`</span>
+</code></pre>
+<p>渲染结果：</p>
+<p><code>https://b3log.org</code></p>
+<h2 id="总结">总结<a id="vditorAnchor-总结" class="vditor-anchor" href="#总结"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<p>尽量仅使用 GFM 定义的扩展语法，这样能够最大限度得到众多 Markdown 引擎的支持，从而得到一致的渲染结果。</p>
+<h2 id="参考">参考<a id="vditorAnchor-参考" class="vditor-anchor" href="#参考"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
+<ul>
+<li><a href="https://www.markdownguide.org">Markdown Guide</a></li>
+<li><a href="https://spec.commonmark.org">CommonMark Spec</a></li>
+</ul>
+
+</main>
+<script src="./../assets/global.js"></script>
+
+</script>

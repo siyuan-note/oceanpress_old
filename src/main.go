@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"io/ioutil"
 	"os"
@@ -106,7 +105,6 @@ func main() {
 				LevelRoot:     LevelRoot,
 			})
 			ioutil.WriteFile(targetPath, []byte(html), 0777)
-			fmt.Println(relativePath, len(sonEntityList))
 		} else {
 			targetPath := filepath.Join(outDir, relativePath[0:len(relativePath)-3]) + ".html"
 

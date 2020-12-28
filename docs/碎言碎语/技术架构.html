@@ -18,32 +18,35 @@
 
     
 
-<script defer src="./../assets/font-end-lib/index.a2cd4e6e.js"></script>
+    
+    <script src="./../assets/font-end-lib/app.js"></script>
+    
+    
 
-
+    
 </head>
 
 
 
 <main id="static_app_llej" class="markdown-body">
-    <p>思源笔记整体上采用前后端分离的技术架构，通过 HTTP 实现前后端通讯。</p>
-<h3 id="前端">前端<a id="vditorAnchor-前端" class="vditor-anchor" href="#前端"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h3>
-<p>前端目前主要是基于浏览器技术，实现用户交互界面和操作系统平台相关的业务逻辑等。</p>
-<ul>
-<li>Electron</li>
-<li>浏览器</li>
+    <p data-block-id="20201222143422-7hd0fdi">思源笔记整体上采用前后端分离的技术架构，通过 HTTP 实现前后端通讯。</p>
+<h3 id="前端" data-block-id="20201222143422-zqobpao">前端<a id="vditorAnchor-前端" class="vditor-anchor" href="#前端"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h3>
+<p data-block-id="20201222143422-3da01pq">前端目前主要是基于浏览器技术，实现用户交互界面和操作系统平台相关的业务逻辑等。</p>
+<ul data-block-id="20201222143422-tvtjl6e">
+<li data-block-id="20201222143422-egmb6a1">Electron</li>
+<li data-block-id="20201222143422-xequ8hb">浏览器</li>
 </ul>
-<p>未来前端可扩展到任何基于 HTTP 通讯的客户端。</p>
-<h3 id="后端">后端<a id="vditorAnchor-后端" class="vditor-anchor" href="#后端"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h3>
-<p>后端是常驻内存的 HTTP 服务器，实现核心业务逻辑和状态持久化等。监听端口：</p>
-<ul>
-<li><code>6806</code>：HTTP/WebSocket，在所有网卡（<code>0.0.0.0</code>）上监听该端口，<code>/siyuan/</code> 路径下的流量会被自动转发到本地端口 <code>127.0.0.1:6807</code></li>
-<li><code>6807</code>：HTTP/WebDAV，在 <code>127.0.0.1</code> 监听该端口</li>
+<p data-block-id="20201222143422-us39mjv">未来前端可扩展到任何基于 HTTP 通讯的客户端。</p>
+<h3 id="后端" data-block-id="20201222143422-i1o1r90">后端<a id="vditorAnchor-后端" class="vditor-anchor" href="#后端"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h3>
+<p data-block-id="20201222143422-v2sm9u6">后端是常驻内存的 HTTP 服务器，实现核心业务逻辑和状态持久化等。监听端口：</p>
+<ul data-block-id="20201222143422-g66y05b">
+<li data-block-id="20201222143422-30euvfp"><code>6806</code>：HTTP/WebSocket，在所有网卡（<code>0.0.0.0</code>）上监听该端口，<code>/siyuan/</code> 路径下的流量会被自动转发到本地端口 <code>127.0.0.1:6807</code></li>
+<li data-block-id="20201222143422-hqkwd55"><code>6807</code>：HTTP/WebDAV，在 <code>127.0.0.1</code> 监听该端口</li>
 </ul>
-<h3 id="发布包">发布包<a id="vditorAnchor-发布包" class="vditor-anchor" href="#发布包"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h3>
-<ul>
-<li>桌面应用：基于 Electron 打包，主进程启动后拉起 kernel 内核进程。由 kernel  HTTP 伺服界面相关静态资源，Electron 主窗口通过 <code>loadURL</code> 加载界面</li>
-<li>服务器应用：仅打包 kernel 内核和外观、文档等资源，通过 Docker 镜像 <code>b3log/siyuan</code> 分发</li>
+<h3 id="发布包" data-block-id="20201222143422-b5oj17h">发布包<a id="vditorAnchor-发布包" class="vditor-anchor" href="#发布包"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h3>
+<ul data-block-id="20201222143422-k39br3p">
+<li data-block-id="20201222143422-i4hpqur">桌面应用：基于 Electron 打包，主进程启动后拉起 kernel 内核进程。由 kernel  HTTP 伺服界面相关静态资源，Electron 主窗口通过 <code>loadURL</code> 加载界面</li>
+<li data-block-id="20201222143422-8rosfdb">服务器应用：仅打包 kernel 内核和外观、文档等资源，通过 Docker 镜像 <code>b3log/siyuan</code> 分发</li>
 </ul>
 
 </main>
