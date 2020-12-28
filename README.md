@@ -63,7 +63,18 @@ go run .\src\ "C:/Users/llej/AppData/Local/Programs/SiYuan/resources/guide/思�
 
 > 这个目录下是一个使用 svelte 的前端项目，目的是为了提供前端技术上的支持
 
-这个项目主要的思路是提供 web components 组件的 js 文件，然后再 html 的模板中使用
+这个项目主要的思路是提供自定义组件的 js 文件，然后在 html 的模板中就直接使用自定义组件的标签了，这样方便用户替换其中的一些实现。
+
+目前生成的资源有：
+
+| js 文件 | 描述 | 体积 |
+| --- | --- | --- |
+| [all_components](./src/views/assets/font-end-lib/all_components.js) | 包含了所有组件 | 266KB |
+| [block-ref.web_components](./src/views/assets/font-end-lib/block-ref.web_components.js) | 块引用组件 | 4KB |
+| [embedded-block.web_components](./src/views/assets/font-end-lib/embedded-block.web_components.js) | 嵌入块组件 | 5KB |
+| [md.web_components.js](./src/views/assets/font-end-lib/md.web_components.js) | 文档渲染组件<br/>因为引入了vditor所以稍微有点大 | 263KB |
+
+默认引入 all_components.js
 
 ### build
 
