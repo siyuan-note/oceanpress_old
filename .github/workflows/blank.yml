@@ -25,10 +25,14 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
          # Runs a single command using the runners shell
-      - name: test
+      - name: test 1
         run: ls
       - name: download app
         run: wget https://github.com/2234839/md2website/releases/download/v0.0.1/linux_md2website
-      - name: test
+      - name: test 2
+        run: ls
+      - name: build doc
+        run: ./linux_md2website "./思源笔记用户指南" "./outHTML" "./src/views/"
+      - name: test 3
         run: ls
 
