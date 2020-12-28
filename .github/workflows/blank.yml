@@ -29,4 +29,6 @@ jobs:
         run: ls
       - name: download app
         run: wget https://github.com/2234839/md2website/releases/download/v0.0.1/linux_md2website
+      - name: test
+        run: ls
 
