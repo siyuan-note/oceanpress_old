@@ -11,7 +11,7 @@
         let old = null as any;
         while (1) {
             const mdContent = document.getElementById("static_app_llej");
-            if (old === mdContent) {
+            if (mdContent === null || old === mdContent) {
                 await new Promise((s) => setTimeout(s, 80));
             } else {
                 console.log("[render] ", mdContent);

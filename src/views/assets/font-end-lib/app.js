@@ -474,7 +474,7 @@ var app = (function () {
         const id = "test__" + Date.now();
         d.setAttribute("id", id);
         d.style.display = "none";
-        previewElement.appendChild(d);
+        previewElement.parentElement.appendChild(d);
         const vditor = new Vditor(id).vditor;
         Vditor.setContentTheme(vditor.options.preview.theme.current, vditor.options.preview.theme.path);
         Vditor.codeRender(previewElement);
@@ -562,6 +562,10 @@ var app = (function () {
     			});
     	};
 
+    	function scrollIntoHash() {
+    		scrollIntoView(location.href);
+    	}
+
     	function render() {
     		return __awaiter(this, void 0, void 0, function* () {
     			let old = null;
@@ -569,7 +573,7 @@ var app = (function () {
     			while (1) {
     				const mdContent = document.getElementById("static_app_llej");
 
-    				if (old === mdContent) {
+    				if (mdContent === null || old === mdContent) {
     					yield new Promise(s => setTimeout(s, 80));
     				} else {
     					console.log("[render] ", mdContent);
@@ -602,6 +606,7 @@ var app = (function () {
     		__awaiter,
     		scrollIntoView,
     		vditorRender,
+    		scrollIntoHash,
     		render
     	});
 
@@ -613,7 +618,7 @@ var app = (function () {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [];
+    	return [scrollIntoHash];
     }
 
     class Md extends SvelteElement {
@@ -629,14 +634,31 @@ var app = (function () {
     			instance$1,
     			create_fragment$1,
     			safe_not_equal,
-    			{}
+    			{ scrollIntoHash: 0 }
     		);
 
     		if (options) {
     			if (options.target) {
     				insert_dev(options.target, this, options.anchor);
     			}
+
+    			if (options.props) {
+    				this.$set(options.props);
+    				flush();
+    			}
     		}
+    	}
+
+    	static get observedAttributes() {
+    		return ["scrollIntoHash"];
+    	}
+
+    	get scrollIntoHash() {
+    		return this.$$.ctx[0];
+    	}
+
+    	set scrollIntoHash(value) {
+    		throw new Error("<md2website-md>: Cannot set read-only property 'scrollIntoHash'");
     	}
     }
 
@@ -667,15 +689,15 @@ var app = (function () {
     			md2website_md = element("md2website-md");
     			md2website_md.textContent = "444";
     			this.c = noop;
-    			add_location(h1, file$1, 11, 0, 212);
-    			add_location(md2website_test, file$1, 13, 1, 277);
+    			add_location(h1, file$1, 12, 0, 228);
+    			add_location(md2website_test, file$1, 14, 1, 293);
     			attr_dev(div0, "class", "row");
     			attr_dev(div0, "title", "测试组件");
-    			add_location(div0, file$1, 12, 0, 245);
-    			add_location(md2website_md, file$1, 16, 1, 357);
+    			add_location(div0, file$1, 13, 0, 261);
+    			add_location(md2website_md, file$1, 17, 1, 373);
     			attr_dev(div1, "class", "row");
     			attr_dev(div1, "title", "md渲染组件");
-    			add_location(div1, file$1, 15, 0, 323);
+    			add_location(div1, file$1, 16, 0, 339);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -688,6 +710,7 @@ var app = (function () {
     			insert_dev(target, t3, anchor);
     			insert_dev(target, div1, anchor);
     			append_dev(div1, md2website_md);
+    			/*md2website_md_binding*/ ctx[1](md2website_md);
     		},
     		p: noop,
     		i: noop,
@@ -698,6 +721,7 @@ var app = (function () {
     			if (detaching) detach_dev(div0);
     			if (detaching) detach_dev(t3);
     			if (detaching) detach_dev(div1);
+    			/*md2website_md_binding*/ ctx[1](null);
     		}
     	};
 
@@ -715,14 +739,35 @@ var app = (function () {
     function instance$2($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("md2website-app", slots, []);
-    	const writable_props = [];
+    	let { md } = $$props;
+    	const writable_props = ["md"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<md2website-app> was created with unknown prop '${key}'`);
     	});
 
-    	$$self.$capture_state = () => ({ Test, Md });
-    	return [];
+    	function md2website_md_binding($$value) {
+    		binding_callbacks[$$value ? "unshift" : "push"](() => {
+    			md = $$value;
+    			$$invalidate(0, md);
+    		});
+    	}
+
+    	$$self.$$set = $$props => {
+    		if ("md" in $$props) $$invalidate(0, md = $$props.md);
+    	};
+
+    	$$self.$capture_state = () => ({ Test, Md, md });
+
+    	$$self.$inject_state = $$props => {
+    		if ("md" in $$props) $$invalidate(0, md = $$props.md);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [md, md2website_md_binding];
     }
 
     class App extends SvelteElement {
@@ -739,14 +784,39 @@ var app = (function () {
     			instance$2,
     			create_fragment$2,
     			safe_not_equal,
-    			{}
+    			{ md: 0 }
     		);
+
+    		const { ctx } = this.$$;
+    		const props = this.attributes;
+
+    		if (/*md*/ ctx[0] === undefined && !("md" in props)) {
+    			console.warn("<md2website-app> was created without expected prop 'md'");
+    		}
 
     		if (options) {
     			if (options.target) {
     				insert_dev(options.target, this, options.anchor);
     			}
+
+    			if (options.props) {
+    				this.$set(options.props);
+    				flush();
+    			}
     		}
+    	}
+
+    	static get observedAttributes() {
+    		return ["md"];
+    	}
+
+    	get md() {
+    		return this.$$.ctx[0];
+    	}
+
+    	set md(md) {
+    		this.$set({ md });
+    		flush();
     	}
     }
 
