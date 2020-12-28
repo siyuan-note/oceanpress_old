@@ -1,3 +1,3 @@
-import "./components/md.svelte";
 import "./components/embedded-block.svelte";
 import "./components/block-ref.svelte";
+import "./render";
