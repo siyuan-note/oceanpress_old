@@ -1,4 +1,3 @@
-{{ define "embeddedBlock" }}
 <!-- html 实现 -->
 <!-- <article class="embedded_block">
     <header class="embedded_block-header">
@@ -15,6 +14,7 @@
     </div>
 </article> -->
 <!-- 自定义组件实现 -->
+{{ define "embeddedBlock" }}
 <md2website-embedded-block src="{{ .Src }}" title="{{ .Title }}">
     {{ .Content }}
 </md2website-embedded-block>

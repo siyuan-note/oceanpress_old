@@ -1,9 +1,7 @@
-{{ define "blockRef" }}
 <!-- <a href="{{ .Src }}" class="c-block-ref" data-block-type="NodeBlockRefText">
     {{ .Title }}
 </a> -->
-
 <!-- 自定义组件实现 -->
+{{ define "blockRef" }}
 <md2website-block-ref src="{{ .Src }}" title="{{ .Title }}" />
-
 {{ end }}
