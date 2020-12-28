@@ -29,12 +29,12 @@ function serve() {
 		}
 	};
 }
-const toRollupConfig = ({ src, dest }) => {
+const toRollupConfig = ({ src, dest, format = "iife" }) => {
 	return {
 		input: src,
 		output: {
 			sourcemap: true,
-			format: 'iife',
+			format,
 			name: 'app',
 			file: dest
 		},
