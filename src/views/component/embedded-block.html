@@ -1,5 +1,6 @@
 {{ define "embeddedBlock" }}
-<article class="embedded_block">
+<!-- html 实现 -->
+<!-- <article class="embedded_block">
     <header class="embedded_block-header">
         <svg viewBox="0 0 16 16" version="1.1" width="16" height="16" style="margin-right:4px">
             <path fill-rule="evenodd"
@@ -12,5 +13,9 @@
     <div class="embedded_block-content">
         {{ .Content }}
     </div>
-</article>
+</article> -->
+<!-- 自定义组件实现 -->
+<md2website-embedded-block src="{{ .Src }}" title="{{ .Title }}">
+    {{ .Content }}
+</md2website-embedded-block>
 {{ end }}

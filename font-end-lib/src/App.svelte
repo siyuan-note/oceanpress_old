@@ -1,6 +1,5 @@
 <script lang="ts">
-	import Test from "./components/test.svelte";
-	import Md from "./components/md.svelte";
+	import "./all_components"
 	export let md: any;
 </script>
 
@@ -17,4 +16,9 @@
 </div>
 <div class="row" title="md渲染组件">
 	<md2website-md bind:this={md}>444</md2website-md>
+</div>
+<div class="row" title="嵌入块组件">
+	<md2website-embedded-block src="11" title="22">
+		33
+	</md2website-embedded-block>
 </div>

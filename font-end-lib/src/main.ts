@@ -5,6 +5,14 @@ const app = new App({
   target: allEL,
 });
 
-document.body.appendChild(allEL);
+if (document.body === null) {
+  window.addEventListener("load", mount);
+} else {
+  mount();
+}
+
+function mount() {
+  document.body.appendChild(allEL);
+}
 
 export default app;
