@@ -22,9 +22,8 @@ async function render() {
       /** ═════════🏳‍🌈 快引用在当前页的跳转 🏳‍🌈═════════  */
       scrollIntoView(location.href);
       mdContent.addEventListener("click", (e) => {
-        if (e.target instanceof HTMLAnchorElement) {
-          scrollIntoView(e.target.href);
-        }
+        const el = e.target as any;
+        scrollIntoView(el.href || el.src);
       });
     }
   }
