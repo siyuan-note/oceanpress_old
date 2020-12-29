@@ -2,6 +2,8 @@ export function scrollIntoView(url: string) {
   const hash = url.split("#").pop();
   const target = document.querySelector(`[data-block-id="${hash}"]`);
   if (target) {
+    location.hash = hash;
+
     var highlightClassName = ["hash_selected", "hash_selected-highlight"];
     target.classList.add(...highlightClassName);
     target.scrollIntoView();
