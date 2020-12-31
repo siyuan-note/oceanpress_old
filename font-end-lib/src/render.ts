@@ -23,7 +23,10 @@ async function render() {
       scrollIntoView(location.href);
       mdContent.addEventListener("click", (e) => {
         const el = e.target as any;
-        scrollIntoView(el.href || el.src);
+        let path = el.href || el.src;
+        if (path) {
+          scrollIntoView(path);
+        }
       });
     }
   }
