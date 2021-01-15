@@ -36,10 +36,10 @@ func init() {
 	mdStructuredLuteEngine.SetKramdownIAL(true)
 	mdStructuredLuteEngine.SetKramdownIALIDRenderName("data-block-id")
 	// 嵌入块的 id
-	var id string
+	var refID string
 	/** 获取块的id */
 	var getBlockID = func(n *ast.Node, _ bool) (string, ast.WalkStatus) {
-		id = n.TokensStr()
+		refID = n.TokensStr()
 		return "", ast.WalkContinue
 	}
 
@@ -66,13 +66,13 @@ func init() {
 	LuteEngine.Md2HTMLRendererFuncs[ast.NodeBlockRefText] = func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
 		var html string
 		if entering {
-			fileEntity, mdInfo, err := FindFileEntityFromID(id)
+			fileEntity, mdInfo, err := FindFileEntityFromID(refID)
 			if err != nil {
 				return "", ast.WalkContinue
 			}
 			var src string
 			if fileEntity.path != "" {
-				src = FileEntityRelativePath(baseEntity, fileEntity, id)
+				src = FileEntityRelativePath(baseEntity, fileEntity, refID)
 			}
 			var title = n.Text()
 
@@ -96,7 +96,7 @@ func init() {
 
 		var html string
 		if entering {
-			fileEntity, mdInfo, err := FindFileEntityFromID(id)
+			fileEntity, mdInfo, err := FindFileEntityFromID(refID)
 			if err != nil {
 				return "", ast.WalkContinue
 			}
@@ -108,7 +108,7 @@ func init() {
 			} else {
 				var src string
 				if fileEntity.path != "" {
-					src = FileEntityRelativePath(baseEntity, fileEntity, id)
+					src = FileEntityRelativePath(baseEntity, fileEntity, refID)
 				}
 				// 修改 base 路径以使用 ../ 这样的形式指向根目录再深入到待解析的md文档所在的路径 ,就在下面一点点会再重置回去
 				LuteEngine.RenderOptions.LinkBase = strings.Repeat("../", strings.Count(baseEntity.relativePath, "/")-1) + "." + path.Dir(fileEntity.relativePath)
@@ -136,6 +136,9 @@ func init() {
 			ids := db.SQLToID(sql)
 
 			for _, id := range ids {
+				// if id == baseEntity. {
+				// 	continue
+				// }
 
 				fileEntity, mdInfo, err := FindFileEntityFromID(id)
 				if err != nil {
