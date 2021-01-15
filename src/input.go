@@ -20,6 +20,9 @@ var OutDir, _ = filepath.Abs(os.Args[2])
 // TemplateDir 模板文件所在的目录
 var TemplateDir, _ = filepath.Abs(os.Args[3])
 
+// sqlite db 文件的路径
+var SqlitePath, _ = filepath.Abs(os.Args[4])
+
 func init() {
 	util.Log(curPath)
 }

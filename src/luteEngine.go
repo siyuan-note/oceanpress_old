@@ -2,10 +2,12 @@ package main
 
 import (
 	"bytes"
+	"errors"
 	"html/template"
 	"path"
 	"strings"
 
+	sqlite "github.com/2234839/md2website/src/sqlite"
 	"github.com/2234839/md2website/src/util"
 	"github.com/88250/lute"
 	"github.com/88250/lute/ast"
@@ -33,13 +35,30 @@ func init() {
 
 	mdStructuredLuteEngine.SetKramdownIAL(true)
 	mdStructuredLuteEngine.SetKramdownIALIDRenderName("data-block-id")
-	// 当前正在被渲染的块的 id
+	// 嵌入块的 id
 	var id string
 	/** 获取块的id */
 	var getBlockID = func(n *ast.Node, _ bool) (string, ast.WalkStatus) {
 		id = n.TokensStr()
 		return "", ast.WalkContinue
 	}
+
+	var idStack []string
+
+	push := func(id string) error {
+		for _, item := range idStack {
+			if item == id {
+				util.Warn("循环引用", id)
+				return errors.New("循环引用")
+			}
+		}
+		idStack = append(idStack, id)
+		return nil
+	}
+	pop := func(id string) {
+		idStack = idStack[:len(idStack)-1]
+	}
+
 	LuteEngine.Md2HTMLRendererFuncs[ast.NodeBlockRefID] = getBlockID
 	LuteEngine.Md2HTMLRendererFuncs[ast.NodeBlockEmbedID] = getBlockID
 
@@ -81,19 +100,71 @@ func init() {
 			if err != nil {
 				return "", ast.WalkContinue
 			}
-			var src string
-			if fileEntity.path != "" {
-				src = FileEntityRelativePath(baseEntity, fileEntity, id)
+			// TODO 循环引用的处理应该抽离出去
+			err = push(mdInfo.blockID)
+			if err != nil {
+				// TODO: 这里应该要处理成点击展开，或者换一个更好的显示
+				html = "error: 循环引用 "
+			} else {
+				var src string
+				if fileEntity.path != "" {
+					src = FileEntityRelativePath(baseEntity, fileEntity, id)
+				}
+				// 修改 base 路径以使用 ../ 这样的形式指向根目录再深入到待解析的md文档所在的路径 ,就在下面一点点会再重置回去
+				LuteEngine.RenderOptions.LinkBase = strings.Repeat("../", strings.Count(baseEntity.relativePath, "/")-1) + "." + path.Dir(fileEntity.relativePath)
+				html = EmbeddedBlockRender(EmbeddedBlockInfo{
+					Src:   src,
+					Title: n.Text(),
+					// 这里涉及到一个套娃问题，还有 baseEntity 该怎么处理。以及他们的路径怎么办
+					Content: template.HTML(LuteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node))),
+				})
+				LuteEngine.RenderOptions.LinkBase = ""
+				pop(mdInfo.blockID)
 			}
-			// 修改 base 路径以使用 ../ 这样的形式指向根目录再深入到待解析的md文档所在的路径 ,就在下面一点点会再重置回去
-			LuteEngine.RenderOptions.LinkBase = strings.Repeat("../", strings.Count(baseEntity.relativePath, "/")-1) + "." + path.Dir(fileEntity.relativePath)
-			html = EmbeddedBlockRender(EmbeddedBlockInfo{
-				Src:   src,
-				Title: n.Text(),
-				// 这里涉及到一个套娃问题，还有 baseEntity 该怎么处理。以及他们的路径怎么办
-				Content: template.HTML(LuteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node))),
-			})
-			LuteEngine.RenderOptions.LinkBase = ""
+
+		}
+		return html, ast.WalkSkipChildren
+	}
+
+	var db = sqlite.InitDb(SqlitePath)
+
+	/** 嵌入块查询渲染, 这个东西也应该包含在一个前端组件中 */
+	LuteEngine.Md2HTMLRendererFuncs[ast.NodeBlockQueryEmbedScript] = func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
+		var html string
+		if entering {
+			sql := n.TokensStr()
+			ids := db.SQLToID(sql)
+
+			for _, id := range ids {
+
+				fileEntity, mdInfo, err := FindFileEntityFromID(id)
+				if err != nil {
+					return "", ast.WalkContinue
+				}
+				err = push(mdInfo.blockID)
+				if err != nil {
+					// TODO: 这里应该要处理成点击展开，或者换一个更好的显示
+					html = "error: 循环引用 "
+				} else {
+					var src string
+					if fileEntity.path != "" {
+						src = FileEntityRelativePath(baseEntity, fileEntity, id)
+					}
+					// 修改 base 路径以使用 ../ 这样的形式指向根目录再深入到待解析的md文档所在的路径 ,就在下面一点点会再重置回去
+					LuteEngine.RenderOptions.LinkBase = strings.Repeat("../", strings.Count(baseEntity.relativePath, "/")-1) + "." + path.Dir(fileEntity.relativePath)
+					html += EmbeddedBlockRender(EmbeddedBlockInfo{
+						Src: src,
+						// Title: sql, // 显示 sql 似乎不太好
+						Title: src,
+						// 这里涉及到一个套娃问题，还有 baseEntity 该怎么处理。以及他们的路径怎么办
+						Content: template.HTML(LuteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node))),
+					})
+					LuteEngine.RenderOptions.LinkBase = ""
+					pop(mdInfo.blockID)
+				}
+
+			}
+
 		}
 		return html, ast.WalkSkipChildren
 	}
