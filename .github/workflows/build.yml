@@ -1,8 +1,10 @@
 name: build
 
 on:
-  pull_request:
   push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   xgo:
@@ -59,3 +61,9 @@ jobs:
           build_dir: outHTML
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+
+      - name: Release apk
+        uses: ncipollo/release-action@v1.5.0
+        with:
+          artifacts: "build/*"
+          token: ${{ secrets.GIT_TOKEN }}
