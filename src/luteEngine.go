@@ -89,7 +89,7 @@ func init() {
 			LuteEngine.RenderOptions.LinkBase = strings.Repeat("../", strings.Count(baseEntity.relativePath, "/")-1) + "." + path.Dir(fileEntity.relativePath)
 			html = EmbeddedBlockRender(EmbeddedBlockInfo{
 				Src:   src,
-				Title: fileEntity.virtualPath,
+				Title: n.Text(),
 				// 这里涉及到一个套娃问题，还有 baseEntity 该怎么处理。以及他们的路径怎么办
 				Content: template.HTML(LuteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node))),
 			})
@@ -167,7 +167,7 @@ func FileEntityRelativePath(base FileEntity, cur FileEntity, id string) string {
 	// 减一是因为 路径开头必有 / 而这里只需要跳到这一层
 	count := strings.Count(base.relativePath, "/")
 	if strings.HasPrefix(base.relativePath, "/") {
-		count --
+		count--
 	}
 	l2 := strings.Split(cur.relativePath, "/")
 	url := strings.Repeat("../", count)
