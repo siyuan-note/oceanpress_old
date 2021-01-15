@@ -6,18 +6,18 @@
 
 ## 运行方式 run
 
-[下载地址](https://github.com/2234839/md2website/releases)
+[下载地址](https://github.com/2234839/md2website/releases) 只需下载所用平台的二进制文件与 views.zip 就可以了
 
-| 平台    | 命令                            | 备注                         |
-| ------- | ------------------------------- | ---------------------------- |
-| Windows | `.\windows_md2website.exe 参数` |                              |
-| Linux   | `.\linux_md2website 参数`       |                              |
-| Mac     | `.\mac_md2website 参数`         | 我没有尝试过，因为我没有 mac |
-| 源码    | `go run .\src\ 参数`            |                              |
+| 平台 | 命令 | 备注 |
+| --- | --- | --- |
+| Windows | `.\md2website-windows-4.0-amd64.exe 参数` |  |
+| Linux | `.\md2website-linux-amd64 参数` |  |
+| Mac | `.\md2website-darwin-10.6-amd64 参数` | 我没有尝试过，因为我没有 mac |
+| 源码 | `go run .\src\ 参数` |  |
 
 参数是这种形式的： `(sourceDir) (outDir) (viewDir) (dbPath)`
 
-`(sourceDir)` 是文档所在目录, `(outDir)` 是你要输出的目录， `(viewDir)` 是视图文件的目录可以直接使用 `./src/views/` (src 内携带了一些 .go 文件，这个是可以不要的，重点在于 views 目录下的文件，可以自行修改其中的文件来定制一些效果) `(dbPath)` 是思源生成的 db 文件的路径
+`(sourceDir)` 是文档所在目录, `(outDir)` 是你要输出的目录， `(viewDir)` 是视图文件的目录可以直接使用 `./src/views/` (之前下载的 view.zip 解压后的目录，可以自行修改其中的文件来定制一些效果) `(dbPath)` 是思源生成的 db 文件的路径
 
 示例（使用源码，重点是参数路径）：
 
