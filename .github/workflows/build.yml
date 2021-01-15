@@ -30,9 +30,15 @@ jobs:
           race: false
           ldflags: -s -w
           buildmode: default
-      - name: ls
-        run: ls
+
       - name: cd build
         run: cd build && ls
-      - name: ls
-        run: ls
+
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: app-build
+          build_dir: build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
