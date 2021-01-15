@@ -135,10 +135,13 @@ func init() {
 			sql := n.TokensStr()
 			ids := db.SQLToID(sql)
 
+			curID := getNodeRelativeBlockID(n)
+
 			for _, id := range ids {
-				// if id == baseEntity. {
-				// 	continue
-				// }
+				if id == curID {
+					// 派除当前块，查询出自身并不方便阅读
+					continue
+				}
 
 				fileEntity, mdInfo, err := FindFileEntityFromID(id)
 				if err != nil {
@@ -199,9 +202,10 @@ func GetMdStructInfo(name string, md string) []MdStructInfo {
 		}
 		content := renderBlockMarkdown(n)
 		if strings.Contains(n.Text(), "岁，一事无成，未来还有希望吗？") {
-			var id = n.IALAttr("id")
-			util.Log(id)
-			util.Log(22)
+			// 这里有一个 bug 待 lute 修复
+			// var id = n.IALAttr("id")
+			// util.Log(id)
+			// util.Log(22)
 		}
 		infoList = append(infoList, MdStructInfo{
 			blockID:   n.IALAttr("id"),
@@ -306,4 +310,23 @@ func headingChildren(heading *ast.Node) (ret []*ast.Node) {
 	}
 	ret = append(ret, blocks...)
 	return
+}
+
+// 获取和 node 最相关的 block ID,从node 一直往他的父级找
+func getNodeRelativeBlockID(node *ast.Node) string {
+	curID := node.IALAttr("id")
+	cursor := node
+	for true {
+		if curID != "" {
+			break
+		} else {
+			if cursor.Parent != nil {
+				cursor = cursor.Parent
+				curID = cursor.IALAttr("id")
+			} else {
+				break
+			}
+		}
+	}
+	return curID
 }

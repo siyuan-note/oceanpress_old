@@ -41,7 +41,7 @@ func FileToFileEntity(path string, info os.FileInfo) FileEntity {
 		virtualPath = FilePathToWebPath(relativePath)
 		mdByte, err := ioutil.ReadFile(path)
 		if err != nil {
-			util.Log("读取文件失败", err)
+			util.Warn("读取文件失败", err)
 		}
 		mdStr = string(mdByte)
 		mdStructInfo = GetMdStructInfo("", mdStr)
@@ -88,4 +88,3 @@ func FindFileEntityFromID(id string) (FileEntity, MdStructInfo, error) {
 	}
 	return fileEntity, mdInfo, nil
 }
-

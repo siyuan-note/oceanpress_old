@@ -34,23 +34,14 @@ jobs:
       - name: cd build
         run: cd build && ls
 
-      - name: Deploy to GitHub Pages
-        if: success()
-        uses: crazy-max/ghaction-github-pages@v2
-        with:
-          target_branch: app-build
-          build_dir: build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-
       - name: chmod app
         run: chmod 777 ./build/md2website-linux-amd64
-      - name: test 2
-        run: ls
+
       - name: build doc
         run: ./build/md2website-linux-amd64 "./test-doc" "./outHTML" "./src/views/" ""
-      - name: test 3
-        run: ls
+
+      - name: zip views
+        run: zip -q -r ./build/views.zip ./src/views/
 
       - name: Deploy to GitHub Pages
         if: success()

@@ -13,8 +13,6 @@ import (
 )
 
 func main() {
-
-
 	util.RunningLog("0", "=== 🛬 开始转换 🛫 ===")
 	// 流程 1  用户输入 {源目录 输出目录}
 	util.RunningLog("1", "用户输入")
@@ -23,6 +21,7 @@ func main() {
 	util.RunningLog("1.1", "sourceDir:"+sourceDir)
 	util.RunningLog("1.2", "outDir:"+outDir)
 	util.RunningLog("1.3", "viewsDir:"+TemplateDir)
+	util.RunningLog("1.4", "dbPath:"+SqlitePath)
 
 	// 流程 2  copy 源目录中资源文件至输出目录
 	util.RunningLog("2", "copy 资源到 outDir")

@@ -11,18 +11,18 @@
             "mode": "auto",
             "program": "${workspaceFolder}/src/",
             "env": {},
+            "args": [
+                "D:\\code\\doc\\doc",
+                "../docHTML/",
+                "./views/",
+                "C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db",
+            ],
             // "args": [
-            //     "D:\\code\\doc\\doc",
+            //     "../test-doc/",
             //     "../outHTML/",
             //     "./views/",
             //     "C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db",
-            // ],
-            "args": [
-                "../test-doc/",
-                "../outHTML/",
-                "./views/",
-                "C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db",
-            ]
+            // ]
         }
     ]
 }
