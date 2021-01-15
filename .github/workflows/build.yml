@@ -33,6 +33,6 @@ jobs:
       - name: ls
         run: ls
       - name: cd build
-        run: cd build
+        run: cd build && ls
       - name: ls
         run: ls
