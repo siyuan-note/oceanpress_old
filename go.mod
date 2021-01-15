@@ -9,4 +9,4 @@ require (
 	github.com/otiai10/copy v1.4.2
 )
 
-replace github.com/88250/lute => D:\view_code\lute
+// replace github.com/88250/lute => D:\view_code\lute
