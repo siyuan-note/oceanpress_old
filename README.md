@@ -2,7 +2,7 @@
 
 将 MarkDown 文件转换为 html 的静态站点
 
-[点击这里查看生成后的效果](https://2234839.github.io/md2website/) 静态文件位于 `./docs/`
+[点击这里查看生成后的效果](https://2234839.github.io/md2website/) 静态文件位于 [gh-pages](https://github.com/2234839/md2website/tree/gh-pages)
 
 ## 运行方式 run
 
