@@ -8,12 +8,12 @@
 
 [下载地址](https://github.com/2234839/md2website/releases)
 
-| 平台    | 命令                                                      | 备注                         |
-| ------- | --------------------------------------------------------- | ---------------------------- |
-| Windows | `.\windows_md2website.exe (sourceDir) (outDir) (viewDir)` |                              |
-| Linux   | `.\linux_md2website (sourceDir) (outDir) (viewDir)`       |                              |
-| Mac     | `.\mac_md2website (sourceDir) (outDir) (viewDir)`         | 我没有尝试过，因为我没有 mac |
-| 源码    | `go run .\src\ (sourceDir) (outDir) (viewDir)`            |                              |
+| 平台 | 命令 | 备注 |
+| --- | --- | --- |
+| Windows | `.\windows_md2website.exe (sourceDir) (outDir) (viewDir)` |  |
+| Linux | `.\linux_md2website (sourceDir) (outDir) (viewDir)` |  |
+| Mac | `.\mac_md2website (sourceDir) (outDir) (viewDir)` | 我没有尝试过，因为我没有 mac |
+| 源码 | `go run .\src\ (sourceDir) (outDir) (viewDir)` |  |
 
 `(sourceDir)` 是文档所在目录, `(outDir)` 是你要输出的目录， `(viewDir)` 是视图文件的目录可以直接使用 `./src/views/` (src 内携带了一些 .go 文件，这个是可以不要的，重点在于 views 目录下的文件，可以自行修改其中的文件来定制一些效果)
 
@@ -27,6 +27,7 @@ go run .\src\ "C:/Users/llej/AppData/Local/Programs/SiYuan/resources/guide/思�
 
 | 可用 | 功能名 | 大致进度 |
 | --- | --- | --- |
+| ❌ | [#6 内容块动态查询渲染](https://github.com/2234839/md2website/issues/6) | `0%` |
 | ❎🔨 | [#4 菜单页面美化](https://github.com/2234839/md2website/issues/4) | `15%` |
 | ✅🔨 | [#2 嵌入块渲染](https://github.com/2234839/md2website/issues/2) 目前不支持循环引用 | `60%` |
 | ⭕ | 目录树 |  |
@@ -72,7 +73,7 @@ go run .\src\ "C:/Users/llej/AppData/Local/Programs/SiYuan/resources/guide/思�
 | [all_components](./src/views/assets/font-end-lib/all_components.js) | 包含了所有组件 | 266KB |
 | [block-ref.web_components](./src/views/assets/font-end-lib/block-ref.web_components.js) | 块引用组件 | 4KB |
 | [embedded-block.web_components](./src/views/assets/font-end-lib/embedded-block.web_components.js) | 嵌入块组件 | 5KB |
-| [md.web_components.js](./src/views/assets/font-end-lib/md.web_components.js) | 文档渲染组件<br/>因为引入了vditor所以稍微有点大 | 263KB |
+| [md.web_components.js](./src/views/assets/font-end-lib/md.web_components.js) | 文档渲染组件<br/>因为引入了 vditor 所以稍微有点大 | 263KB |
 
 默认引入 all_components.js
 
