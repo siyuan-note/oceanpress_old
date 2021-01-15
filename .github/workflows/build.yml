@@ -10,7 +10,6 @@ jobs:
       fail-fast: false
       matrix:
         go_version:
-          - 1.12.4
           - 1.13.x
     runs-on: ubuntu-latest
     steps:
@@ -23,7 +22,7 @@ jobs:
           go_version: ${{ matrix.go_version }}
           pkg: src
           dest: build
-          prefix: myapp
+          prefix: md2website
           targets: windows/386,windows/amd64,linux/386,linux/amd64,darwin/386,darwin/amd64
           v: true
           x: false
@@ -40,5 +39,23 @@ jobs:
         with:
           target_branch: app-build
           build_dir: build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+
+      - name: chmod app
+        run: chmod 777 ./build/md2website-linux-amd64
+      - name: test 2
+        run: ls
+      - name: build doc
+        run: ./build/md2website-linux-amd64 "./test-doc" "./outHTML" "./src/views/" ""
+      - name: test 3
+        run: ls
+
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: outHTML
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
