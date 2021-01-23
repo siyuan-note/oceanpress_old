@@ -18,7 +18,7 @@ import (
 // EmbeddedBlockInfo 嵌入块所需信息
 type EmbeddedBlockInfo struct {
 	AEmbeddedBlockInfo int
-	Title              string
+	Title              interface{}
 	Src                string
 	Content            interface{}
 }
@@ -99,9 +99,7 @@ func Generate(db sqlite.DbResult, FindFileEntityFromID FindFileEntityFromID, str
 			return html, ast.WalkSkipChildren
 		}
 	}
-
-	/** 块引用渲染,类似于超链接 */
-	luteEngine.Md2HTMLRendererFuncs[ast.NodeBlockRefText] = GeneterateRenderFunction(func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo MdStructInfo, html string) string {
+	titleRenderer := func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo MdStructInfo, html string) template.HTML {
 		var title = template.HTML(n.Text())
 		t := strings.TrimSpace(string(title))
 		// 锚文本模板变量处理 使用定义块内容文本填充。
@@ -114,9 +112,14 @@ func Generate(db sqlite.DbResult, FindFileEntityFromID FindFileEntityFromID, str
 				title = template.HTML(luteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node, false)))
 			}
 		}
+		return title
+	}
+
+	/** 块引用渲染,类似于超链接 */
+	luteEngine.Md2HTMLRendererFuncs[ast.NodeBlockRefText] = GeneterateRenderFunction(func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo MdStructInfo, html string) string {
 		return structToHTML(BlockRefInfo{
 			Src:   src,
-			Title: title,
+			Title: titleRenderer(n, entering, src, fileEntity, mdInfo, html),
 		})
 	})
 
@@ -124,7 +127,7 @@ func Generate(db sqlite.DbResult, FindFileEntityFromID FindFileEntityFromID, str
 	luteEngine.Md2HTMLRendererFuncs[ast.NodeBlockEmbedText] = GeneterateRenderFunction(func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo MdStructInfo, html string) string {
 		return structToHTML(EmbeddedBlockInfo{
 			Src:     src,
-			Title:   n.Text(),
+			Title:   titleRenderer(n, entering, src, fileEntity, mdInfo, html),
 			Content: template.HTML(luteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node, true))),
 		})
 	})
