@@ -99,20 +99,23 @@ func Generate(db sqlite.DbResult, FindFileEntityFromID FindFileEntityFromID, str
 			return html, ast.WalkSkipChildren
 		}
 	}
+	// 渲染锚文本
 	titleRenderer := func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo MdStructInfo, html string) template.HTML {
 		var title = template.HTML(n.Text())
-		t := strings.TrimSpace(string(title))
+		t := string(title)
 		// 锚文本模板变量处理 使用定义块内容文本填充。
-
-		if t == "{{.text}}" {
+		if strings.Contains(t, "{{.text}}") {
+			var title template.HTML
 			// 如定义块是文档块，则使用文档名填充。
 			if mdInfo.blockType == "NodeDocument" {
 				title = template.HTML(fileEntity.Name)
 			} else {
 				title = template.HTML(luteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node, false)))
 			}
+			return template.HTML(strings.ReplaceAll(t, "{{.text}}", string(title)))
+		} else {
+			return title
 		}
-		return title
 	}
 
 	/** 块引用渲染,类似于超链接 */
