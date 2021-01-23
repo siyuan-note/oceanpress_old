@@ -85,6 +85,6 @@ func TemplateRender(info interface{}) string {
 	if ok {
 		return BlockRefRender(BlockRef)
 	}
-	util.Warn("没有找到对应的 template", info)
-	return "[渲染错误]没有找到对应的 template"
+	util.Warn("没有找到对应的 template render", info)
+	return "[渲染错误]没有找到对应的 template render"
 }

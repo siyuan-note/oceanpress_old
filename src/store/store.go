@@ -71,6 +71,7 @@ func DirToStruct(dir string, dbPath string, structToHTML func(interface{}) strin
 		})
 		return strings.TrimSpace(renderer.Writer.String())
 	}
+
 	// GetMdStructInfo 从 md 获取结构信息
 	GetMdStructInfo := func(name string, md string) []MdStructInfo {
 		luteEngine := mdStructuredLuteEngine
@@ -88,9 +89,6 @@ func DirToStruct(dir string, dbPath string, structToHTML func(interface{}) strin
 			content := renderBlockMarkdown(n)
 			if strings.Contains(n.Text(), "岁，一事无成，未来还有希望吗？") {
 				// 这里有一个 bug 待 lute 修复
-				// var id = n.IALAttr("id")
-				// util.Log(id)
-				// util.Log(22)
 			}
 			infoList = append(infoList, MdStructInfo{
 				blockID:   n.IALAttr("id"),
@@ -98,7 +96,6 @@ func DirToStruct(dir string, dbPath string, structToHTML func(interface{}) strin
 				mdContent: content,
 				node:      n,
 			})
-
 			return ast.WalkContinue
 		})
 		return infoList
