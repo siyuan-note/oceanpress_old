@@ -1,4 +1,4 @@
-# md2website
+# OceanPress
 
 将 MarkDown 文件转换为 html 的静态站点
 
