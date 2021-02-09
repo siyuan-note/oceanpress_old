@@ -3,5 +3,15 @@
 </a> -->
 <!-- 自定义组件实现 -->
 {{ define "blockRef" }}
-<md2website-block-ref src="{{ .Src }}" title="{{ .Title }}">{{ .Title }}</md2website-block-ref>
+<!-- 需要注意的是这块的内容一般会被包含在 <p/> 内，而<p/>内是不支持块级元素的，所以下面的自定义组件内也不能有块级元素  -->
+<span>
+  <md2website-block-ref src="{{ .Src }}" title="{{ .Title }}">
+    <!-- 这里想使用 <slot/> 嵌入，渲染效果应该会更好，但那就可能会引入块级元素...
+        所以还没想好这块到底怎么处理，
+        可能之后会选择将块级元素全部转为 <span/>
+        再使用 <slot/> 嵌入
+      {{ .Title }} -->
+  </md2website-block-ref>
+</span>
+
 {{ end }}
