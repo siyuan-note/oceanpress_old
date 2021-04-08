@@ -190,8 +190,8 @@ func Generate(db sqlite.DbResult, FindFileEntityFromID FindFileEntityFromID, str
 		baseEntity = entity
 
 		// 在每个文档的底部显示反链
-		curID := entity.MdStructInfoList[0].blockID
 
+		curID := entity.MdStructInfoList[len(entity.MdStructInfoList)-1].blockID
 		var refHTML string
 		content := SqlRender(`SELECT "refs".block_id as "ref_id", blocks.* FROM "refs"
 
