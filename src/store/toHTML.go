@@ -72,7 +72,8 @@ func Generate(db sqlite.DbResult, FindFileEntityFromID FindFileEntityFromID, str
 	luteEngine.Md2HTMLRendererFuncs[ast.NodeBlockRefID] = getBlockID
 	luteEngine.Md2HTMLRendererFuncs[ast.NodeBlockEmbedID] = getBlockID
 
-	GeneterateRenderFunction := func(f func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo MdStructInfo, html string) string) func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
+	// HOC 内部处理了循环引用的问题， 生成一个渲染函数，
+	GeneterateRenderFunction := func(render func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo MdStructInfo, html string) string) func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
 		return func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
 			var html string
 			if entering {
@@ -90,7 +91,7 @@ func Generate(db sqlite.DbResult, FindFileEntityFromID FindFileEntityFromID, str
 					}
 					// 修改 base 路径以使用 ../ 这样的形式指向根目录再深入到待解析的md文档所在的路径 ,就在下面一点点会再重置回去
 					luteEngine.RenderOptions.LinkBase = strings.Repeat("../", strings.Count(baseEntity.RelativePath, "/")-1) + "." + path.Dir(fileEntity.RelativePath)
-					html = f(n, entering, src, fileEntity, mdInfo, "")
+					html = render(n, entering, src, fileEntity, mdInfo, "")
 					luteEngine.RenderOptions.LinkBase = ""
 					pop(mdInfo.blockID)
 				}
@@ -103,19 +104,24 @@ func Generate(db sqlite.DbResult, FindFileEntityFromID FindFileEntityFromID, str
 	titleRenderer := func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo MdStructInfo, html string) template.HTML {
 		var title = template.HTML(n.Text())
 		t := string(title)
+
 		// 锚文本模板变量处理 使用定义块内容文本填充。
 		if strings.Contains(t, "{{.text}}") {
-			var title template.HTML
+			var title2 template.HTML
 			// 如定义块是文档块，则使用文档名填充。
 			if mdInfo.blockType == "NodeDocument" {
-				title = template.HTML(fileEntity.Name)
+				title2 = template.HTML(fileEntity.Name)
 			} else {
-				title = template.HTML(luteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node, false)))
+				title2 = template.HTML(
+					luteEngine.HTML2Text(
+						luteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node, false)),
+					),
+				)
 			}
-			return template.HTML(strings.ReplaceAll(t, "{{.text}}", string(title)))
-		} else {
-			return title
+			title = template.HTML(strings.ReplaceAll(t, "{{.text}}", string(title2)))
 		}
+		title = template.HTML(strings.ReplaceAll(string(title), "\n", ""))
+		return title
 	}
 
 	/** 块引用渲染,类似于超链接 */
