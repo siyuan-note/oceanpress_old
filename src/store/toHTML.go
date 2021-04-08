@@ -72,7 +72,7 @@ func Generate(db sqlite.DbResult, FindFileEntityFromID FindFileEntityFromID, str
 	luteEngine.Md2HTMLRendererFuncs[ast.NodeBlockRefID] = getBlockID
 	luteEngine.Md2HTMLRendererFuncs[ast.NodeBlockEmbedID] = getBlockID
 
-	// HOC 内部处理了循环引用的问题， 生成一个渲染函数，
+	// HOC, 内部处理了循环引用的问题， 生成一个渲染函数，
 	GeneterateRenderFunction := func(render func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo MdStructInfo, html string) string) func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
 		return func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
 			var html string
@@ -141,13 +141,11 @@ func Generate(db sqlite.DbResult, FindFileEntityFromID FindFileEntityFromID, str
 		})
 	})
 
-	/** 嵌入块查询渲染, 这个东西也应该包含在一个前端组件中 */
-	luteEngine.Md2HTMLRendererFuncs[ast.NodeBlockQueryEmbedScript] = GeneterateRenderFunction(func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo MdStructInfo, html string) string {
-		sql := n.TokensStr()
+	// SqlRender 通过 sql 渲染出 html , curID 是当前块的 id
+	SqlRender := func(sql string, curID string, headerIncludes bool) string {
 		ids := db.SQLToID(sql)
 
-		curID := getNodeRelativeBlockID(n)
-
+		var html string
 		for _, id := range ids {
 			if id == curID {
 				// 排除当前块，显示自身并不方便阅读
@@ -171,7 +169,7 @@ func Generate(db sqlite.DbResult, FindFileEntityFromID FindFileEntityFromID, str
 				html += structToHTML(EmbeddedBlockInfo{
 					Src:     src,
 					Title:   src,
-					Content: template.HTML(luteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node, true))),
+					Content: template.HTML(luteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node, headerIncludes))),
 				})
 				luteEngine.RenderOptions.LinkBase = ""
 				pop(mdInfo.blockID)
@@ -179,12 +177,37 @@ func Generate(db sqlite.DbResult, FindFileEntityFromID FindFileEntityFromID, str
 
 		}
 		return html
+	}
+	/** 嵌入块查询渲染, 这个东西也应该包含在一个前端组件中 */
+	luteEngine.Md2HTMLRendererFuncs[ast.NodeBlockQueryEmbedScript] = GeneterateRenderFunction(func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo MdStructInfo, html string) string {
+		sql := n.TokensStr()
+		curID := getNodeRelativeBlockID(n)
+		return SqlRender(sql, curID, true)
 	})
 
-	// FileEntityToHTML 转 html
+	// FileEntityToHTML entity 转 html
 	FileEntityToHTML := func(entity FileEntity) string {
 		baseEntity = entity
-		return luteEngine.MarkdownStr("", entity.MdStr)
+
+		// 在每个文档的底部显示反链
+		curID := entity.MdStructInfoList[0].blockID
+
+		var refHTML string
+		content := SqlRender(`SELECT "refs".block_id as "ref_id", blocks.* FROM "refs"
+
+		LEFT JOIN blocks
+		ON "refs".block_id = blocks.id
+
+		WHERE
+		def_block_id = /** 被引用块的 id */ '`+curID+`'
+		;
+		`, curID, false)
+		if len(content) > 0 {
+			// 这里也应该使用模板，容后再做
+			refHTML = `<h2>链接到此文档的相关文档</h2>` + content
+		}
+
+		return luteEngine.MarkdownStr("", entity.MdStr) + refHTML
 	}
 	return FileEntityToHTML
 }

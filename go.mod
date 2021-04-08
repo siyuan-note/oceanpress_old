@@ -3,7 +3,7 @@ module github.com/2234839/md2website
 go 1.15
 
 require (
-	github.com/88250/lute v1.7.1
+	github.com/88250/lute v1.7.1 // https://pkg.go.dev/github.com/88250/lute
 	github.com/alecthomas/repr v0.0.0-20201120212035-bb82daffcca2 // indirect
 	github.com/jinzhu/gorm v1.9.16 // indirect
 	github.com/mattn/go-sqlite3 v1.14.6

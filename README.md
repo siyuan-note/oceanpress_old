@@ -38,7 +38,7 @@ go run .\src\ "C:/Users/llej/AppData/Local/Programs/SiYuan/resources/guide/思�
 | ⭕ | 块链接可 copy |  |
 | ⭕ | 书签页 |  |
 | ⭕ | 标签页 |  |
-| ⭕ | 反链 |  |
+| ✅🔨 | [#8 反链](https://github.com/siyuan-note/oceanpress/issues/8) | `50%` |
 | ✅🔨 | [#1 块引用链接](https://github.com/siyuan-note/oceanpress/issues/1) | `92%` |
 | ✅ | 支持 {.text} 这样的锚文本 | `100%` |
 | ✅ | [#3 代码高亮 以及 数学公式和脑图等渲染](https://github.com/siyuan-note/oceanpress/issues/3) [点击这里查看生成后的效果](https://siyuan-note.github.io/oceanpress/Markdown%20%e4%bd%bf%e7%94%a8%e6%8c%87%e5%8d%97/3%20%e5%ae%8c%e6%95%b4%e7%a4%ba%e4%be%8b.html) 、还需要修改 vditor 等资源的引用为本地文件（不是很重要之后再说） | `100%` |
