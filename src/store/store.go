@@ -103,7 +103,7 @@ func DirToStruct(dir string, dbPath string, structToHTML func(interface{}) strin
 
 	// StructList 解析后的所有对象
 	var StructList []FileEntity
-	// FindFileEntityFromID 通过id找到对应的数据 这里之后要改一下，用 map 会比 for 好一些
+	// FindFileEntityFromID 通过id找到对应的数据 这里之后要改一下，用 map 会比 双重for 好一些
 	FindFileEntityFromID := func(id string) (FileEntity, MdStructInfo, error) {
 		var fileEntity FileEntity
 		var mdInfo MdStructInfo
@@ -165,6 +165,9 @@ func DirToStruct(dir string, dbPath string, structToHTML func(interface{}) strin
 		entity.ToHTML = func() string {
 			return FileEntityToHTML(entity)
 		}
+		// if strings.Contains(virtualPath, "文章分享到的") {
+		// 	util.Log("debugger")
+		// }
 		return entity
 	}
 

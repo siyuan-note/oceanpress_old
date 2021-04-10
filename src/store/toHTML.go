@@ -199,9 +199,7 @@ func Generate(db sqlite.DbResult, FindFileEntityFromID FindFileEntityFromID, str
 		ON "refs".block_id = blocks.id
 
 		WHERE
-		def_block_id = /** 被引用块的 id */ '`+curID+`'
-		;
-		`, curID, false)
+		def_block_id = /** 被引用块的 id */ '`+curID+`';`, curID, false)
 		if len(content) > 0 {
 			// 这里也应该使用模板，容后再做
 			refHTML = `<h2>链接到此文档的相关文档</h2>` + content
@@ -247,7 +245,8 @@ func renderNodeMarkdown(node *ast.Node, headerIncludes bool) string {
 	root := &ast.Node{Type: ast.NodeDocument}
 	luteEngine := lute.New()
 	tree := &parse.Tree{Root: root, Context: &parse.Context{ParseOption: luteEngine.ParseOptions}}
-	tree.Context.ParseOption.KramdownIAL = false // 关闭 IAL
+	// tree.Context.ParseOption.KramdownIAL = false // 关闭 IAL
+	tree.Context.ParseOption.KramdownBlockIAL = false // 关闭 IAL
 	renderer := render.NewFormatRenderer(tree, luteEngine.RenderOptions)
 	renderer.Writer = &bytes.Buffer{}
 	renderer.NodeWriterStack = append(renderer.NodeWriterStack, renderer.Writer) // 因为有可能不是从 root 开始渲染，所以需要初始化
