@@ -72,6 +72,24 @@ func Generate(db sqlite.DbResult, FindFileEntityFromID FindFileEntityFromID, str
 	luteEngine.Md2HTMLRendererFuncs[ast.NodeBlockRefID] = getBlockID
 	luteEngine.Md2HTMLRendererFuncs[ast.NodeBlockEmbedID] = getBlockID
 
+	luteEngine.Md2HTMLRendererFuncs[ast.NodeDocument] = func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
+		refID = n.TokensStr()
+		if n.ID == "20210325155155-2wk7rxv" {
+			util.Log("debugger")
+		}
+		var dataString string
+		for _, item := range n.KramdownIAL {
+			name := item[0]
+			value := item[1]
+			dataString += "data-block-" + name + "=\"" + value + "\" "
+		}
+		if entering {
+			return "<main " + dataString + ">", ast.WalkContinue
+
+		}
+		return "</main>", ast.WalkContinue
+	}
+
 	// HOC, 内部处理了循环引用的问题， 生成一个渲染函数，
 	GeneterateRenderFunction := func(render func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo MdStructInfo, html string) string) func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
 		return func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
