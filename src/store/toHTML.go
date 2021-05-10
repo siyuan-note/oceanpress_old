@@ -30,7 +30,7 @@ type BlockRefInfo struct {
 	Src           string
 }
 
-// Generate
+// Generate TODO: 这里的逻辑有点混乱，需要整理
 func Generate(db sqlite.DbResult, FindFileEntityFromID FindFileEntityFromID, structToHTML func(interface{}) string) func(entity FileEntity) string {
 	// luteEngine lute 实例
 	var luteEngine = lute.New()
@@ -45,35 +45,41 @@ func Generate(db sqlite.DbResult, FindFileEntityFromID FindFileEntityFromID, str
 	luteEngine.SetHeadingAnchor(true)
 	luteEngine.SetKramdownIALIDRenderName("data-block-id")
 
-	// 嵌入块的 id
-	var refID string
-	/** 获取块的id */
-	var getBlockID = func(n *ast.Node, _ bool) (string, ast.WalkStatus) {
-		refID = n.TokensStr()
-		return "", ast.WalkContinue
-	}
+	// FileEntityToHTML entity 转 html
+	FileEntityToHTML := func(entity FileEntity) string {
+		renderer, r := NewOceanpressRenderer(entity.Tree, luteEngine.RenderOptions, db, FindFileEntityFromID, structToHTML, baseEntity, luteEngine)
 
-	var idStack []string
+		r.context.baseEntity = entity
 
-	push := func(id string) error {
-		for _, item := range idStack {
-			if item == id {
-				util.Warn("循环引用", id)
-				return errors.New("循环引用")
-			}
+		// 在每个文档的底部显示反链
+		curID := entity.Tree.ID
+		var refHTML string
+		content := r.SqlRender(`SELECT "refs".block_id as "ref_id", blocks.* FROM "refs"
+
+	LEFT JOIN blocks
+	ON "refs".block_id = blocks.id
+
+	WHERE
+	def_block_id = /** 被引用块的 id */ '`+curID+`';`, curID, false)
+		if len(content) > 0 {
+			// TODO: 这里也应该使用模板，容后再做
+			refHTML = `<h2>链接到此文档的相关文档</h2>` + content
 		}
-		idStack = append(idStack, id)
-		return nil
+		output := renderer.Render()
+		html := string(output)
+		return html + refHTML
 	}
-	pop := func(id string) {
-		idStack = idStack[:len(idStack)-1]
-	}
+	return FileEntityToHTML
+}
 
-	luteEngine.Md2HTMLRendererFuncs[ast.NodeBlockRefID] = getBlockID
-	luteEngine.Md2HTMLRendererFuncs[ast.NodeBlockEmbedID] = getBlockID
+type OceanpressRenderer struct {
+	*render.BaseRenderer
+	context Context
+}
 
-	luteEngine.Md2HTMLRendererFuncs[ast.NodeDocument] = func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
-		refID = n.TokensStr()
+func (r *OceanpressRenderer) NodeDocument(node *ast.Node, entering bool) ast.WalkStatus {
+	return r.GeneterateRenderFunction(func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo StructInfo, html string) string {
+		r.context.refID = n.TokensStr()
 		if n.ID == "20210325155155-2wk7rxv" {
 			util.Log("debugger")
 		}
@@ -84,149 +90,222 @@ func Generate(db sqlite.DbResult, FindFileEntityFromID FindFileEntityFromID, str
 			dataString += "data-block-" + name + "=\"" + value + "\" "
 		}
 		if entering {
-			return "<main " + dataString + ">", ast.WalkContinue
+			return "<main " + dataString + ">"
 
 		}
-		return "</main>", ast.WalkContinue
+		return "</main>"
+	})(node, entering)
+}
+
+/** 获取块的id */
+func (r *OceanpressRenderer) getBlockID(node *ast.Node, entering bool) ast.WalkStatus {
+	r.context.refID = node.TokensStr()
+	// if(node.Type == ast.NodeBlockRefID)
+	return ast.WalkContinue
+}
+func getRootByNode(node *ast.Node) *ast.Node {
+	if node.Parent == nil {
+		return node
+	} else {
+		return getRootByNode(node.Parent)
 	}
+}
 
-	// HOC, 内部处理了循环引用的问题， 生成一个渲染函数，
-	GeneterateRenderFunction := func(render func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo MdStructInfo, html string) string) func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
-		return func(n *ast.Node, entering bool) (string, ast.WalkStatus) {
-			var html string
-			if entering {
-				fileEntity, mdInfo, err := FindFileEntityFromID(refID)
-				if err != nil {
-					return "", ast.WalkContinue
-				}
-				err = push(mdInfo.blockID)
-				if err != nil {
-					html = "error: 循环引用 "
-				} else {
-					var src string
-					if fileEntity.Path != "" {
-						src = FileEntityRelativePath(baseEntity, fileEntity, refID)
-					}
-					// 修改 base 路径以使用 ../ 这样的形式指向根目录再深入到待解析的md文档所在的路径 ,就在下面一点点会再重置回去
-					luteEngine.RenderOptions.LinkBase = strings.Repeat("../", strings.Count(baseEntity.RelativePath, "/")-1) + "." + path.Dir(fileEntity.RelativePath)
-					html = render(n, entering, src, fileEntity, mdInfo, "")
-					luteEngine.RenderOptions.LinkBase = ""
-					pop(mdInfo.blockID)
-				}
+// getAllNextByNode 获取一个节点的 所有后续节点
+func getAllNextByNode(node *ast.Node) []*ast.Node {
+	var list []*ast.Node
+	// if node == nil {
+	// 	return list
+	// } else {
+	// 	return append(list, getAllNextByNode(node.Next)...)
+	// }
+	c := node
+	for {
+		if c == nil {
+			break
+		} else {
+			list = append(list, c)
+			c = c.Next
+		}
+	}
+	return list
+}
+func (r *OceanpressRenderer) NodeBlockRef(node *ast.Node, entering bool) ast.WalkStatus {
+	if entering == false {
+		return ast.WalkContinue
+	}
+	var refID string
+	root := getRootByNode(node)
+	currentEntity, _, _ := r.context.FindFileEntityFromID(root.ID)
 
+	var targetNodeStructInfo StructInfo
+	var targetEntity FileEntity
+
+	var src string
+	var title string
+	hasEmbedText := false
+	Children := getAllNextByNode(node.FirstChild)
+	if len(node.Children) > 0 {
+		util.Debugger()
+	}
+	for _, n := range Children {
+		if n.Type == ast.NodeBlockRefID {
+			// 这里应该每个 NodeBlockRef 都包含了，意味着一般一定执行
+			refID = n.TokensStr()
+
+			targetEntity, targetNodeStructInfo, _ = r.context.FindFileEntityFromID(refID)
+			if targetEntity.Path != "" {
+				src = FileEntityRelativePath(currentEntity, targetEntity, refID)
 			}
-			return html, ast.WalkSkipChildren
+		}
+		if n.Type == ast.NodeBlockEmbedText {
+			// NodeBlockRef 内不一定有 NodeBlockEmbedText
+			hasEmbedText = true
+			title = n.Data
 		}
 	}
-	// 渲染锚文本
-	titleRenderer := func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo MdStructInfo, html string) template.HTML {
-		var title = template.HTML(n.Text())
-		t := string(title)
-
-		// 锚文本模板变量处理 使用定义块内容文本填充。
-		if strings.Contains(t, "{{.text}}") {
-			var title2 template.HTML
-			// 如定义块是文档块，则使用文档名填充。
-			if mdInfo.blockType == "NodeDocument" {
-				title2 = template.HTML(fileEntity.Name)
-			} else {
-				title2 = template.HTML(
-					luteEngine.HTML2Text(
-						luteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node, false)),
-					),
-				)
-			}
-			title = template.HTML(strings.ReplaceAll(t, "{{.text}}", string(title2)))
+	if hasEmbedText == false && targetNodeStructInfo.node != nil {
+		if targetNodeStructInfo.node.Type == ast.NodeDocument {
+			title = targetEntity.Name
+		} else {
+			title = r.context.luteEngine.HTML2Text(r.renderNodeToHTML(targetNodeStructInfo.node, false))
 		}
-		title = template.HTML(strings.ReplaceAll(string(title), "\n", ""))
-		return title
 	}
+	r.WriteHTML(r.context.structToHTML(BlockRefInfo{
+		Src:   src,
+		Title: title,
+	}))
+	return ast.WalkSkipChildren
+}
 
-	/** 块引用渲染,类似于超链接 */
-	luteEngine.Md2HTMLRendererFuncs[ast.NodeBlockRefText] = GeneterateRenderFunction(func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo MdStructInfo, html string) string {
-		return structToHTML(BlockRefInfo{
+/** 块引用渲染,类似于超链接 */
+func (r *OceanpressRenderer) NodeBlockRefText(node *ast.Node, entering bool) ast.WalkStatus {
+	return r.GeneterateRenderFunction(func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo StructInfo, html string) string {
+		return r.context.structToHTML(BlockRefInfo{
 			Src:   src,
-			Title: titleRenderer(n, entering, src, fileEntity, mdInfo, html),
+			Title: r.titleRenderer(n, entering, src, fileEntity, mdInfo, html),
 		})
-	})
+	})(node, entering)
+}
 
-	/** 嵌入块渲染 */
-	luteEngine.Md2HTMLRendererFuncs[ast.NodeBlockEmbedText] = GeneterateRenderFunction(func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo MdStructInfo, html string) string {
-		return structToHTML(EmbeddedBlockInfo{
+/** 嵌入块渲染 */
+func (r *OceanpressRenderer) NodeBlockEmbedText(node *ast.Node, entering bool) ast.WalkStatus {
+	return r.GeneterateRenderFunction(func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo StructInfo, html string) string {
+		return r.context.structToHTML(EmbeddedBlockInfo{
 			Src:     src,
-			Title:   titleRenderer(n, entering, src, fileEntity, mdInfo, html),
-			Content: template.HTML(luteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node, true))),
+			Title:   r.titleRenderer(n, entering, src, fileEntity, mdInfo, html),
+			Content: template.HTML(r.context.luteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node, true))),
 		})
-	})
+	})(node, entering)
+}
 
-	// SqlRender 通过 sql 渲染出 html , curID 是当前块的 id
-	SqlRender := func(sql string, curID string, headerIncludes bool) string {
-		ids := db.SQLToID(sql)
+/** 嵌入块查询渲染, 这个东西也应该包含在一个前端组件中 */
+func (r *OceanpressRenderer) NodeBlockQueryEmbedScript(node *ast.Node, entering bool) ast.WalkStatus {
+	return r.GeneterateRenderFunction(func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo StructInfo, html string) string {
+		sql := n.TokensStr()
+		curID := getNodeRelativeBlockID(n)
+		return r.SqlRender(sql, curID, true)
+	})(node, entering)
+}
 
+// SqlRender 通过 sql 渲染出 html , curID 是当前块的 id
+func (r *OceanpressRenderer) SqlRender(sql string, curID string, headerIncludes bool) string {
+	ids := r.context.db.SQLToID(sql)
+
+	var html string
+	for _, id := range ids {
+		if id == curID {
+			// 排除当前块，显示自身并不方便阅读
+			continue
+		}
+		fileEntity, mdInfo, err := r.context.FindFileEntityFromID(id)
+		if err != nil {
+			return ""
+		}
+		err = r.context.push(mdInfo.blockID)
+		if err != nil {
+			// TODO: 这里应该要处理成点击展开，或者换一个更好的显示
+			html = "error: 循环引用 "
+		} else {
+			var src string
+			if fileEntity.Path != "" {
+				src = FileEntityRelativePath(r.context.baseEntity, fileEntity, id)
+			}
+			// 修改 base 路径以使用 ../ 这样的形式指向根目录再深入到待解析的md文档所在的路径 ,就在下面一点点会再重置回去
+			r.context.luteEngine.RenderOptions.LinkBase = strings.Repeat("../", strings.Count(r.context.baseEntity.RelativePath, "/")-1) + "." + path.Dir(fileEntity.RelativePath)
+			html += r.context.structToHTML(EmbeddedBlockInfo{
+				Src:     src,
+				Title:   src,
+				Content: template.HTML(r.context.luteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node, headerIncludes))),
+			})
+			r.context.luteEngine.RenderOptions.LinkBase = ""
+			r.context.pop(mdInfo.blockID)
+		}
+
+	}
+	return html
+}
+
+func (r *OceanpressRenderer) 模板复制粘贴用(node *ast.Node, entering bool) ast.WalkStatus {
+	return r.GeneterateRenderFunction(func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo StructInfo, html string) string {
+		return ""
+	})(node, entering)
+}
+
+func (r *OceanpressRenderer) titleRenderer(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo StructInfo, html string) template.HTML {
+	var title = template.HTML(n.Text())
+	t := string(title)
+
+	// 锚文本模板变量处理 使用定义块内容文本填充。
+	if strings.Contains(t, "{{.text}}") {
+		var title2 template.HTML
+		// 如定义块是文档块，则使用文档名填充。
+		if mdInfo.blockType == "NodeDocument" {
+			title2 = template.HTML(fileEntity.Name)
+		} else {
+			title2 = template.HTML(
+				r.context.luteEngine.HTML2Text(
+					r.context.luteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node, false)),
+				),
+			)
+		}
+		title = template.HTML(strings.ReplaceAll(t, "{{.text}}", string(title2)))
+	}
+	title = template.HTML(strings.ReplaceAll(string(title), "\n", ""))
+	return title
+}
+
+// HOC, 内部处理了循环引用的问题， 生成一个渲染函数，
+func (r *OceanpressRenderer) GeneterateRenderFunction(render func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo StructInfo, html string) string) func(n *ast.Node, entering bool) ast.WalkStatus {
+	return func(n *ast.Node, entering bool) ast.WalkStatus {
 		var html string
-		for _, id := range ids {
-			if id == curID {
-				// 排除当前块，显示自身并不方便阅读
-				continue
-			}
-			fileEntity, mdInfo, err := FindFileEntityFromID(id)
+		if entering {
+			fileEntity, mdInfo, err := r.context.FindFileEntityFromID(r.context.refID)
 			if err != nil {
-				return ""
+				return ast.WalkContinue
 			}
-			err = push(mdInfo.blockID)
+			err = r.context.push(mdInfo.blockID)
 			if err != nil {
-				// TODO: 这里应该要处理成点击展开，或者换一个更好的显示
 				html = "error: 循环引用 "
 			} else {
 				var src string
 				if fileEntity.Path != "" {
-					src = FileEntityRelativePath(baseEntity, fileEntity, id)
+					src = FileEntityRelativePath(r.context.baseEntity, fileEntity, r.context.refID)
 				}
 				// 修改 base 路径以使用 ../ 这样的形式指向根目录再深入到待解析的md文档所在的路径 ,就在下面一点点会再重置回去
-				luteEngine.RenderOptions.LinkBase = strings.Repeat("../", strings.Count(baseEntity.RelativePath, "/")-1) + "." + path.Dir(fileEntity.RelativePath)
-				html += structToHTML(EmbeddedBlockInfo{
-					Src:     src,
-					Title:   src,
-					Content: template.HTML(luteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node, headerIncludes))),
-				})
-				luteEngine.RenderOptions.LinkBase = ""
-				pop(mdInfo.blockID)
+				r.context.luteEngine.RenderOptions.LinkBase = strings.Repeat("../", strings.Count(r.context.baseEntity.RelativePath, "/")-1) + "." + path.Dir(fileEntity.RelativePath)
+				html = render(n, entering, src, fileEntity, mdInfo, "")
+				r.context.luteEngine.RenderOptions.LinkBase = ""
+				r.context.pop(mdInfo.blockID)
 			}
 
 		}
-		return html
+		r.WriteHTML(html)
+		return ast.WalkSkipChildren
 	}
-	/** 嵌入块查询渲染, 这个东西也应该包含在一个前端组件中 */
-	luteEngine.Md2HTMLRendererFuncs[ast.NodeBlockQueryEmbedScript] = GeneterateRenderFunction(func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo MdStructInfo, html string) string {
-		sql := n.TokensStr()
-		curID := getNodeRelativeBlockID(n)
-		return SqlRender(sql, curID, true)
-	})
-
-	// FileEntityToHTML entity 转 html
-	FileEntityToHTML := func(entity FileEntity) string {
-		baseEntity = entity
-
-		// 在每个文档的底部显示反链
-
-		curID := entity.MdStructInfoList[len(entity.MdStructInfoList)-1].blockID
-		var refHTML string
-		content := SqlRender(`SELECT "refs".block_id as "ref_id", blocks.* FROM "refs"
-
-		LEFT JOIN blocks
-		ON "refs".block_id = blocks.id
-
-		WHERE
-		def_block_id = /** 被引用块的 id */ '`+curID+`';`, curID, false)
-		if len(content) > 0 {
-			// 这里也应该使用模板，容后再做
-			refHTML = `<h2>链接到此文档的相关文档</h2>` + content
-		}
-
-		return luteEngine.MarkdownStr("", entity.MdStr) + refHTML
-	}
-	return FileEntityToHTML
 }
+
+// ===== 下面是一些工具函数
 
 // FileEntityRelativePath 计算他们变成 html 文件之后的相对路径
 func FileEntityRelativePath(base FileEntity, cur FileEntity, id string) string {
@@ -241,6 +320,42 @@ func FileEntityRelativePath(base FileEntity, cur FileEntity, id string) string {
 	url = FilePathToWebPath(url)
 	url += "#" + id
 	return url
+}
+
+// renderNodeToHTML 将指定节点渲染为 html
+func (r *OceanpressRenderer) renderNodeToHTML(node *ast.Node, headerIncludes bool) string {
+	// 收集块
+	var nodes []*ast.Node
+	ast.Walk(node, func(n *ast.Node, entering bool) ast.WalkStatus {
+		if entering {
+			nodes = append(nodes, n)
+			if ast.NodeHeading == node.Type && headerIncludes {
+				// 支持“标题块”引用
+				children := headingChildren(n)
+				nodes = append(nodes, children...)
+			}
+		}
+		return ast.WalkSkipChildren
+	})
+
+	// 渲染块
+	root := &ast.Node{Type: ast.NodeDocument}
+	luteEngine := lute.New()
+	tree := &parse.Tree{Root: root, Context: &parse.Context{ParseOption: luteEngine.ParseOptions}}
+	tree.Context.ParseOption.KramdownBlockIAL = false // 关闭 IAL
+
+	renderer, _ := r.forkNewOceanpressRenderer(tree)
+	// renderer2 := render.NewFormatRenderer(tree, luteEngine.RenderOptions)
+	renderer.Writer = &bytes.Buffer{}
+	// renderer.NodeWriterStack = append(renderer.NodeWriterStack, renderer.Writer) // 因为有可能不是从 root 开始渲染，所以需要初始化
+	for _, node := range nodes {
+		ast.Walk(node, func(n *ast.Node, entering bool) ast.WalkStatus {
+			rendererFunc := renderer.RendererFuncs[n.Type]
+			return rendererFunc(n, entering)
+		})
+	}
+	html := strings.TrimSpace(renderer.Writer.String())
+	return html
 }
 
 // 将 Node 渲染为 md 对于 header 节点特殊处理，会将他的 child 包含进来
@@ -309,4 +424,81 @@ func getNodeRelativeBlockID(node *ast.Node) string {
 		}
 	}
 	return curID
+}
+
+type Context struct {
+	db                   sqlite.DbResult
+	FindFileEntityFromID FindFileEntityFromID
+	structToHTML         func(interface{}) string
+
+	refID string
+	push  func(id string) error
+	pop   func(id string)
+
+	baseEntity  FileEntity
+	luteEngine  *lute.Lute
+	rawRenderer *render.HtmlRenderer
+}
+
+func (r *OceanpressRenderer) WriteHTML(html string) {
+	// r.WriteString(html) // 这里是没有用的
+	// 因为实际上调用 rawRenderer 的渲染，r 只是提供一些渲染函数，所以实际要输出结果要调用 rawRenderer 的 WriteString
+	r.context.rawRenderer.WriteString(html)
+}
+
+// forkNewOceanpressRenderer 从当前的 OceanpressRenderer 派生出一个新的，基于之前的配置
+func (r *OceanpressRenderer) forkNewOceanpressRenderer(tree *parse.Tree) (*render.HtmlRenderer, *OceanpressRenderer) {
+	r1, r2 := NewOceanpressRenderer(tree, r.context.luteEngine.RenderOptions, r.context.db, r.context.FindFileEntityFromID, r.context.structToHTML, r.context.baseEntity, r.context.luteEngine)
+	return r1, r2
+}
+func NewOceanpressRenderer(tree *parse.Tree, options *render.Options,
+	db sqlite.DbResult,
+	FindFileEntityFromID FindFileEntityFromID,
+	structToHTML func(interface{}) string,
+
+	baseEntity FileEntity,
+	luteEngine *lute.Lute,
+
+) (*render.HtmlRenderer, *OceanpressRenderer) {
+
+	rawRenderer := render.NewHtmlRenderer(tree, options)
+	// 嵌入块的 id
+	var refID string
+	var idStack []string
+
+	push := func(id string) error {
+		for _, item := range idStack {
+			if item == id {
+				util.Warn("循环引用", id)
+				return errors.New("循环引用")
+			}
+		}
+		idStack = append(idStack, id)
+		return nil
+	}
+	pop := func(id string) {
+		idStack = idStack[:len(idStack)-1]
+	}
+	var context = Context{
+		db,
+		FindFileEntityFromID,
+		structToHTML,
+		refID,
+		push,
+		pop,
+		baseEntity,
+		luteEngine,
+		rawRenderer,
+	}
+
+	ret2 := &OceanpressRenderer{
+		render.NewBaseRenderer(tree, options),
+		context,
+	}
+
+	rawRenderer.RendererFuncs[ast.NodeBlockEmbedID] = ret2.getBlockID
+
+	rawRenderer.RendererFuncs[ast.NodeBlockRef] = ret2.NodeBlockRef
+	rawRenderer.RendererFuncs[ast.NodeBlockEmbedText] = ret2.NodeBlockEmbedText
+	return rawRenderer, ret2
 }

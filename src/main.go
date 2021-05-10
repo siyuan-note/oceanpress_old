@@ -13,6 +13,7 @@ import (
 )
 
 func main() {
+
 	util.RunningLog("0", "=== 🛬 开始转换 🛫 ===")
 	// 流程 1  用户输入 {源目录 输出目录}
 	util.RunningLog("1", "用户输入")
@@ -29,7 +30,7 @@ func main() {
 	copy.Copy(sourceDir, outDir, copy.Options{
 		// 跳过一些不必要的目录以及 md 文件
 		Skip: func(src string) (bool, error) {
-			return (isSkipPath(src) || strings.HasSuffix(src, ".md")), nil
+			return (util.IsSkipPath(src) || util.IsNotes(src)), nil
 		},
 	})
 	// copy views 中的资源文件
@@ -119,10 +120,6 @@ func main() {
 	// End
 	util.Log("----- End -----")
 
-}
-
-func isSkipPath(path string) bool {
-	return strings.Contains(path, ".git")
 }
 
 // go 怎么写类似于其他语言泛型的过滤方式 ？// https://medium.com/@habibridho/here-is-why-no-one-write-generic-slice-filter-in-go-8b3d1063674e

@@ -1,7 +1,6 @@
 package store
 
 import (
-	"bytes"
 	"errors"
 	"io/ioutil"
 	"os"
@@ -13,14 +12,13 @@ import (
 	"github.com/88250/lute"
 	"github.com/88250/lute/ast"
 	"github.com/88250/lute/parse"
-	"github.com/88250/lute/render"
+	protyle "github.com/88250/protyle"
 )
 
-// MdStructInfo md 结构信息
-type MdStructInfo struct {
+// StructInfo md 结构信息
+type StructInfo struct {
 	blockID   string
 	blockType string
-	mdContent string
 	node      *ast.Node
 }
 
@@ -32,16 +30,16 @@ type FileEntity struct {
 	// 相对源目录的路径
 	RelativePath string
 	// 最终要在浏览器中可以访问的路径
-	VirtualPath      string
-	MdStr            string
-	Info             os.FileInfo
-	MdStructInfoList []MdStructInfo
-
-	ToHTML func() string
+	VirtualPath    string
+	NotesCode      string
+	Info           os.FileInfo
+	StructInfoList []StructInfo
+	Tree           *parse.Tree
+	ToHTML         func() string
 }
 
 // FindFileEntityFromID 通过 id 返回对应实体
-type FindFileEntityFromID func(id string) (FileEntity, MdStructInfo, error)
+type FindFileEntityFromID func(id string) (FileEntity, StructInfo, error)
 
 // DirToStructRes DirToStruct 的返回值定义
 type DirToStructRes struct {
@@ -57,27 +55,14 @@ func DirToStruct(dir string, dbPath string, structToHTML func(interface{}) strin
 	mdStructuredLuteEngine.SetKramdownIAL(true)
 	mdStructuredLuteEngine.SetKramdownIALIDRenderName("data-block-id")
 
-	renderBlockMarkdown := func(node *ast.Node) string {
-		root := &ast.Node{Type: ast.NodeDocument}
-		luteEngine := mdStructuredLuteEngine
+	// GetStructInfoByNotesCode 从 NotesCode 获取结构信息
+	GetStructInfoByNotesCode := func(notesCode string) ([]StructInfo, *parse.Tree) {
 
-		tree := &parse.Tree{Root: root, Context: &parse.Context{ParseOption: luteEngine.ParseOptions}}
-		renderer := render.NewFormatRenderer(tree, luteEngine.RenderOptions)
-		renderer.Writer = &bytes.Buffer{}
-		renderer.NodeWriterStack = append(renderer.NodeWriterStack, renderer.Writer)
-		ast.Walk(node, func(n *ast.Node, entering bool) ast.WalkStatus {
-			rendererFunc := renderer.RendererFuncs[n.Type]
-			return rendererFunc(n, entering)
-		})
-		return strings.TrimSpace(renderer.Writer.String())
-	}
-
-	// GetMdStructInfo 从 md 获取结构信息
-	GetMdStructInfo := func(name string, md string) []MdStructInfo {
-		luteEngine := mdStructuredLuteEngine
-		tree := parse.Parse(name, []byte(md), luteEngine.ParseOptions)
-
-		var infoList []MdStructInfo
+		tree, err := protyle.ParseJSON(lute.New(), []byte(notesCode))
+		if err != nil {
+			panic(err)
+		}
+		var infoList []StructInfo
 		ast.Walk(tree.Root, func(n *ast.Node, entering bool) ast.WalkStatus {
 			if entering {
 				return ast.WalkContinue
@@ -86,29 +71,24 @@ func DirToStruct(dir string, dbPath string, structToHTML func(interface{}) strin
 			if nil == n.FirstChild {
 				return ast.WalkSkipChildren
 			}
-			content := renderBlockMarkdown(n)
-			if strings.Contains(n.Text(), "岁，一事无成，未来还有希望吗？") {
-				// 这里有一个 bug 待 lute 修复
-			}
-			infoList = append(infoList, MdStructInfo{
+			infoList = append(infoList, StructInfo{
 				blockID:   n.IALAttr("id"),
 				blockType: n.Type.String(),
-				mdContent: content,
 				node:      n,
 			})
 			return ast.WalkContinue
 		})
-		return infoList
+		return infoList, tree
 	}
 
 	// StructList 解析后的所有对象
 	var StructList []FileEntity
 	// FindFileEntityFromID 通过id找到对应的数据 这里之后要改一下，用 map 会比 双重for 好一些
-	FindFileEntityFromID := func(id string) (FileEntity, MdStructInfo, error) {
+	FindFileEntityFromID := func(id string) (FileEntity, StructInfo, error) {
 		var fileEntity FileEntity
-		var mdInfo MdStructInfo
+		var mdInfo StructInfo
 		for _, entity := range StructList {
-			for _, info := range entity.MdStructInfoList {
+			for _, info := range entity.StructInfoList {
 				if info.blockID == id {
 					fileEntity = entity
 					mdInfo = info
@@ -131,13 +111,18 @@ func DirToStruct(dir string, dbPath string, structToHTML func(interface{}) strin
 	}
 
 	FileEntityToHTML := Generate(db, FindFileEntityFromID, structToHTML)
+
 	// FileToFileEntity 通过文件路径以及文件信息获取他的结构信息
 	FileToFileEntity := func(sourceDir string, path string, info os.FileInfo) FileEntity {
 		relativePath := strings.ReplaceAll(path[len(sourceDir):], string(os.PathSeparator), "/")
 		var virtualPath string
-		var mdStr string
+		var notesCode string
 		var name string
-		var mdStructInfo []MdStructInfo
+		var StructInfo []StructInfo
+		var tree *parse.Tree
+		if strings.Contains(path, "css 变量") {
+			// util.Debugger(path)
+		}
 		if info.IsDir() {
 			virtualPath = relativePath
 		} else {
@@ -146,39 +131,39 @@ func DirToStruct(dir string, dbPath string, structToHTML func(interface{}) strin
 			if err != nil {
 				util.Warn("读取文件失败", err)
 			}
-			mdStr = string(mdByte)
-			mdStructInfo = GetMdStructInfo("", mdStr)
-			if strings.HasSuffix(relativePath, ".md") {
+			notesCode = string(mdByte)
+			StructInfo, tree = GetStructInfoByNotesCode(notesCode)
+			if util.IsNotes(relativePath) {
 				baseName := filepath.Base(relativePath)
 				name = baseName[:len(baseName)-3]
 			}
 		}
 		entity := FileEntity{
-			Path:             path,
-			Info:             info,
-			RelativePath:     relativePath,
-			VirtualPath:      virtualPath,
-			MdStr:            mdStr,
-			MdStructInfoList: mdStructInfo,
-			Name:             name,
+			Path:           path,
+			Info:           info,
+			RelativePath:   relativePath,
+			VirtualPath:    virtualPath,
+			NotesCode:      notesCode,
+			StructInfoList: StructInfo,
+			Name:           name,
+			Tree:           tree,
 		}
 		entity.ToHTML = func() string {
 			return FileEntityToHTML(entity)
 		}
-		// if strings.Contains(virtualPath, "文章分享到的") {
-		// 	util.Log("debugger")
-		// }
+
 		return entity
 	}
 
 	filepath.Walk(dir,
 		func(path string, info os.FileInfo, err error) error {
+			p := filepath.ToSlash(path)
 			if err != nil {
 				return err
-			} else if isSkipPath(path) || (!info.IsDir() && !strings.HasSuffix(path, ".md")) {
+			} else if util.IsSkipPath(p) || (!info.IsDir() && !util.IsNotes(p)) {
 				return nil
 			} else {
-				StructList = append(StructList, FileToFileEntity(dir, path, info))
+				StructList = append(StructList, FileToFileEntity(dir, p, info))
 				return nil
 			}
 		})
@@ -187,14 +172,11 @@ func DirToStruct(dir string, dbPath string, structToHTML func(interface{}) strin
 		FindFileEntityFromID: FindFileEntityFromID,
 	}
 }
-func isSkipPath(path string) bool {
-	return strings.Contains(path, ".git")
-}
 
 // FilePathToWebPath 将相对文件路径转为 web路径，主要是去除文件中的id 以及添加 .html
 func FilePathToWebPath(filePath string) string {
-	if strings.HasSuffix(filePath, ".md") {
-		return filePath[0:len(filePath)-3] + ".html"
+	if util.IsNotes(filePath) {
+		return filePath[0:len(filePath)-len(util.NotesSuffix)] + ".html"
 	}
 	// 大概率是空
 	return filePath

@@ -12,11 +12,18 @@
             "program": "${workspaceFolder}/src/",
             "env": {},
             "args": [
-                "D:\\code\\doc\\doc",
-                "../docHTML/",
+                "C:/Users/llej/Documents/SiYuan/data/note",
+                "D:\\code\\doc\\docHTML",
                 "./views/",
                 "C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db",
             ],
+            // 旧版思源执行参数
+            // "args": [
+            //     "D:\\code\\doc\\doc",
+            //     "D:\\code\\doc\\docHTML",
+            //     "./views/",
+            //     "C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db",
+            // ],
             // "args": [
             //     "../test-doc/",
             //     "../outHTML/",
