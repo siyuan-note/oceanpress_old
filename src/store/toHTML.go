@@ -60,7 +60,7 @@ func Generate(db sqlite.DbResult, FindFileEntityFromID FindFileEntityFromID, str
 	ON "refs".block_id = blocks.id
 
 	WHERE
-	def_block_id = /** 被引用块的 id */ '`+curID+`';`, curID, false)
+	def_block_id = /** 被引用块的 id */ '`+curID+`';`, false)
 		if len(content) > 0 {
 			// TODO: 这里也应该使用模板，容后再做
 			refHTML = `<h2>链接到此文档的相关文档</h2>` + content
@@ -130,6 +130,8 @@ func getAllNextByNode(node *ast.Node) []*ast.Node {
 	}
 	return list
 }
+
+/** 块引用渲染,类似于超链接 */
 func (r *OceanpressRenderer) NodeBlockRef(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering == false {
 		return ast.WalkContinue
@@ -144,11 +146,8 @@ func (r *OceanpressRenderer) NodeBlockRef(node *ast.Node, entering bool) ast.Wal
 	var src string
 	var title string
 	hasEmbedText := false
-	Children := getAllNextByNode(node.FirstChild)
-	if len(node.Children) > 0 {
-		util.Debugger()
-	}
-	for _, n := range Children {
+	children := getAllNextByNode(node.FirstChild)
+	for _, n := range children {
 		if n.Type == ast.NodeBlockRefID {
 			// 这里应该每个 NodeBlockRef 都包含了，意味着一般一定执行
 			refID = n.TokensStr()
@@ -158,12 +157,13 @@ func (r *OceanpressRenderer) NodeBlockRef(node *ast.Node, entering bool) ast.Wal
 				src = FileEntityRelativePath(currentEntity, targetEntity, refID)
 			}
 		}
-		if n.Type == ast.NodeBlockEmbedText {
-			// NodeBlockRef 内不一定有 NodeBlockEmbedText
+		if n.Type == ast.NodeBlockRefText {
+			// NodeBlockRef 内不一定有 NodeBlockRefText
 			hasEmbedText = true
-			title = n.Data
+			title = n.TokensStr()
 		}
 	}
+
 	if hasEmbedText == false && targetNodeStructInfo.node != nil {
 		if targetNodeStructInfo.node.Type == ast.NodeDocument {
 			title = targetEntity.Name
@@ -178,46 +178,30 @@ func (r *OceanpressRenderer) NodeBlockRef(node *ast.Node, entering bool) ast.Wal
 	return ast.WalkSkipChildren
 }
 
-/** 块引用渲染,类似于超链接 */
-func (r *OceanpressRenderer) NodeBlockRefText(node *ast.Node, entering bool) ast.WalkStatus {
-	return r.GeneterateRenderFunction(func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo StructInfo, html string) string {
-		return r.context.structToHTML(BlockRefInfo{
-			Src:   src,
-			Title: r.titleRenderer(n, entering, src, fileEntity, mdInfo, html),
-		})
-	})(node, entering)
-}
-
 /** 嵌入块渲染 */
-func (r *OceanpressRenderer) NodeBlockEmbedText(node *ast.Node, entering bool) ast.WalkStatus {
-	return r.GeneterateRenderFunction(func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo StructInfo, html string) string {
-		return r.context.structToHTML(EmbeddedBlockInfo{
-			Src:     src,
-			Title:   r.titleRenderer(n, entering, src, fileEntity, mdInfo, html),
-			Content: template.HTML(r.context.luteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node, true))),
-		})
-	})(node, entering)
+func (r *OceanpressRenderer) NodeBlockQueryEmbed(node *ast.Node, entering bool) ast.WalkStatus {
+	if entering == false {
+		return ast.WalkContinue
+	}
+	var sql string
+	var html string
+	for _, n := range getAllNextByNode(node.FirstChild) {
+		if n.Type == ast.NodeBlockQueryEmbedScript {
+			// 这里应该每个 NodeBlockQueryEmbed 都包含了，意味着期望一定执行
+			sql = n.TokensStr()
+			html = r.SqlRender(sql, true)
+		}
+	}
+	r.WriteHTML(html)
+	return ast.WalkSkipChildren
 }
 
-/** 嵌入块查询渲染, 这个东西也应该包含在一个前端组件中 */
-func (r *OceanpressRenderer) NodeBlockQueryEmbedScript(node *ast.Node, entering bool) ast.WalkStatus {
-	return r.GeneterateRenderFunction(func(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo StructInfo, html string) string {
-		sql := n.TokensStr()
-		curID := getNodeRelativeBlockID(n)
-		return r.SqlRender(sql, curID, true)
-	})(node, entering)
-}
-
-// SqlRender 通过 sql 渲染出 html , curID 是当前块的 id
-func (r *OceanpressRenderer) SqlRender(sql string, curID string, headerIncludes bool) string {
+// SqlRender 通过 sql 渲染出 html
+func (r *OceanpressRenderer) SqlRender(sql string, headerIncludes bool) string {
+	sql = util.HTMLEntityDecoder(sql)
 	ids := r.context.db.SQLToID(sql)
-
 	var html string
 	for _, id := range ids {
-		if id == curID {
-			// 排除当前块，显示自身并不方便阅读
-			continue
-		}
 		fileEntity, mdInfo, err := r.context.FindFileEntityFromID(id)
 		if err != nil {
 			return ""
@@ -236,7 +220,7 @@ func (r *OceanpressRenderer) SqlRender(sql string, curID string, headerIncludes 
 			html += r.context.structToHTML(EmbeddedBlockInfo{
 				Src:     src,
 				Title:   src,
-				Content: template.HTML(r.context.luteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node, headerIncludes))),
+				Content: template.HTML(r.renderNodeToHTML(mdInfo.node, headerIncludes)),
 			})
 			r.context.luteEngine.RenderOptions.LinkBase = ""
 			r.context.pop(mdInfo.blockID)
@@ -499,6 +483,6 @@ func NewOceanpressRenderer(tree *parse.Tree, options *render.Options,
 	rawRenderer.RendererFuncs[ast.NodeBlockEmbedID] = ret2.getBlockID
 
 	rawRenderer.RendererFuncs[ast.NodeBlockRef] = ret2.NodeBlockRef
-	rawRenderer.RendererFuncs[ast.NodeBlockEmbedText] = ret2.NodeBlockEmbedText
+	rawRenderer.RendererFuncs[ast.NodeBlockQueryEmbed] = ret2.NodeBlockQueryEmbed
 	return rawRenderer, ret2
 }

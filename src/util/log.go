@@ -2,6 +2,8 @@ package util
 
 import (
 	"fmt"
+	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -42,4 +44,15 @@ func RunningLog(serialNumber string, a ...interface{}) {
 func RenderError() string {
 	// TODO: 非调试模式应该返回空字符串
 	return "<此处渲染失败>"
+}
+
+// HTMLEntityDecoder
+func HTMLEntityDecoder(s string) string {
+	re3, _ := regexp.Compile("&#\\d+?;")
+	rep := re3.ReplaceAllStringFunc(s, func(s string) string {
+		asciiCode, _ := strconv.ParseInt(s[2:len(s)-1], 10, 64)
+		v := string(asciiCode)
+		return v
+	})
+	return rep
 }
