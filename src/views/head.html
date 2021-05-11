@@ -6,8 +6,6 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ .PageTitle }}</title>
-    <link rel="stylesheet" href="{{.LevelRoot}}assets/github-markdown-css.css">
-
     <!-- vditor 编辑器 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css" />
     <!-- <script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js"></script> -->
@@ -20,6 +18,9 @@
     <!-- <script src="http://localhost:5000/build/app.js"></script> -->
 
     <!-- font-end-lib 生成的资源 end -->
+
+    <link rel="stylesheet" href="{{.LevelRoot}}assets/theme.css">
+    <link rel="stylesheet" href="{{.LevelRoot}}assets/github-markdown-css.css">
 </head>
 
 {{end}}

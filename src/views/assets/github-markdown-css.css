@@ -61,8 +61,8 @@
   -webkit-text-size-adjust: 100%;
   line-height: 1.5;
   color: #24292e;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji,
-    Segoe UI Emoji;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji;
   font-size: 16px;
   line-height: 1.5;
   word-wrap: break-word;
@@ -634,7 +634,7 @@
 .markdown-body details,
 .markdown-body dl,
 .markdown-body ol,
-.markdown-body p,
+/* .markdown-body p, */
 .markdown-body pre,
 .markdown-body table,
 .markdown-body ul {
@@ -1001,65 +1001,6 @@
     padding: 15px;
   }
 }
-/** 从 思源笔记 中 copy 过来的变量定义 */
-:root {
-  --b3-theme-primary: #4285f4;
-  --b3-theme-primary-light: rgba(66, 133, 244, 0.54);
-  --b3-theme-primary-lighter: rgba(66, 133, 244, 0.38);
-  --b3-theme-primary-lightest: rgba(66, 133, 244, 0.12);
-  --b3-theme-secondary: #f3a92f;
-  --b3-theme-background: #f8f9fa;
-  --b3-theme-surface: #f3f3f3;
-  --b3-theme-error: #d23f31;
-  --b3-theme-on-primary: #fff;
-  --b3-theme-on-secondary: #fff;
-  --b3-theme-on-background: #202124;
-  --b3-theme-on-surface: #5f6368;
-  --b3-theme-on-error: #fff;
-  --b3-font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", "Hiragino Sans GB", "Microsoft Yahei", sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
-  --b3-font-family-code: mononoki, Consolas, "Liberation Mono", Menlo, Courier, monospace, "Apple Color Emoji",
-    "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
-  --b3-border-color: rgba(0, 0, 0, 0.12);
-  --b3-scroll-color: rgba(0, 0, 0, 0.3);
-  --b3-list-hover: rgba(0, 0, 0, 0.06);
-  --b3-tab-background: #f8f9fa;
-  --b3-tooltips-color: rgba(0, 0, 0, 0.54);
-  --b3-transition: all 0.15s cubic-bezier(0, 0, 0.2, 1) 0ms;
-  --b3-point-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
-    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-  --b3-dialog-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14),
-    0px 9px 46px 8px rgba(0, 0, 0, 0.12);
-  --b3-diff-add: #dfd;
-  --b3-diff-add-surface: #97f295;
-  --b3-diff-del: #fee8e9;
-  --b3-diff-del-surface: #ffb6ba;
-  --b3-graph-point: #202124;
-  --b3-graph-line: #5f6368;
-  --b3-graph-hl-point: #f3a92f;
-  --b3-graph-hl-line: #d23f31;
-  --b3-vditor-toolbar-height: 35px;
-  --b3-vditor-toolbar-height-space: 8px;
-  --b3-vditor-code-background: rgba(27, 31, 35, 0.05);
-  --b3-vditor-mark-heading-color: #660e7a;
-  --b3-vditor-mark-title-color: #808080;
-  --b3-vditor-mark-em-color: #0033b3;
-  --b3-vditor-mark-strong-color: #0033b3;
-  --b3-vditor-mark-backslash-color: #0033b3;
-  --b3-vditor-mark-s-color: #5f6368;
-  --b3-vditor-mark-mark-color: #5f6368;
-  --b3-vditor-mark-link-color: #008000;
-  --b3-vditor-mark-bracket-color: #0000ff;
-  --b3-vditor-mark-paren-color: #008000;
-  --b3-vditor-mark-block-color: #660e7a;
-  --b3-vditor-mark-tag-color: #0033b3;
-  --b3-vditor-inline-strong-color: #202124;
-  --b3-vditor-inline-em-color: #202124;
-  --b3-vditor-inline-s-color: #202124;
-  --b3-vditor-inline-link-color: #4285f4;
-  --b3-vditor-inline-tag-color: #5f6368;
-  --b3-vditor-inline-blockref-color: #660e7a;
-}
 
 /** 块引用文本类型 */
 .markdown-body [data-block-type="NodeBlockRefText"] {
@@ -1074,7 +1015,8 @@
   border-radius: 4px;
   transition: all 0.15s cubic-bezier(0, 0, 0.2, 1) 0ms;
   background-color: var(--b3-theme-primary-light);
-  box-shadow: 4px 0px 0 var(--b3-theme-primary-light), -4px 0px 0 var(--b3-theme-primary-light);
+  box-shadow: 4px 0px 0 var(--b3-theme-primary-light),
+    -4px 0px 0 var(--b3-theme-primary-light);
 }
 
 /** 嵌入块的样式 */
@@ -1105,6 +1047,29 @@
 }
 
 /** code 复制按钮的呈现 */
-pre:hover .vditor-copy{
+pre:hover .vditor-copy {
   display: block;
+}
+[data-type="NodeParagraph"] {
+  padding: 4px;
+  margin: 4px 0;
+}
+
+/* fix 可选框 列表的换行问题 */
+[data-type="NodeListItem"] > [data-type="NodeParagraph"] {
+  display: contents;
+}
+/* fix vditor 的 input 左移问题 */
+.vditor-task input {
+  margin: 0 0.2em 0.25em 0em;
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+/* 超级块 横排效果 */
+[data-type="NodeSuperBlock"][data-sb-layout="col"] {
+  display: flex;
+}
+[data-type="NodeSuperBlock"][data-sb-layout="col"] > * {
+  flex: 1;
 }
