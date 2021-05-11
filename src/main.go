@@ -9,11 +9,11 @@ import (
 
 	store "github.com/2234839/md2website/src/store"
 	"github.com/2234839/md2website/src/util"
+	"github.com/88250/lute/ast"
 	copy "github.com/otiai10/copy"
 )
 
 func main() {
-
 	util.RunningLog("0", "=== 🛬 开始转换 🛫 ===")
 	// 流程 1  用户输入 {源目录 输出目录}
 	util.RunningLog("1", "用户输入")
@@ -22,7 +22,8 @@ func main() {
 	util.RunningLog("1.1", "sourceDir:"+sourceDir)
 	util.RunningLog("1.2", "outDir:"+outDir)
 	util.RunningLog("1.3", "viewsDir:"+TemplateDir)
-	util.RunningLog("1.4", "dbPath:"+SqlitePath)
+	util.RunningLog("1.4", "SqlitePath:"+SqlitePath)
+	util.RunningLog("1.5", "assetsDir:"+assetsDir)
 
 	// 流程 2  copy 源目录中资源文件至输出目录
 	util.RunningLog("2", "copy 资源到 outDir")
@@ -41,25 +42,25 @@ func main() {
 	util.RunningLog("3", "生成 html")
 
 	// 转换数据结构 filepath => entityList
-
+	util.RunningLog("3.1", "收集转换生成所需数据")
 	noteStore := store.DirToStruct(sourceDir, SqlitePath, TemplateRender)
+	util.RunningLog("3.2", "复制资源文件")
+	for _, entity := range noteStore.StructList {
+		if entity.Tree == nil {
+			// 目录
+		} else {
+			HandlingAssets(entity.Tree.Root, outDir, entity.RootPath())
+		}
+	}
 
-	util.RunningLog("3.1", "从文件到数据结构转换完毕，开始生成html,共", len(noteStore.StructList), "项")
+	util.RunningLog("3.3", "从文件到数据结构转换完毕，开始生成html,共", len(noteStore.StructList), "项")
 
 	for _, entity := range noteStore.StructList {
 		info := entity.Info
 		relativePath := entity.RelativePath
 		virtualPath := entity.VirtualPath
 
-		Level := strings.Count(relativePath, "/") - 1
-		if info.IsDir() {
-			Level++
-		}
-		// relativePath 通过 LevelRoot 可以跳转到生成目录，即根目录
-		var LevelRoot = "./"
-		if Level > 0 {
-			LevelRoot += strings.Repeat("../", Level)
-		}
+		LevelRoot := entity.RootPath()
 
 		if info.IsDir() {
 			// 这里要生成一个类似于当前目录菜单的东西
@@ -88,16 +89,12 @@ func main() {
 					IsDir:   sonEntity.Info.IsDir(),
 				})
 			}
-
-			type menuInfo struct {
-				SonEntityList []sonEntityI
-				PageTitle     string
-			}
-			html := MenuRender(MenuInfo{
+			var menuInfo = (MenuInfo{
 				SonEntityList: sonEntityList,
 				PageTitle:     "菜单页",
 				LevelRoot:     LevelRoot,
 			})
+			html := menuInfo.Render()
 			ioutil.WriteFile(targetPath, []byte(html), 0777)
 		} else {
 			targetPath := filepath.Join(outDir, relativePath[0:len(relativePath)-3]) + ".html"
@@ -130,4 +127,29 @@ func fileEntityListFilter(list []store.FileEntity, test func(store.FileEntity) b
 		}
 	}
 	return
+}
+func HandlingAssets(node *ast.Node, outDir string, rootPath string) {
+	if node.Next != nil {
+		HandlingAssets(node.Next, outDir, rootPath)
+	}
+	if node.FirstChild != nil {
+		HandlingAssets(node.FirstChild, outDir, rootPath)
+	}
+	for _, n := range node.Children {
+		HandlingAssets(n, outDir, rootPath)
+	}
+
+	if node != nil && node.Type == ast.NodeLinkDest {
+		dest := node.TokensStr()
+
+		if strings.HasPrefix(filepath.ToSlash(dest), "assets/") {
+			err := copy.Copy(path.Join(path.Join(assetsDir, dest[len("assets/"):])), path.Join(outDir, dest))
+			if err != nil {
+				util.Warn("复制资源文件失败", err)
+			}
+
+			node.Tokens = []byte(path.Join(rootPath, dest))
+
+		}
+	}
 }

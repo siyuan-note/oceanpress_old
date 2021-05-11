@@ -12,10 +12,11 @@
             "program": "${workspaceFolder}/src/",
             "env": {},
             "args": [
-                "C:/Users/llej/Documents/SiYuan/data/note",
-                "D:\\code\\doc\\docHTML",
-                "./views/",
-                "C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db",
+                "-SourceDir=C:/Users/llej/Documents/SiYuan/data/note",
+                "-OutDir=D:\\code\\doc\\docHTML",
+                "-TemplateDir=./views/",
+                "-SqlitePath=C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db",
+                "-assetsDir=C:/Users/llej/Documents/SiYuan/data/assets",
             ],
             // 旧版思源执行参数
             // "args": [

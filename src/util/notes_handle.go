@@ -12,7 +12,7 @@ func IsSkipPath(path string) bool {
 
 var NotesSuffix = ".sy"
 
-// IsNotes 判断该路径是不是思源笔记的后缀
+// IsNotes 判断该路径是不是笔记
 func IsNotes(path string) bool {
-	return strings.HasSuffix(path, NotesSuffix)
+	return strings.HasSuffix(path, ".sy") || strings.HasSuffix(path, ".md")
 }

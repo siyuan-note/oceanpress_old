@@ -38,6 +38,20 @@ type FileEntity struct {
 	ToHTML         func() string
 }
 
+// RootPath 获取当前对象相对于 root 目录的路径
+func (r *FileEntity) RootPath() string {
+	Level := strings.Count(r.VirtualPath, "/") - 1
+	if r.Info.IsDir() {
+		Level++
+	}
+	// relativePath 通过 LevelRoot 可以跳转到生成目录，即根目录
+	var LevelRoot = "./"
+	if Level > 0 {
+		LevelRoot += strings.Repeat("../", Level)
+	}
+	return LevelRoot
+}
+
 // FindFileEntityFromID 通过 id 返回对应实体
 type FindFileEntityFromID func(id string) (FileEntity, StructInfo, error)
 
@@ -45,6 +59,19 @@ type FindFileEntityFromID func(id string) (FileEntity, StructInfo, error)
 type DirToStructRes struct {
 	StructList           []FileEntity
 	FindFileEntityFromID FindFileEntityFromID
+}
+
+func addAll(node *ast.Node) {
+	node.KramdownIAL = append(node.KramdownIAL, []string{"data-type", node.Type.String()})
+	if node.Next != nil {
+		addAll(node.Next)
+	}
+	if node.FirstChild != nil {
+		addAll(node.FirstChild)
+	}
+	for _, n := range node.Children {
+		addAll(n)
+	}
 }
 
 // DirToStruct 从 目录 转为更可用的结构
@@ -55,10 +82,16 @@ func DirToStruct(dir string, dbPath string, structToHTML func(interface{}) strin
 	mdStructuredLuteEngine.SetKramdownIAL(true)
 	mdStructuredLuteEngine.SetKramdownIALIDRenderName("data-block-id")
 
-	// GetStructInfoByNotesCode 从 NotesCode 获取结构信息
-	GetStructInfoByNotesCode := func(notesCode string) ([]StructInfo, *parse.Tree) {
-
-		tree, err := protyle.ParseJSON(lute.New(), []byte(notesCode))
+	// GetStructInfoByNotesCode 从 NotesCode 获取结构信息 suffix 是文件后缀目前支持 .sy 和 .md
+	GetStructInfoByNotesCode := func(notesCode string, suffix string) ([]StructInfo, *parse.Tree) {
+		var tree *parse.Tree
+		var err error
+		if suffix == ".sy" {
+			tree, err = protyle.ParseJSON(lute.New(), []byte(notesCode))
+		} else if suffix == ".md" {
+			tree = parse.Parse("", []byte(notesCode), mdStructuredLuteEngine.ParseOptions)
+		}
+		addAll(tree.Root)
 		if err != nil {
 			panic(err)
 		}
@@ -132,7 +165,7 @@ func DirToStruct(dir string, dbPath string, structToHTML func(interface{}) strin
 				util.Warn("读取文件失败", err)
 			}
 			notesCode = string(mdByte)
-			StructInfo, tree = GetStructInfoByNotesCode(notesCode)
+			StructInfo, tree = GetStructInfoByNotesCode(notesCode, filepath.Ext(path))
 			if util.IsNotes(relativePath) {
 				baseName := filepath.Base(relativePath)
 				name = baseName[:len(baseName)-3]

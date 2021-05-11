@@ -8,40 +8,67 @@
 
 [下载地址](https://github.com/siyuan-note/oceanpress/releases) 只需下载所用平台的二进制文件与 views.zip 就可以了
 
-| 平台 | 命令 | 备注 |
-| --- | --- | --- |
-| Windows | `.\md2website-windows-4.0-amd64.exe 参数` |  |
-| Linux | `.\md2website-linux-amd64 参数` |  |
-| Mac | `.\md2website-darwin-10.6-amd64 参数` | 我没有尝试过，因为我没有 mac |
-| 源码 | `go run .\src\ 参数` |  |
 
-参数是这种形式的： `(sourceDir) (outDir) (viewDir) (dbPath)`
+| 平台    | 命令                                      | 备注                         |
+| --------- | ------------------------------------------- | ------------------------------ |
+| Windows | `.\md2website-windows-4.0-amd64.exe 参数` |                              |
+| Linux   | `.\md2website-linux-amd64 参数`           |                              |
+| Mac     | `.\md2website-darwin-10.6-amd64 参数`     | 我没有尝试过，因为我没有 mac |
+| 源码    | `go run .\src\ 参数`                      |                              |
 
-`(sourceDir)` 是文档所在目录, `(outDir)` 是你要输出的目录， `(viewDir)` 是视图文件的目录可以直接使用 `./src/views/` (之前下载的 view.zip 解压后的目录，可以自行修改其中的文件来定制一些效果) `(dbPath)` 是思源生成的 db 文件的路径
+### 参数
 
-示例（使用源码，重点是参数路径）：
+| 参数名     | 值                                                           | 示例                                              |
+| ---------- | ------------------------------------------------------------ | ------------------------------------------------- |
+| SourceDir  | 是笔记所在目录                                               | C:/Users/llej/Documents/SiYuan/data/note          |
+| OutDir     | 是你要输出的目录                                             | D:/code/doc/docHTML                               |
+| viewDir    | 之前下载的 view.zip 解压后的目录，<br />可以自行修改其中的文件来定制一些效果 | ./views/                                          |
+| SqlitePath | 是思源生成的 db 文件的路径                                   | C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db |
+| assetsDir  | 是思源资源文件的路径                                         | C:/Users/llej/Documents/SiYuan/data/assets        |
 
-```go
-go run .\src\ "C:/Users/llej/AppData/Local/Programs/SiYuan/resources/guide/思源笔记用户指南" "D:/code/md2website/docs" "./src/views/" "C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db"
+示例：
+
+```bash
+❯ ./md2website-windows-4.0-amd64.exe -SourceDir=C:/Users/llej/Documents/SiYuan/data/note -OutDir=D:/code/doc/docHTML -TemplateDir=D:/code/oceanpress/src/views -SqlitePath=C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db -assetsDir=C:/Users/llej/Documents/SiYuan/data/assets
+#  运行输出
+0. === 🛬 开始转换 🛫 ===
+1. 用户输入
+   1.1 sourceDir:C:\Users\llej\Documents\SiYuan\data\note
+   1.2 outDir:D:\code\doc\docHTML
+   1.3 viewsDir:D:\code\oceanpress\src\views
+   1.4 dbPath:C:\Users\llej\AppData\Local\Temp\siyuan\siyuan.db
+   1.5 assetsDir:C:\Users\llej\Documents\SiYuan\data\assets   
+2. copy 资源到 outDir
+   2.1 copy 完成
+3. 生成 html
+   3.1 收集转换生成所需数据
+   3.2 复制资源文件
+   3.3 从文件到数据结构转换完毕，开始生成html,共 293 项
+[warn] 未找到id 20210104102607-1rhjb41 对应的fileEntity
+[warn] 未找到id 20210511124801-bhveys4 对应的fileEntity
+----- End -----
 ```
+
+
 
 ## 待完成的功能点（按优先级降序排序）
 
-| 可用 | 功能名 | 大致进度 |
-| --- | --- | --- |
-| ✅ | [#6 内容块动态查询渲染](https://github.com/siyuan-note/oceanpress/issues/6) | `70%` |
-| ❎🔨 | [#4 菜单页面美化](https://github.com/siyuan-note/oceanpress/issues/4) | `15%` |
-| ✅🔨 | [#2 嵌入块渲染](https://github.com/siyuan-note/oceanpress/issues/2) 目前不支持循环引用 | `60%` |
-| ⭕ | 目录树 |  |
-| ⭕ | 页面 header 与 footer |  |
-| ⭕ | 块引用当前页面预览 |  |
-| ⭕ | 块链接可 copy |  |
-| ⭕ | 书签页 |  |
-| ⭕ | 标签页 |  |
-| ✅🔨 | [#8 反链](https://github.com/siyuan-note/oceanpress/issues/8) | `50%` |
-| ✅🔨 | [#1 块引用链接](https://github.com/siyuan-note/oceanpress/issues/1) | `92%` |
-| ✅ | 支持 {.text} 这样的锚文本 | `100%` |
-| ✅ | [#3 代码高亮 以及 数学公式和脑图等渲染](https://github.com/siyuan-note/oceanpress/issues/3) [点击这里查看生成后的效果](https://siyuan-note.github.io/oceanpress/Markdown%20%e4%bd%bf%e7%94%a8%e6%8c%87%e5%8d%97/3%20%e5%ae%8c%e6%95%b4%e7%a4%ba%e4%be%8b.html) 、还需要修改 vditor 等资源的引用为本地文件（不是很重要之后再说） | `100%` |
+
+| 可用 | 功能名                                                                                                                                                                                                                                                                                                                             | 大致进度 |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- |
+| ✅   | [#6 内容块动态查询渲染](https://github.com/siyuan-note/oceanpress/issues/6)                                                                                                                                                                                                                                                        | `70%`    |
+| ❎🔨 | [#4 菜单页面美化](https://github.com/siyuan-note/oceanpress/issues/4)                                                                                                                                                                                                                                                              | `15%`    |
+| ✅🔨 | [#2 嵌入块渲染](https://github.com/siyuan-note/oceanpress/issues/2) 目前不支持循环引用                                                                                                                                                                                                                                             | `60%`    |
+| ⭕   | 目录树                                                                                                                                                                                                                                                                                                                             |          |
+| ⭕   | 页面 header 与 footer                                                                                                                                                                                                                                                                                                              |          |
+| ⭕   | 块引用当前页面预览                                                                                                                                                                                                                                                                                                                 |          |
+| ⭕   | 块链接可 copy                                                                                                                                                                                                                                                                                                                      |          |
+| ⭕   | 书签页                                                                                                                                                                                                                                                                                                                             |          |
+| ⭕   | 标签页                                                                                                                                                                                                                                                                                                                             |          |
+| ✅🔨 | [#8 反链](https://github.com/siyuan-note/oceanpress/issues/8)                                                                                                                                                                                                                                                                      | `50%`    |
+| ✅🔨 | [#1 块引用链接](https://github.com/siyuan-note/oceanpress/issues/1)                                                                                                                                                                                                                                                                | `92%`    |
+| ❌   | 支持 {.text} 这样的锚文本<br />思源1.2后已经不再支持                                                                                                                                                                                                                                                                               | `100%`   |
+| ✅   | [#3 代码高亮 以及 数学公式和脑图等渲染](https://github.com/siyuan-note/oceanpress/issues/3) [点击这里查看生成后的效果](https://siyuan-note.github.io/oceanpress/Markdown%20%e4%bd%bf%e7%94%a8%e6%8c%87%e5%8d%97/3%20%e5%ae%8c%e6%95%b4%e7%a4%ba%e4%be%8b.html)<br />还需要修改 vditor 等资源的引用为本地文件（不是很重要之后再说） | `100%`   |
 
 1. ✅ 表示基本可以使用了
 2. 🔨 表示还在修改中
@@ -69,12 +96,13 @@ go run .\src\ "C:/Users/llej/AppData/Local/Programs/SiYuan/resources/guide/思�
 
 目前生成的资源有：
 
-| js 文件 | 描述 | 体积 |
-| --- | --- | --- |
-| [all_components](./src/views/assets/font-end-lib/all_components.js) | 包含了所有组件 | 266KB |
-| [block-ref.web_components](./src/views/assets/font-end-lib/block-ref.web_components.js) | 块引用组件 | 4KB |
-| [embedded-block.web_components](./src/views/assets/font-end-lib/embedded-block.web_components.js) | 嵌入块组件 | 5KB |
-| [md.web_components.js](./src/views/assets/font-end-lib/md.web_components.js) | 文档渲染组件<br/>因为引入了 vditor 所以稍微有点大 | 263KB |
+
+| js 文件                                                                                           | 描述                                              | 体积  |
+| --------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------- |
+| [all_components](./src/views/assets/font-end-lib/all_components.js)                               | 包含了所有组件                                    | 266KB |
+| [block-ref.web_components](./src/views/assets/font-end-lib/block-ref.web_components.js)           | 块引用组件                                        | 4KB   |
+| [embedded-block.web_components](./src/views/assets/font-end-lib/embedded-block.web_components.js) | 嵌入块组件                                        | 5KB   |
+| [md.web_components.js](./src/views/assets/font-end-lib/md.web_components.js)                      | 文档渲染组件<br/>因为引入了 vditor 所以稍微有点大 | 263KB |
 
 默认引入 all_components.js
 

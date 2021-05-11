@@ -5,6 +5,7 @@ import (
 	"errors"
 	"html/template"
 	"path"
+	"sort"
 	"strings"
 
 	sqlite "github.com/2234839/md2website/src/sqlite"
@@ -97,12 +98,6 @@ func (r *OceanpressRenderer) NodeDocument(node *ast.Node, entering bool) ast.Wal
 	})(node, entering)
 }
 
-/** 获取块的id */
-func (r *OceanpressRenderer) getBlockID(node *ast.Node, entering bool) ast.WalkStatus {
-	r.context.refID = node.TokensStr()
-	// if(node.Type == ast.NodeBlockRefID)
-	return ast.WalkContinue
-}
 func getRootByNode(node *ast.Node) *ast.Node {
 	if node.Parent == nil {
 		return node
@@ -192,6 +187,32 @@ func (r *OceanpressRenderer) NodeBlockQueryEmbed(node *ast.Node, entering bool) 
 			html = r.SqlRender(sql, true)
 		}
 	}
+	r.WriteHTML(html)
+	return ast.WalkSkipChildren
+}
+
+/** 超级块渲染 */
+func (r *OceanpressRenderer) NodeSuperBlock(node *ast.Node, entering bool) ast.WalkStatus {
+	if entering == false {
+		return ast.WalkContinue
+	}
+	var layout string
+	var html string
+	children := getAllNextByNode(node.FirstChild)
+	for _, n := range children {
+		if n.Type == ast.NodeSuperBlockLayoutMarker {
+			layout = n.TokensStr()
+		}
+	}
+	sort.Slice(children, func(i, j int) bool {
+		n := children[i]
+		return n.Type != ast.NodeSuperBlockCloseMarker && n.Type != ast.NodeSuperBlockOpenMarker
+	})
+	for _, n := range children {
+		html += r.renderNodeToHTML(n, true)
+	}
+	// TODO： 采用模板
+	html = "<div data-type=\"NodeSuperBlock\" data-sb-layout=\"" + layout + "\" >" + html + "</div>"
 	r.WriteHTML(html)
 	return ast.WalkSkipChildren
 }
@@ -421,7 +442,7 @@ type Context struct {
 
 	baseEntity  FileEntity
 	luteEngine  *lute.Lute
-	rawRenderer *render.HtmlRenderer
+	rawRenderer *render.ProtylePreviewRenderer
 }
 
 func (r *OceanpressRenderer) WriteHTML(html string) {
@@ -431,7 +452,7 @@ func (r *OceanpressRenderer) WriteHTML(html string) {
 }
 
 // forkNewOceanpressRenderer 从当前的 OceanpressRenderer 派生出一个新的，基于之前的配置
-func (r *OceanpressRenderer) forkNewOceanpressRenderer(tree *parse.Tree) (*render.HtmlRenderer, *OceanpressRenderer) {
+func (r *OceanpressRenderer) forkNewOceanpressRenderer(tree *parse.Tree) (*render.ProtylePreviewRenderer, *OceanpressRenderer) {
 	r1, r2 := NewOceanpressRenderer(tree, r.context.luteEngine.RenderOptions, r.context.db, r.context.FindFileEntityFromID, r.context.structToHTML, r.context.baseEntity, r.context.luteEngine)
 	return r1, r2
 }
@@ -443,9 +464,10 @@ func NewOceanpressRenderer(tree *parse.Tree, options *render.Options,
 	baseEntity FileEntity,
 	luteEngine *lute.Lute,
 
-) (*render.HtmlRenderer, *OceanpressRenderer) {
+) (*render.ProtylePreviewRenderer, *OceanpressRenderer) {
 
-	rawRenderer := render.NewHtmlRenderer(tree, options)
+	// rawRenderer := render.NewHtmlRenderer(tree, options)
+	rawRenderer := render.NewProtylePreviewRenderer(tree, options)
 	// 嵌入块的 id
 	var refID string
 	var idStack []string
@@ -480,9 +502,8 @@ func NewOceanpressRenderer(tree *parse.Tree, options *render.Options,
 		context,
 	}
 
-	rawRenderer.RendererFuncs[ast.NodeBlockEmbedID] = ret2.getBlockID
-
 	rawRenderer.RendererFuncs[ast.NodeBlockRef] = ret2.NodeBlockRef
 	rawRenderer.RendererFuncs[ast.NodeBlockQueryEmbed] = ret2.NodeBlockQueryEmbed
+	rawRenderer.RendererFuncs[ast.NodeSuperBlock] = ret2.NodeSuperBlock
 	return rawRenderer, ret2
 }

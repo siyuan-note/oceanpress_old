@@ -10,9 +10,20 @@ import (
 )
 
 // HTMLtemplate 包含一些模板
-var HTMLtemplate = template.Must(template.ParseGlob(path.Join(TemplateDir, "./*.html")))
+var globalF = template.FuncMap{"unescaped": unescaped}
+
+var menuTemplate *template.Template
+var HTMLtemplate *template.Template
+var articleTemplate *template.Template
+var embeddedBlockTemplate *template.Template
+var blockRefTemplate *template.Template
 
 func init() {
+	HTMLtemplate = template.Must(template.ParseGlob(path.Join(TemplateDir, "./*.html")))
+	articleTemplate = HTMLtemplate.New("article").Funcs(globalF)
+	embeddedBlockTemplate = HTMLtemplate.New("embeddedBlock").Funcs(globalF)
+	blockRefTemplate = HTMLtemplate.New("blockRef").Funcs(globalF)
+	menuTemplate = HTMLtemplate.New("menu").Funcs(globalF)
 	template.Must(HTMLtemplate.ParseGlob(path.Join(TemplateDir, "./*/*.html")))
 }
 func unescaped(x string) interface{} { return template.HTML(x) }
@@ -26,13 +37,6 @@ func ExecTemplate(t *template.Template, data interface{}) string {
 	t.Execute(buf, data)
 	return buf.String()
 }
-
-var globalF = template.FuncMap{"unescaped": unescaped}
-
-var articleTemplate = HTMLtemplate.New("article").Funcs(globalF)
-var menuTemplate = HTMLtemplate.New("menu").Funcs(globalF)
-var embeddedBlockTemplate = HTMLtemplate.New("embeddedBlock").Funcs(globalF)
-var blockRefTemplate = HTMLtemplate.New("blockRef").Funcs(globalF)
 
 type sonEntityI struct {
 	WebPath string
@@ -52,6 +56,10 @@ type MenuInfo struct {
 	SonEntityList []sonEntityI
 	PageTitle     string
 	LevelRoot     string
+}
+
+func (r *MenuInfo) Render() string {
+	return MenuRender(*r)
 }
 
 // ArticleRender 渲染文章html
