@@ -4,6 +4,8 @@ import (
 	"flag"
 	"os"
 	"path/filepath"
+
+	"github.com/2234839/md2website/src/util"
 )
 
 // 用于获取用户输入的参数
@@ -29,9 +31,11 @@ func init() {
 	SqlitePath_ := flag.String("SqlitePath", "", "思源 sqlite db 路径")
 	assetsDir_ := flag.String("assetsDir", "", "思源存放资源文件的路径")
 	flag.Parse()
+
 	SourceDir, _ = filepath.Abs(*SourceDir_)
 	OutDir, _ = filepath.Abs(*OutDir_)
 	TemplateDir, _ = filepath.Abs(*TemplateDir_)
 	SqlitePath, _ = filepath.Abs(*SqlitePath_)
 	assetsDir, _ = filepath.Abs(*assetsDir_)
+	util.Log(flag.NArg(), SourceDir, OutDir, TemplateDir, SqlitePath, assetsDir)
 }

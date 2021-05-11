@@ -4,6 +4,8 @@
 
 [点击这里查看生成后的效果](https://siyuan-note.github.io/oceanpress/) 静态文件位于 [gh-pages](https://github.com/siyuan-note/oceanpress/tree/gh-pages)
 
+注意！思源1.2 存在一个比较大的改动，这之前的版本请使用 [siyuan-note/oceanpress at b6185cd79f](https://github.com/siyuan-note/oceanpress/tree/b6185cd79f0552698fad38b9ee7062c0abc3e1d7)
+
 ## 运行方式 run
 
 [下载地址](https://github.com/siyuan-note/oceanpress/releases) 只需下载所用平台的二进制文件与 views.zip 就可以了
@@ -18,18 +20,19 @@
 
 ### 参数
 
-| 参数名     | 值                                                           | 示例                                              |
-| ---------- | ------------------------------------------------------------ | ------------------------------------------------- |
-| SourceDir  | 是笔记所在目录                                               | C:/Users/llej/Documents/SiYuan/data/note          |
-| OutDir     | 是你要输出的目录                                             | D:/code/doc/docHTML                               |
+
+| 参数名     | 值                                                                           | 示例                                              |
+| ------------ | ------------------------------------------------------------------------------ | --------------------------------------------------- |
+| SourceDir  | 是笔记所在目录                                                               | C:/Users/llej/Documents/SiYuan/data/note          |
+| OutDir     | 是你要输出的目录                                                             | D:/code/doc/docHTML                               |
 | viewDir    | 之前下载的 view.zip 解压后的目录，<br />可以自行修改其中的文件来定制一些效果 | ./views/                                          |
-| SqlitePath | 是思源生成的 db 文件的路径                                   | C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db |
-| assetsDir  | 是思源资源文件的路径                                         | C:/Users/llej/Documents/SiYuan/data/assets        |
+| SqlitePath | 是思源生成的 db 文件的路径                                                   | C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db |
+| assetsDir  | 是思源资源文件的路径                                                         | C:/Users/llej/Documents/SiYuan/data/assets        |
 
 示例：
 
 ```bash
-❯ ./md2website-windows-4.0-amd64.exe -SourceDir=C:/Users/llej/Documents/SiYuan/data/note -OutDir=D:/code/doc/docHTML -TemplateDir=D:/code/oceanpress/src/views -SqlitePath=C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db -assetsDir=C:/Users/llej/Documents/SiYuan/data/assets
+❯ ./md2website-windows-4.0-amd64.exe -SourceDir C:/Users/llej/Documents/SiYuan/data/note -OutDir D:/code/doc/docHTML -TemplateDir D:/code/oceanpress/src/views -SqlitePath C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db -assetsDir C:/Users/llej/Documents/SiYuan/data/assets
 #  运行输出
 0. === 🛬 开始转换 🛫 ===
 1. 用户输入
@@ -37,7 +40,7 @@
    1.2 outDir:D:\code\doc\docHTML
    1.3 viewsDir:D:\code\oceanpress\src\views
    1.4 dbPath:C:\Users\llej\AppData\Local\Temp\siyuan\siyuan.db
-   1.5 assetsDir:C:\Users\llej\Documents\SiYuan\data\assets   
+   1.5 assetsDir:C:\Users\llej\Documents\SiYuan\data\assets
 2. copy 资源到 outDir
    2.1 copy 完成
 3. 生成 html
@@ -48,8 +51,6 @@
 [warn] 未找到id 20210511124801-bhveys4 对应的fileEntity
 ----- End -----
 ```
-
-
 
 ## 待完成的功能点（按优先级降序排序）
 
