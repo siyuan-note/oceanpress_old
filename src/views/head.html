@@ -13,14 +13,17 @@
     <!-- font-end-lib 生成的资源 star -->
 
     <!-- 正式发布时应该访问的地址,all_components.js 表示加载全部的 web components 组件，你也可以选择性的加载其中一些组件或者替换为你自己的实现  -->
-    <script src="{{.LevelRoot}}assets/font-end-lib/all_components.js"></script>
+    <!-- <script src="{{.LevelRoot}}assets/font-end-lib/all_components.js"></script> -->
     <!-- 开发调试 -->
-    <!-- <script src="http://localhost:5000/build/app.js"></script> -->
+        <!-- <script src="http://localhost:5000/build/app.js"></script> -->
+        <script src="{{.LevelRoot}}../src/views/assets/font-end-lib/all_components.js"></script>
+        <link rel="stylesheet" href="{{.LevelRoot}}../src/views/assets/js_css/github-markdown-css.css">
+
 
     <!-- font-end-lib 生成的资源 end -->
 
-    <link rel="stylesheet" href="{{.LevelRoot}}assets/theme.css">
-    <link rel="stylesheet" href="{{.LevelRoot}}assets/github-markdown-css.css">
+    <link rel="stylesheet" href="{{.LevelRoot}}assets/js_css/theme.css">
+    <link rel="stylesheet" href="{{.LevelRoot}}assets/js_css/github-markdown-css.css">
 </head>
 
 {{end}}

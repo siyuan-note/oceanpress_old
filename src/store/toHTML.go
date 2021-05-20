@@ -12,8 +12,10 @@ import (
 	"github.com/2234839/md2website/src/util"
 	"github.com/88250/lute"
 	"github.com/88250/lute/ast"
+	"github.com/88250/lute/html"
 	"github.com/88250/lute/parse"
 	"github.com/88250/lute/render"
+	luteUtil "github.com/88250/lute/util"
 )
 
 // EmbeddedBlockInfo 嵌入块所需信息
@@ -215,6 +217,52 @@ func (r *OceanpressRenderer) NodeSuperBlock(node *ast.Node, entering bool) ast.W
 	html = "<div data-type=\"NodeSuperBlock\" data-sb-layout=\"" + layout + "\" >" + html + "</div>"
 	r.WriteHTML(html)
 	return ast.WalkSkipChildren
+}
+
+// 代码块渲染
+func (r *OceanpressRenderer) NodeCodeBlock(node *ast.Node, entering bool) ast.WalkStatus {
+	r.context.rawRenderer.Newline()
+	noHighlight := false
+	var language string
+	if nil != node.FirstChild.Next && 0 < len(node.FirstChild.Next.CodeBlockInfo) {
+		language = luteUtil.BytesToStr(node.FirstChild.Next.CodeBlockInfo)
+		noHighlight = r.context.rawRenderer.NoHighlight(language)
+	}
+
+	if entering {
+		if noHighlight {
+			var attrs [][]string
+			tokens := html.EscapeHTML(node.FirstChild.Next.Next.Tokens)
+			tokens = bytes.ReplaceAll(tokens, luteUtil.CaretTokens, nil)
+			tokens = bytes.TrimSpace(tokens)
+
+			content := luteUtil.BytesToStr(tokens)
+			attrs = append(attrs, []string{"data-content", content})
+			if language == "mindmap" { // 图标数据 parser ，protyle 是引入了 lute 来做这个，我打算在编译的时候 parse
+				eChartsData := html.EscapeString(render.EChartsMindmapStr(content))
+				attrs = append(attrs, []string{"data-parse-content", eChartsData})
+			}
+			attrs = append(attrs, []string{"data-subtype", language})
+
+			r.context.rawRenderer.Tag("div", attrs, false)
+			r.context.rawRenderer.Tag("div", [][]string{{"spin", "1"}}, false)
+			r.context.rawRenderer.Tag("/div", nil, false)
+			r.context.rawRenderer.Tag("/div", nil, false)
+			return ast.WalkSkipChildren
+		}
+
+		attrs := [][]string{{"class", "code-block"}, {"data-language", language}}
+		r.context.rawRenderer.Tag("pre", attrs, false)
+		r.context.rawRenderer.WriteString("<code>")
+	} else {
+		if noHighlight {
+			return ast.WalkSkipChildren
+		}
+
+		r.context.rawRenderer.Tag("/code", nil, false)
+		r.context.rawRenderer.Tag("/pre", nil, false)
+	}
+	return ast.WalkContinue
 }
 
 // SqlRender 通过 sql 渲染出 html
@@ -505,5 +553,6 @@ func NewOceanpressRenderer(tree *parse.Tree, options *render.Options,
 	rawRenderer.RendererFuncs[ast.NodeBlockRef] = ret2.NodeBlockRef
 	rawRenderer.RendererFuncs[ast.NodeBlockQueryEmbed] = ret2.NodeBlockQueryEmbed
 	rawRenderer.RendererFuncs[ast.NodeSuperBlock] = ret2.NodeSuperBlock
+	rawRenderer.RendererFuncs[ast.NodeCodeBlock] = ret2.NodeCodeBlock
 	return rawRenderer, ret2
 }

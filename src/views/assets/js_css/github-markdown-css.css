@@ -1073,3 +1073,10 @@ pre:hover .vditor-copy {
 [data-type="NodeSuperBlock"][data-sb-layout="col"] > * {
   flex: 1;
 }
+
+/* 将这些块设定高度，用来显示嵌入的图表之类的东西 */
+[data-subtype="mindmap"],
+[data-subtype="echarts"] {
+  overflow: hidden;
+  height: 420px;
+}
