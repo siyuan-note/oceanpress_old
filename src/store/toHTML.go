@@ -305,27 +305,13 @@ func (r *OceanpressRenderer) 模板复制粘贴用(node *ast.Node, entering bool
 	})(node, entering)
 }
 
-func (r *OceanpressRenderer) titleRenderer(n *ast.Node, entering bool, src string, fileEntity FileEntity, mdInfo StructInfo, html string) template.HTML {
-	var title = template.HTML(n.Text())
-	t := string(title)
-
-	// 锚文本模板变量处理 使用定义块内容文本填充。
-	if strings.Contains(t, "{{.text}}") {
-		var title2 template.HTML
-		// 如定义块是文档块，则使用文档名填充。
-		if mdInfo.blockType == "NodeDocument" {
-			title2 = template.HTML(fileEntity.Name)
-		} else {
-			title2 = template.HTML(
-				r.context.luteEngine.HTML2Text(
-					r.context.luteEngine.MarkdownStr("", renderNodeMarkdown(mdInfo.node, false)),
-				),
-			)
-		}
-		title = template.HTML(strings.ReplaceAll(t, "{{.text}}", string(title2)))
+func (r *OceanpressRenderer) NodeDocumentRender(node *ast.Node, entering bool) ast.WalkStatus {
+	if entering {
+		r.context.rawRenderer.Tag("main", node.KramdownIAL, false)
+	} else {
+		r.context.rawRenderer.Tag("/main", nil, false)
 	}
-	title = template.HTML(strings.ReplaceAll(string(title), "\n", ""))
-	return title
+	return ast.WalkContinue
 }
 
 // HOC, 内部处理了循环引用的问题， 生成一个渲染函数，
@@ -554,5 +540,7 @@ func NewOceanpressRenderer(tree *parse.Tree, options *render.Options,
 	rawRenderer.RendererFuncs[ast.NodeBlockQueryEmbed] = ret2.NodeBlockQueryEmbed
 	rawRenderer.RendererFuncs[ast.NodeSuperBlock] = ret2.NodeSuperBlock
 	rawRenderer.RendererFuncs[ast.NodeCodeBlock] = ret2.NodeCodeBlock
+	rawRenderer.RendererFuncs[ast.NodeDocument] = ret2.NodeDocumentRender
+
 	return rawRenderer, ret2
 }

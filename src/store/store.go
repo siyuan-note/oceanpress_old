@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 
 	sqlite "github.com/2234839/md2website/src/sqlite"
@@ -61,16 +62,44 @@ type DirToStructRes struct {
 	FindFileEntityFromID FindFileEntityFromID
 }
 
-func addAll(node *ast.Node) {
+func addKramdownIAL(node *ast.Node) {
+	ctx := addKramdownIALContext{}
+	addAll(node, &ctx)
+	// 文档最后更新时间
+	node.KramdownIAL = append(node.KramdownIAL, []string{"updated", strconv.Itoa(ctx.docUpdated)})
+	//TODO: 所有块 id 都应该改成 data-block-id 这里应该要看下 lute 内是如何实现的，不应该这里还要写死
+	for _, v := range node.KramdownIAL {
+		if v[0] == "id" {
+			node.KramdownIAL = append(node.KramdownIAL, []string{"data-block-id", v[1]})
+		}
+	}
+}
+
+type addKramdownIALContext struct {
+	docUpdated int
+}
+
+// addAll 遍历整颗树，附加一些数据到 KramdownIAL
+func addAll(node *ast.Node, ctx *addKramdownIALContext) {
+	for _, v := range node.KramdownIAL {
+		// 获取文档最后更新时间
+		if v[0] == "updated" {
+			updated, _ := strconv.Atoi(v[1])
+			if updated > ctx.docUpdated {
+				ctx.docUpdated = updated
+			}
+		}
+	}
 	node.KramdownIAL = append(node.KramdownIAL, []string{"data-type", node.Type.String()})
+
 	if node.Next != nil {
-		addAll(node.Next)
+		addAll(node.Next, ctx)
 	}
 	if node.FirstChild != nil {
-		addAll(node.FirstChild)
+		addAll(node.FirstChild, ctx)
 	}
 	for _, n := range node.Children {
-		addAll(n)
+		addAll(n, ctx)
 	}
 }
 
@@ -91,7 +120,7 @@ func DirToStruct(dir string, dbPath string, structToHTML func(interface{}) strin
 		} else if suffix == ".md" {
 			tree = parse.Parse("", []byte(notesCode), mdStructuredLuteEngine.ParseOptions)
 		}
-		addAll(tree.Root)
+		addKramdownIAL(tree.Root)
 		if err != nil {
 			panic(err)
 		}
