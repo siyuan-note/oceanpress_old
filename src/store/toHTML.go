@@ -214,8 +214,11 @@ func (r *OceanpressRenderer) NodeSuperBlock(node *ast.Node, entering bool) ast.W
 		html += r.renderNodeToHTML(n, true)
 	}
 	// TODO： 采用模板
-	html = "<div data-type=\"NodeSuperBlock\" data-sb-layout=\"" + layout + "\" >" + html + "</div>"
+	r.context.rawRenderer.Newline()
+	node.KramdownIAL = append(node.KramdownIAL, []string{"data-sb-layout", layout})
+	r.context.rawRenderer.Tag("div", node.KramdownIAL, false)
 	r.WriteHTML(html)
+	r.context.rawRenderer.Tag("/div", nil, false)
 	return ast.WalkSkipChildren
 }
 
@@ -305,6 +308,7 @@ func (r *OceanpressRenderer) 模板复制粘贴用(node *ast.Node, entering bool
 	})(node, entering)
 }
 
+// 文档根节点
 func (r *OceanpressRenderer) NodeDocumentRender(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering {
 		r.context.rawRenderer.Tag("main", node.KramdownIAL, false)
