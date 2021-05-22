@@ -35,7 +35,6 @@ func (r *OceanPressRender) Render() (output []byte) {
 		refHTML = `<h2>链接到此文档的相关文档</h2>` + content
 	}
 	output = append(output, []byte(refHTML)...)
-
 	return
 }
 
@@ -61,6 +60,10 @@ func (r *OceanPressRender) renderNodeToHTML(node *ast.Node, headerIncludes bool)
 	tree := &parse.Tree{Root: root, Context: &parse.Context{ParseOption: luteEngine.ParseOptions}}
 	tree.Context.ParseOption.KramdownBlockIAL = false // 关闭 IAL
 
+	err := r.context.push(node.ID)
+	if err != nil {
+		return "oceanpress 渲染错误：「循环引用」"
+	}
 	renderer := NewOceanPressRenderer(tree, (*Options)(luteEngine.RenderOptions), r.context)
 	// renderer2 := render.NewFormatRenderer(tree, luteEngine.RenderOptions)
 	renderer.Writer = &bytes.Buffer{}
@@ -82,21 +85,23 @@ func (r *OceanPressRender) renderBlockRef(node *ast.Node, entering bool) ast.Wal
 	}
 	var refID string
 	root := getRootByNode(node)
-	currentEntity, _, _ := r.context.FindFileEntityFromID(root.ID)
+	currentEntity, _, _ := r.FindFileEntityFromID(root.ID)
 
 	var targetNodeStructInfo structAll.StructInfo
 	var targetEntity structAll.FileEntity
 
 	var src string
 	var title string
+	var findErr error = nil
 	hasEmbedText := false
 	children := getAllNextByNode(node.FirstChild)
+
 	for _, n := range children {
 		if n.Type == ast.NodeBlockRefID {
 			// 这里应该每个 NodeBlockRef 都包含了，意味着一般一定执行
 			refID = n.TokensStr()
 
-			targetEntity, targetNodeStructInfo, _ = r.context.FindFileEntityFromID(refID)
+			targetEntity, targetNodeStructInfo, findErr = r.FindFileEntityFromID(refID)
 			if targetEntity.Path != "" {
 				src = currentEntity.FileEntityRelativePath(targetEntity, refID)
 			}
@@ -114,6 +119,10 @@ func (r *OceanPressRender) renderBlockRef(node *ast.Node, entering bool) ast.Wal
 		} else {
 			title = r.context.LuteEngine.HTML2Text(r.renderNodeToHTML(targetNodeStructInfo.Node, false))
 		}
+	}
+	// findErr 本身已经会发出警告了
+	if findErr == nil && strings.TrimSpace(title) == "" {
+		util.Warn("<块引用渲染为空>", r.context.BaseEntity.RelativePath+" 中的块引用 "+refID)
 	}
 	r.WriteString(r.context.StructToHTML(structAll.BlockRefInfo{
 		Src:   src,
@@ -295,11 +304,11 @@ func (r *OceanPressRender) SqlRender(sql string, headerIncludes bool) string {
 	ids := r.context.Db.SQLToID(sql)
 	var html string
 	for _, id := range ids {
-		fileEntity, mdInfo, err := r.context.FindFileEntityFromID(id)
+		fileEntity, mdInfo, err := r.FindFileEntityFromID(id)
 		if err != nil {
 			return ""
 		}
-		err = r.context.push(mdInfo.BlockID)
+		// err = r.context.push(mdInfo.BlockID)
 		if err != nil {
 			// TODO: 这里应该要处理成点击展开，或者换一个更好的显示
 			html = "error: 循环引用 "
@@ -316,11 +325,20 @@ func (r *OceanPressRender) SqlRender(sql string, headerIncludes bool) string {
 				Content: template.HTML(r.renderNodeToHTML(mdInfo.Node, headerIncludes)),
 			})
 			r.context.LuteEngine.RenderOptions.LinkBase = ""
-			r.context.pop(mdInfo.BlockID)
+			// r.context.pop(mdInfo.BlockID)
 		}
 
 	}
 	return html
+}
+
+// FindFileEntityFromID 附加了人性化警告
+func (r *OceanPressRender) FindFileEntityFromID(id string) (structAll.FileEntity, structAll.StructInfo, error) {
+	a, b, err := r.context.FindFileEntityFromID(id)
+	if err != nil {
+		util.Warn("<没有找到对应块>", r.context.BaseEntity.Name+"("+r.context.BaseEntity.RelativePath+") 引用了 "+id+" 但没有找到该块")
+	}
+	return a, b, err
 }
 
 // =========

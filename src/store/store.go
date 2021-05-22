@@ -105,18 +105,16 @@ func DirToStruct(dir string,
 
 	// StructList 解析后的所有对象
 	var StructList []structAll.FileEntity
-	StructInfoMap := make(map[string]structAll.StructInfo)
+	StructInfoMap := make(map[string]*structAll.StructInfo)
 	// FindFileEntityFromID 通过id找到对应的数据
 	FindFileEntityFromID := func(id string) (structAll.FileEntity, structAll.StructInfo, error) {
 		var fileEntity structAll.FileEntity
 		var mdInfo structAll.StructInfo
 		info, ok := StructInfoMap[id]
 		if ok {
-			return *info.FileEntity, info, nil
-
+			return *info.FileEntity, *info, nil
 		} else {
 			var msg = "未找到id " + id + " 对应的fileEntity"
-			util.Warn(msg)
 			return fileEntity, mdInfo, errors.New(msg)
 		}
 	}
@@ -165,7 +163,6 @@ func DirToStruct(dir string,
 		entity.ToHTML = func() string {
 			return FileEntityToHTML(entity)
 		}
-
 		return entity
 	}
 
@@ -182,9 +179,14 @@ func DirToStruct(dir string,
 				return nil
 			}
 		})
-	for _, fileEntity := range StructList {
-		for _, info := range fileEntity.StructInfoList {
-			StructInfoMap[info.BlockID] = info
+	// 构建 StructInfoMap
+	for i := 0; i < len(StructList); i++ {
+		fileEntity := StructList[i]
+		for j := 0; j < len(fileEntity.StructInfoList); j++ {
+			info := fileEntity.StructInfoList[j]
+			if info.BlockID != "" {
+				StructInfoMap[info.BlockID] = &info
+			}
 		}
 	}
 	return structAll.DirToStructRes{

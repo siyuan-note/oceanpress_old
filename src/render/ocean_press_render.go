@@ -30,43 +30,54 @@ import (
 	"github.com/88250/lute/util"
 )
 
-
 type Context struct {
 	Db                   sqlite.DbResult
 	FindFileEntityFromID func(id string) (structAll.FileEntity, structAll.StructInfo, error)
 	StructToHTML         func(interface{}) string
 
-	RefID string
-	push  func(id string) error
-	pop   func(id string)
+	RefID   string
+	idStack *[]string
+	push    func(id string) error
+	pop     func(id string)
 
 	BaseEntity structAll.FileEntity
 	LuteEngine *lute.Lute
 }
 type OceanPressRender struct {
 	*BaseRenderer
-	context Context
+	context *Context
 }
 
 func NewOceanPressRenderer(tree *parse.Tree, options *Options,
-	context Context,
+	context *Context,
 ) *OceanPressRender {
 	// 嵌入块的 id
-	var refID string
-	var idStack []string
-
+	refID := context.BaseEntity.Tree.ID
+	if context.idStack == nil {
+		context.idStack = &[]string{}
+	}
 	push := func(id string) error {
-		for _, item := range idStack {
+		if id == "" {
+			return nil
+		}
+		count := 0
+		for _, item := range *context.idStack {
 			if item == id {
-				oceanUtil.Warn("循环引用", id)
-				return errors.New("循环引用")
+				count++
 			}
 		}
-		idStack = append(idStack, id)
+		if count >= 2 {
+			oceanUtil.Warn("<循环引用>", id)
+			return errors.New("循环引用")
+		}
+		t := append(*context.idStack, id)
+		context.idStack = &t
 		return nil
 	}
 	pop := func(id string) {
-		idStack = idStack[:len(idStack)-1]
+		stack := *context.idStack
+		t := stack[:len(*context.idStack)-1]
+		context.idStack = &t
 	}
 	context.pop = pop
 	context.push = push

@@ -62,35 +62,16 @@ func main() {
 
 		// FileEntityToHTML entity 转 html
 		FileEntityToHTML := func(entity structAll.FileEntity) string {
-			// renderer, r := NewOceanpressRenderer(entity.Tree, luteEngine.RenderOptions, db, FindFileEntityFromID, structToHTML, baseEntity, luteEngine)
-			// r.context.baseEntity = entity
 			context := oceanpress.Context{}
 			context.Db = db
 			context.BaseEntity = entity
 			context.FindFileEntityFromID = FindFileEntityFromID
 			context.LuteEngine = luteEngine
 			context.StructToHTML = structToHTML
-			renderer := oceanpress.NewOceanPressRenderer(entity.Tree, (*oceanpress.Options)(luteEngine.RenderOptions), context)
-			// 在每个文档的底部显示反链
-			// curID := entity.Tree.ID
-			var refHTML string
-			// 	content := r.SqlRender(`SELECT "refs".block_id as "ref_id", blocks.* FROM "refs"
-
-			// LEFT JOIN blocks
-			// ON "refs".block_id = blocks.id
-
-			// WHERE
-			// def_block_id = /** 被引用块的 id */ '`+curID+`';`, false)
-			// 	if len(content) > 0 {
-			// 		// TODO: 这里也应该使用模板，容后再做
-			// 		refHTML = `<h2>链接到此文档的相关文档</h2>` + content
-			// 	}
+			renderer := oceanpress.NewOceanPressRenderer(entity.Tree, (*oceanpress.Options)(luteEngine.RenderOptions), &context)
 
 			output := renderer.Render()
-			html := string(output)
-			// html := renderFunc()
-			// html := ""
-			return html + refHTML
+			return string(output)
 		}
 		return FileEntityToHTML
 	})
@@ -148,8 +129,6 @@ func main() {
 			ioutil.WriteFile(targetPath, []byte(html), 0777)
 		} else {
 			targetPath := filepath.Join(outDir, relativePath[0:len(relativePath)-3]) + ".html"
-
-			// rawHTML := mdtransform.FileEntityToHTML(entity)
 			rawHTML := entity.ToHTML()
 
 			html := ArticleRender(ArticleInfo{
