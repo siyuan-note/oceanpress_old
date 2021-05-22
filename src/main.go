@@ -7,8 +7,12 @@ import (
 	"path/filepath"
 	"strings"
 
+	oceanpress "github.com/2234839/md2website/src/render"
+	"github.com/2234839/md2website/src/sqlite"
 	store "github.com/2234839/md2website/src/store"
+	structAll "github.com/2234839/md2website/src/struct"
 	"github.com/2234839/md2website/src/util"
+	"github.com/88250/lute"
 	"github.com/88250/lute/ast"
 	copy "github.com/otiai10/copy"
 )
@@ -43,7 +47,53 @@ func main() {
 
 	// 转换数据结构 filepath => entityList
 	util.RunningLog("3.1", "收集转换生成所需数据")
-	noteStore := store.DirToStruct(sourceDir, SqlitePath, TemplateRender)
+	// store.NewOceanPressRenderer()
+	noteStore := store.DirToStruct(sourceDir, SqlitePath, TemplateRender, func(db sqlite.DbResult, FindFileEntityFromID structAll.FindFileEntityFromID, structToHTML func(interface{}) string) func(entity structAll.FileEntity) string {
+		// luteEngine lute 实例
+		var luteEngine = lute.New()
+
+		/** 对引用块进行渲染 */
+		luteEngine.SetBlockRef(true)
+		// /** 渲染 id （渲染为空） */
+		luteEngine.SetKramdownIAL(true)
+		// /** 标题的链接 a 标签渲染 */
+		luteEngine.SetHeadingAnchor(true)
+		luteEngine.SetKramdownIALIDRenderName("data-n-id")
+
+		// FileEntityToHTML entity 转 html
+		FileEntityToHTML := func(entity structAll.FileEntity) string {
+			// renderer, r := NewOceanpressRenderer(entity.Tree, luteEngine.RenderOptions, db, FindFileEntityFromID, structToHTML, baseEntity, luteEngine)
+			// r.context.baseEntity = entity
+			context := oceanpress.Context{}
+			context.Db = db
+			context.BaseEntity = entity
+			context.FindFileEntityFromID = FindFileEntityFromID
+			context.LuteEngine = luteEngine
+			context.StructToHTML = structToHTML
+			renderer := oceanpress.NewOceanPressRenderer(entity.Tree, (*oceanpress.Options)(luteEngine.RenderOptions), context)
+			// 在每个文档的底部显示反链
+			// curID := entity.Tree.ID
+			var refHTML string
+			// 	content := r.SqlRender(`SELECT "refs".block_id as "ref_id", blocks.* FROM "refs"
+
+			// LEFT JOIN blocks
+			// ON "refs".block_id = blocks.id
+
+			// WHERE
+			// def_block_id = /** 被引用块的 id */ '`+curID+`';`, false)
+			// 	if len(content) > 0 {
+			// 		// TODO: 这里也应该使用模板，容后再做
+			// 		refHTML = `<h2>链接到此文档的相关文档</h2>` + content
+			// 	}
+
+			output := renderer.Render()
+			html := string(output)
+			// html := renderFunc()
+			// html := ""
+			return html + refHTML
+		}
+		return FileEntityToHTML
+	})
 	util.RunningLog("3.2", "复制资源文件")
 	for _, entity := range noteStore.StructList {
 		if entity.Tree == nil {
@@ -66,7 +116,7 @@ func main() {
 			// 这里要生成一个类似于当前目录菜单的东西
 			targetPath := filepath.Join(outDir, relativePath, "index.html")
 			// 当前目录的 子路径 不包含更深层级的
-			sonList := fileEntityListFilter(noteStore.StructList, func(f store.FileEntity) bool {
+			sonList := fileEntityListFilter(noteStore.StructList, func(f structAll.FileEntity) bool {
 				return strings.HasPrefix(f.VirtualPath, virtualPath) &&
 					// 这个条件去除了间隔一层以上的其他路径
 					strings.LastIndex(f.VirtualPath[len(virtualPath):], "/") == 0
@@ -120,7 +170,7 @@ func main() {
 }
 
 // go 怎么写类似于其他语言泛型的过滤方式 ？// https://medium.com/@habibridho/here-is-why-no-one-write-generic-slice-filter-in-go-8b3d1063674e
-func fileEntityListFilter(list []store.FileEntity, test func(store.FileEntity) bool) (ret []store.FileEntity) {
+func fileEntityListFilter(list []structAll.FileEntity, test func(structAll.FileEntity) bool) (ret []structAll.FileEntity) {
 	for _, s := range list {
 		if test(s) {
 			ret = append(ret, s)

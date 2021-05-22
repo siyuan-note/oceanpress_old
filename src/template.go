@@ -5,7 +5,7 @@ import (
 	"html/template"
 	"path"
 
-	store "github.com/2234839/md2website/src/store"
+	structAll "github.com/2234839/md2website/src/struct"
 	"github.com/2234839/md2website/src/util"
 )
 
@@ -73,23 +73,23 @@ func MenuRender(info MenuInfo) string {
 }
 
 // EmbeddedBlockRender 渲染嵌入块
-func EmbeddedBlockRender(info store.EmbeddedBlockInfo) string {
+func EmbeddedBlockRender(info structAll.EmbeddedBlockInfo) string {
 	return ExecTemplate(embeddedBlockTemplate, info)
 }
 
 // BlockRefRender 渲染块引用
-func BlockRefRender(info store.BlockRefInfo) string {
+func BlockRefRender(info structAll.BlockRefInfo) string {
 	return ExecTemplate(blockRefTemplate, info)
 }
 
 // TemplateRender 将数据通过模板进行渲染 目前支持 EmbeddedBlockInfo BlockRefInfo 的处理
 func TemplateRender(info interface{}) string {
-	EmbeddedBlock, ok := info.(store.EmbeddedBlockInfo)
+	EmbeddedBlock, ok := info.(structAll.EmbeddedBlockInfo)
 	if ok {
 		return EmbeddedBlockRender(EmbeddedBlock)
 	}
 
-	BlockRef, ok := info.(store.BlockRefInfo)
+	BlockRef, ok := info.(structAll.BlockRefInfo)
 	if ok {
 		return BlockRefRender(BlockRef)
 	}

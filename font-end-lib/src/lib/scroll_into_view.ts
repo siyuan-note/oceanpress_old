@@ -1,6 +1,6 @@
 export function scrollIntoView(url: string) {
   const hash = url.split("#").pop();
-  const target = document.querySelector(`[data-block-id="${hash}"]`);
+  const target = document.querySelector(`[data-n-id="${hash}"]`);
   if (target) {
     location.hash = hash;
 

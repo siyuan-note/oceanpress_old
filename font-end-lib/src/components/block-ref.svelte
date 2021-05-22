@@ -14,7 +14,7 @@
 
 <a
   class="c-block-ref"
-  data-block-type="NodeBlockRefText"
+  data-type="NodeBlockRefText"
   href={src}
   on:click={gotoClick}
 >
@@ -22,7 +22,7 @@
 </a>
 
 <style>
-  [data-block-type="NodeBlockRefText"] {
+  [data-type="NodeBlockRefText"] {
     color: var(--b3-protyle-inline-blockref-color);
   }
 </style>
