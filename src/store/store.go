@@ -116,7 +116,11 @@ func DirToStruct(dir string, dbPath string, structToHTML func(interface{}) strin
 		var tree *parse.Tree
 		var err error
 		if suffix == ".sy" {
-			tree, err = protyle.ParseJSON(lute.New(), []byte(notesCode))
+			var needFix bool
+			tree, needFix, err = protyle.ParseJSON(lute.New(), []byte(notesCode))
+			if needFix {
+				util.Debugger("needFix", needFix)
+			}
 		} else if suffix == ".md" {
 			tree = parse.Parse("", []byte(notesCode), mdStructuredLuteEngine.ParseOptions)
 		}
