@@ -1081,9 +1081,13 @@ pre:hover .vditor-copy {
   height: 420px;
 }
 /* 标题块后面的链接图标显示控制 */
-.vditor-anchor img{
+.vditor-anchor img {
   visibility: hidden;
 }
-.vditor-anchor:hover img{
+.vditor-anchor:hover img {
   visibility: visible;
+}
+/* 对于 \n 这样的换行显示出换行效果 */
+p[data-n-id] {
+  white-space: pre-wrap;
 }
