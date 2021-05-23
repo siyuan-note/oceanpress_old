@@ -8,6 +8,4 @@
         可能之后会选择将块级元素全部转为 <span/>
         再使用 <slot/> 嵌入
       {{ .Title }} -->
-{{ define "blockRef" }}<md2website-block-ref src="{{ .Src }}" title="{{ .Title }}">
-  {{ .Title }}
-</md2website-block-ref >{{ end }}
+{{ define "blockRef" }}<md2website-block-ref src="{{ .Src }}" title="{{ .Title }}">{{ .Title }}</md2website-block-ref >{{ end }}
