@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"html/template"
 	"path"
-	"sort"
 	"strings"
 
 	structAll "github.com/2234839/md2website/src/struct"
@@ -170,12 +169,8 @@ func (r *OceanPressRender) renderSuperBlock(node *ast.Node, entering bool) ast.W
 			layout = n.TokensStr()
 		}
 	}
-	sort.Slice(children, func(i, j int) bool {
-		n := children[i]
-		return n.Type != ast.NodeSuperBlockCloseMarker && n.Type != ast.NodeSuperBlockOpenMarker
-	})
 	for _, n := range children {
-		html += r.renderNodeToHTML(n, true)
+		html += r.renderNodeToHTML(n, false)
 	}
 	r.Newline()
 	node.KramdownIAL = append(node.KramdownIAL, []string{"data-sb-layout", layout})
