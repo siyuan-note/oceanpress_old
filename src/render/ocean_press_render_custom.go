@@ -131,6 +131,7 @@ func (r *OceanPressRender) renderBlockRef(node *ast.Node, entering bool) ast.Wal
 	if findErr == nil && strings.TrimSpace(title) == "" {
 		util.Warn("<块引用渲染为空>", r.context.BaseEntity.RelativePath+" 中的块引用 "+refID)
 	}
+	title = strings.ReplaceAll(title, "\n", "")
 	r.WriteString(r.context.StructToHTML(structAll.BlockRefInfo{
 		Src:   src,
 		Title: title,
