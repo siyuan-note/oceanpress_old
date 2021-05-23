@@ -60,10 +60,15 @@ func (r *OceanPressRender) renderNodeToHTML(node *ast.Node, headerIncludes bool)
 	tree := &parse.Tree{Root: root, Context: &parse.Context{ParseOption: luteEngine.ParseOptions}}
 	tree.Context.ParseOption.KramdownBlockIAL = false // 关闭 IAL
 
-	err := r.context.push(node.ID)
-	if err != nil {
-		return "oceanpress 渲染错误：「循环引用」"
+	if node.ID != "" {
+		err := r.context.push(node.ID)
+		if err != nil {
+			return "oceanpress 渲染错误：「循环引用」"
+		} else {
+			defer r.context.pop(node.ID)
+		}
 	}
+
 	renderer := NewOceanPressRenderer(tree, (*Options)(luteEngine.RenderOptions), r.context)
 	// renderer2 := render.NewFormatRenderer(tree, luteEngine.RenderOptions)
 	renderer.Writer = &bytes.Buffer{}
@@ -100,7 +105,6 @@ func (r *OceanPressRender) renderBlockRef(node *ast.Node, entering bool) ast.Wal
 		if n.Type == ast.NodeBlockRefID {
 			// 这里应该每个 NodeBlockRef 都包含了，意味着一般一定执行
 			refID = n.TokensStr()
-
 			targetEntity, targetNodeStructInfo, findErr = r.FindFileEntityFromID(refID)
 			if targetEntity.Path != "" {
 				src = currentEntity.FileEntityRelativePath(targetEntity, refID)
@@ -117,7 +121,11 @@ func (r *OceanPressRender) renderBlockRef(node *ast.Node, entering bool) ast.Wal
 		if targetNodeStructInfo.Node.Type == ast.NodeDocument {
 			title = targetEntity.Name
 		} else {
-			title = r.context.LuteEngine.HTML2Text(r.renderNodeToHTML(targetNodeStructInfo.Node, false))
+			html := r.renderNodeToHTML(targetNodeStructInfo.Node, false)
+			if refID == "20210414124112-c3m2knd" {
+				// util.Debugger("===", html)
+			}
+			title = r.context.LuteEngine.HTML2Text(html)
 		}
 	}
 	// findErr 本身已经会发出警告了

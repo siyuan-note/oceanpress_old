@@ -11,21 +11,20 @@
             "mode": "auto",
             "program": "${workspaceFolder}/src/",
             "env": {},
-            // "args": [
-            //     "-SourceDir=C:/Users/llej/Documents/SiYuan/data/note",
-            //     "-OutDir=D:\\code\\doc\\docHTML",
-            //     "-TemplateDir=./views/",
-            //     "-SqlitePath=C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db",
-            //     "-assetsDir=C:/Users/llej/Documents/SiYuan/data/assets",
-            // ],
-            //                -assetsDir ./test-doc/assets
             "args": [
-                "-SourceDir=../test-doc/思源笔记用户指南",
-                "-OutDir=../outHTML",
-                "-TemplateDir=../src/views/",
-                "-SqlitePath=../test-doc/siyuan.db",
-                "-assetsDir=../test-doc/assets",
-            ]
+                "-SourceDir=C:/Users/llej/Documents/SiYuan/data/note",
+                "-OutDir=D:\\code\\doc\\docHTML",
+                "-TemplateDir=./views/",
+                "-SqlitePath=C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db",
+                "-assetsDir=C:/Users/llej/Documents/SiYuan/data/assets",
+            ],
+            // "args": [
+            //     "-SourceDir=../test-doc/思源笔记用户指南",
+            //     "-OutDir=../outHTML",
+            //     "-TemplateDir=../src/views/",
+            //     "-SqlitePath=../test-doc/siyuan.db",
+            //     "-assetsDir=../test-doc/assets",
+            // ]
             // 旧版思源执行参数
             // "args": [
             //     "D:\\code\\doc\\doc",

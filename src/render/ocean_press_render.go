@@ -56,6 +56,7 @@ func NewOceanPressRenderer(tree *parse.Tree, options *Options,
 	if context.idStack == nil {
 		context.idStack = &[]string{}
 	}
+	// 或许应该在一个 render 之后pop掉当前push的
 	push := func(id string) error {
 		if id == "" {
 			return nil
