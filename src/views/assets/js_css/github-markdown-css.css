@@ -1091,3 +1091,9 @@ pre:hover .vditor-copy {
 p[data-n-id] {
   white-space: pre-wrap;
 }
+/* 例如图片的描述 title 的样式设置 */
+.protyle-action__title {
+  display: block;
+  font-size: 85%;
+  color: var(--b3-theme-on-surface);
+}
