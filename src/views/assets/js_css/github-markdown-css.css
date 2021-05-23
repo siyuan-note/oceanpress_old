@@ -121,12 +121,17 @@
 }
 
 .markdown-body ol,
-.markdown-body ul {
+.markdown-body ul,
+.markdown-body li {
 	padding-left: 0;
 	margin-top: 0;
 	margin-bottom: 0;
 	--offset: 2.35rem;
-	padding-left: var(--offset);
+}
+.markdown-body ol,
+.markdown-body ul {
+  /* 将图标导致的左侧突出补回来 */
+	margin-left: 14px;
 }
 
 /* 列表的层次偏移 */
@@ -135,30 +140,23 @@
 .markdown-body ul ol,
 .markdown-body ul ul {
 	position: relative;
-	margin-left: 0.4rem;
-	padding-left: 1rem;
+	margin-left: 0px;
 }
-/* 前面的竖线 */
-/* .markdown-body .protyle-task ol {
-	border-left: 1px solid var(--b3-border-color);
-	margin-left: 0.4rem;
-	padding-left: 1rem;
-} */
-
+.markdown-body li {
+	position: relative;
+	margin-left: 1rem;
+}
 .markdown-body ol ol::before,
 .markdown-body ol ul::before,
 .markdown-body ul ol::before,
 .markdown-body ul ul::before {
-	content: ' ';
+	content: '';
 	position: absolute;
 	height: 100%;
 	width: 1px;
 	border-left: 1px solid var(--b3-border-color);
-	margin-left: calc((-1) * var(--offset));
+	margin-left: -1rem;
 }
-/* .markdown-body .protyle-task ol::before {
-	visibility: hidden;
-} */
 li.protyle-task {
 	list-style: none;
 }
@@ -172,10 +170,9 @@ li.protyle-task input::before {
 	margin-left: calc((-1) * var(--offset) + 0.95rem);
 	width: 14px;
 	height: 14px;
-  margin-top: 4px;
+	margin-top: 4px;
 	background-size: 100%;
 	background-image: url('../icon/input_checkbox.png');
-
 }
 li.protyle-task input:checked::before {
 	background-image: url('../icon/input_checkbox-checked.png');
