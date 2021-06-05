@@ -3,7 +3,7 @@ module github.com/siyuan-note/oceanpress
 go 1.15
 
 require (
-	github.com/88250/lute v1.7.3-0.20210520091845-ae9b10c9525e // https://pkg.go.dev/github.com/88250/lute
+	github.com/88250/lute v1.7.3-0.20210604085845-fee5caad5aa2 // https://pkg.go.dev/github.com/88250/lute
 	github.com/88250/protyle v0.0.0-20210518094840-aa422a7e3988
 	github.com/alecthomas/chroma v0.9.1
 	github.com/alecthomas/repr v0.0.0-20210301060118-828286944d6a // indirect
@@ -17,3 +17,6 @@ require (
 )
 
 // replace github.com/88250/lute => D:\view_code\lute
+// 配置国内代理 go env -w GOPROXY=https://goproxy.cn,direct
+// 更新  go get github.com/88250/lute@master
+// 更新  go get github.com/88250/protyle@main
