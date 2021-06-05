@@ -127,8 +127,7 @@ func (r *OceanPressRender) renderBlockRef(node *ast.Node, entering bool) ast.Wal
 			title = targetEntity.Name
 		} else {
 			html := r.renderNodeToHTML(targetNodeStructInfo.Node, false)
-
-			title = r.context.LuteEngine.HTML2Text(html)
+			title = r.HTML2Text(html)
 		}
 	}
 	// findErr 本身已经会发出警告了
@@ -367,6 +366,27 @@ func (r *OceanPressRender) FindFileEntityFromID(id string) (structAll.FileEntity
 		util.Warn("<没有找到对应块>", r.context.BaseEntity.Name+"("+r.context.BaseEntity.RelativePath+") 引用了 "+id+" 但没有找到该块")
 	}
 	return a, b, err
+}
+func (r *OceanPressRender) HTML2Text(dom string) string {
+	lute := r.context.LuteEngine
+	tree := lute.HTML2Tree(dom)
+	if nil == tree {
+		return ""
+	}
+	buf := &bytes.Buffer{}
+
+	ast.Walk(tree.Root, func(n *ast.Node, entering bool) ast.WalkStatus {
+		if !entering {
+			return ast.WalkContinue
+		}
+
+		switch n.Type {
+		case ast.NodeText, ast.NodeLinkText, ast.NodeBlockRefText, ast.NodeBlockEmbedText, ast.NodeFootnotesRef, ast.NodeCodeSpanContent:
+			buf.Write(n.Tokens)
+		}
+		return ast.WalkContinue
+	})
+	return buf.String()
 }
 
 // =========
