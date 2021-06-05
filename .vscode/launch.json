@@ -16,7 +16,7 @@
                 "-OutDir=D:\\code\\doc\\docHTML",
                 "-TemplateDir=./views/",
                 "-SqlitePath=C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db",
-                "-assetsDir=C:/Users/llej/Documents/SiYuan/data/assets",
+                "-AssetsDir=C:/Users/llej/Documents/SiYuan/data/assets",
                 "-IsDev=true",
             ],
             // "args": [
