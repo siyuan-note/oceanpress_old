@@ -34,7 +34,7 @@ WHERE
 	AND /** 当前文档内对当前文档的引用不显示在反链中 */
 	"blocks".root_id != '` + curID + `';`
 	// 底部反链
-	content := r.SqlRender(sql, false)
+	content := r.SqlRender(sql, false, true)
 	if len(content) > 0 {
 		// TODO: 这里也应该使用模板，容后再做
 		refHTML = `<h2>链接到此文档的相关文档</h2>` + content
@@ -154,7 +154,7 @@ func (r *OceanPressRender) renderBlockQueryEmbed(node *ast.Node, entering bool) 
 		if n.Type == ast.NodeBlockQueryEmbedScript {
 			// 这里应该每个 NodeBlockQueryEmbed 都包含了，意味着期望一定执行
 			sql = n.TokensStr()
-			html = r.SqlRender(sql, true)
+			html = r.SqlRender(sql, true, false)
 		}
 	}
 	r.WriteString(html)
@@ -307,9 +307,28 @@ func (r *OceanPressRender) Tag(name string, attrs [][]string, selfclosing bool) 
 }
 
 // SqlRender 通过 sql 渲染出 html
-func (r *OceanPressRender) SqlRender(sql string, headerIncludes bool) string {
+func (r *OceanPressRender) SqlRender(sql string, headerIncludes bool, removeDuplicate bool) string {
 	sql = util.HTMLEntityDecoder(sql)
 	ids := r.context.Db.SQLToID(sql)
+	if removeDuplicate {
+		var ret []string
+		retIncludes := func(id string) bool {
+			count := 0
+			for _, id2 := range ret {
+				if id == id2 {
+					count += 1
+				}
+			}
+			return count > 0
+		}
+		for _, id := range ids {
+			if retIncludes(id) == false {
+				ret = append(ret, id)
+			}
+		}
+		ids = ret
+	}
+
 	var html string
 	for _, id := range ids {
 		fileEntity, mdInfo, err := r.FindFileEntityFromID(id)
