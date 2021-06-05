@@ -27,12 +27,12 @@
 | OutDir     | 是你要输出的目录                                                             | D:/code/doc/docHTML                               |
 | viewDir    | 之前下载的 view.zip 解压后的目录，<br />可以自行修改其中的文件来定制一些效果 | ./views/                                          |
 | SqlitePath | 是思源生成的 db 文件的路径                                                   | C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db |
-| assetsDir  | 是思源资源文件的路径                                                         | C:/Users/llej/Documents/SiYuan/data/assets        |
+| AssetsDir  | 是思源资源文件的路径                                                         | C:/Users/llej/Documents/SiYuan/data/assets        |
 
 示例：
 
 ```bash
-❯ ./md2website-windows-4.0-amd64.exe -SourceDir C:/Users/llej/Documents/SiYuan/data/note -OutDir D:/code/doc/docHTML -TemplateDir D:/code/oceanpress/src/views -SqlitePath C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db -assetsDir C:/Users/llej/Documents/SiYuan/data/assets
+❯ ./md2website-windows-4.0-amd64.exe -SourceDir C:/Users/llej/Documents/SiYuan/data/note -OutDir D:/code/doc/docHTML -TemplateDir D:/code/oceanpress/src/views -SqlitePath C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db -AssetsDir C:/Users/llej/Documents/SiYuan/data/assets
 #  运行输出
 0. === 🛬 开始转换 🛫 ===
 1. 用户输入
@@ -40,7 +40,7 @@
    1.2 outDir:D:\code\doc\docHTML
    1.3 viewsDir:D:\code\oceanpress\src\views
    1.4 dbPath:C:\Users\llej\AppData\Local\Temp\siyuan\siyuan.db
-   1.5 assetsDir:C:\Users\llej\Documents\SiYuan\data\assets
+   1.5 AssetsDir:C:\Users\llej\Documents\SiYuan\data\assets
 2. copy 资源到 outDir
    2.1 copy 完成
 3. 生成 html

@@ -6,28 +6,30 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+	"time"
 
-	oceanpress "github.com/2234839/md2website/src/render"
-	"github.com/2234839/md2website/src/sqlite"
-	store "github.com/2234839/md2website/src/store"
-	structAll "github.com/2234839/md2website/src/struct"
-	"github.com/2234839/md2website/src/util"
 	"github.com/88250/lute"
 	"github.com/88250/lute/ast"
 	copy "github.com/otiai10/copy"
+	conf "github.com/siyuan-note/oceanpress/src/conf"
+	oceanpress "github.com/siyuan-note/oceanpress/src/render"
+	"github.com/siyuan-note/oceanpress/src/sqlite"
+	store "github.com/siyuan-note/oceanpress/src/store"
+	structAll "github.com/siyuan-note/oceanpress/src/struct"
+	"github.com/siyuan-note/oceanpress/src/util"
 )
 
 func main() {
 	util.RunningLog("0", "=== 🛬 开始转换 🛫 ===")
 	// 流程 1  用户输入 {源目录 输出目录}
 	util.RunningLog("1", "用户输入")
-	sourceDir := SourceDir
-	outDir := OutDir
+	sourceDir := conf.SourceDir
+	outDir := conf.OutDir
 	util.RunningLog("1.1", "sourceDir:"+sourceDir)
 	util.RunningLog("1.2", "outDir:"+outDir)
-	util.RunningLog("1.3", "viewsDir:"+TemplateDir)
-	util.RunningLog("1.4", "SqlitePath:"+SqlitePath)
-	util.RunningLog("1.5", "assetsDir:"+assetsDir)
+	util.RunningLog("1.3", "viewsDir:"+conf.TemplateDir)
+	util.RunningLog("1.4", "SqlitePath:"+conf.SqlitePath)
+	util.RunningLog("1.5", "AssetsDir:"+conf.AssetsDir)
 
 	// 流程 2  copy 源目录中资源文件至输出目录
 	util.RunningLog("2", "copy 资源到 outDir")
@@ -39,7 +41,7 @@ func main() {
 		},
 	})
 	// copy views 中的资源文件
-	copy.Copy(path.Join(TemplateDir, "./assets"), path.Join(outDir, "./assets"))
+	copy.Copy(path.Join(conf.TemplateDir, "./assets"), path.Join(outDir, "./assets"))
 	util.RunningLog("2.1", "copy 完成")
 
 	// 流程 3  遍历源目录 生成 html 到输出目录
@@ -48,7 +50,7 @@ func main() {
 	// 转换数据结构 filepath => entityList
 	util.RunningLog("3.1", "收集转换生成所需数据")
 	// store.NewOceanPressRenderer()
-	noteStore := store.DirToStruct(sourceDir, SqlitePath, TemplateRender, func(db sqlite.DbResult, FindFileEntityFromID structAll.FindFileEntityFromID, structToHTML func(interface{}) string) func(entity structAll.FileEntity) string {
+	noteStore := store.DirToStruct(sourceDir, conf.SqlitePath, TemplateRender, func(db sqlite.DbResult, FindFileEntityFromID structAll.FindFileEntityFromID, structToHTML func(interface{}) string) func(entity structAll.FileEntity) string {
 		// luteEngine lute 实例
 		var luteEngine = lute.New()
 
@@ -128,9 +130,10 @@ func main() {
 			html := menuInfo.Render()
 			ioutil.WriteFile(targetPath, []byte(html), 0777)
 		} else {
+			startT := time.Now()
 			targetPath := filepath.Join(outDir, relativePath[0:len(relativePath)-3]) + ".html"
-			rawHTML := entity.ToHTML()
 
+			rawHTML := entity.ToHTML()
 			html := ArticleRender(ArticleInfo{
 				Content:   template.HTML(rawHTML),
 				PageTitle: entity.Name,
@@ -139,6 +142,11 @@ func main() {
 			var err = ioutil.WriteFile(targetPath, []byte(html), 0777)
 			if err != nil {
 				util.Log(err)
+			}
+			tc := time.Since(startT)
+			// 大于 x00 ms 的
+			if tc > 1000_000_000 {
+				util.DevLog("渲染耗时高", tc, targetPath)
 			}
 
 		}
@@ -172,7 +180,7 @@ func HandlingAssets(node *ast.Node, outDir string, rootPath string) {
 		dest := node.TokensStr()
 
 		if strings.HasPrefix(filepath.ToSlash(dest), "assets/") {
-			err := copy.Copy(path.Join(path.Join(assetsDir, dest[len("assets/"):])), path.Join(outDir, dest))
+			err := copy.Copy(path.Join(path.Join(conf.AssetsDir, dest[len("assets/"):])), path.Join(outDir, dest))
 			if err != nil {
 				util.Warn("复制资源文件失败", err)
 			}

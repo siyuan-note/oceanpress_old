@@ -6,14 +6,14 @@ import (
 	"path"
 	"strings"
 
-	structAll "github.com/2234839/md2website/src/struct"
-	"github.com/2234839/md2website/src/util"
 	"github.com/88250/lute"
 	"github.com/88250/lute/ast"
 	"github.com/88250/lute/html"
 	"github.com/88250/lute/parse"
 	"github.com/88250/lute/render"
 	luteUtil "github.com/88250/lute/util"
+	structAll "github.com/siyuan-note/oceanpress/src/struct"
+	"github.com/siyuan-note/oceanpress/src/util"
 )
 
 func (r *OceanPressRender) Render() (output []byte) {
@@ -22,13 +22,19 @@ func (r *OceanPressRender) Render() (output []byte) {
 
 	var refHTML string
 	curID := r.context.BaseEntity.Tree.ID
-	content := r.SqlRender(`SELECT "refs".block_id as "ref_id", blocks.* FROM "refs"
 
-	LEFT JOIN blocks
-	ON "refs".block_id = blocks.id
-
-	WHERE
-	def_block_id = /** 被引用块的 id */ '`+curID+`';`, false)
+	sql := `SELECT
+	"refs".block_id AS "id"
+FROM
+	"refs"
+	LEFT JOIN blocks ON "refs".block_id = blocks.id
+WHERE
+	def_block_id = /** 被引用块的 id */
+	'` + curID + `'
+	AND /** 当前文档内对当前文档的引用不显示在反链中 */
+	"blocks".root_id != '` + curID + `';`
+	// 底部反链
+	content := r.SqlRender(sql, false)
 	if len(content) > 0 {
 		// TODO: 这里也应该使用模板，容后再做
 		refHTML = `<h2>链接到此文档的相关文档</h2>` + content
@@ -121,9 +127,7 @@ func (r *OceanPressRender) renderBlockRef(node *ast.Node, entering bool) ast.Wal
 			title = targetEntity.Name
 		} else {
 			html := r.renderNodeToHTML(targetNodeStructInfo.Node, false)
-			if refID == "20210414124112-c3m2knd" {
-				// util.Debugger("===", html)
-			}
+
 			title = r.context.LuteEngine.HTML2Text(html)
 		}
 	}
@@ -310,7 +314,8 @@ func (r *OceanPressRender) SqlRender(sql string, headerIncludes bool) string {
 	for _, id := range ids {
 		fileEntity, mdInfo, err := r.FindFileEntityFromID(id)
 		if err != nil {
-			return ""
+			util.Warn("<SqlRender>", err)
+			continue
 		}
 		// err = r.context.push(mdInfo.BlockID)
 		if err != nil {

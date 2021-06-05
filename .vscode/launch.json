@@ -17,13 +17,14 @@
                 "-TemplateDir=./views/",
                 "-SqlitePath=C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db",
                 "-assetsDir=C:/Users/llej/Documents/SiYuan/data/assets",
+                "-IsDev=true",
             ],
             // "args": [
             //     "-SourceDir=../test-doc/思源笔记用户指南",
             //     "-OutDir=../outHTML",
             //     "-TemplateDir=../src/views/",
             //     "-SqlitePath=../test-doc/siyuan.db",
-            //     "-assetsDir=../test-doc/assets",
+            //     "-AssetsDir=../test-doc/assets",
             // ]
             // 旧版思源执行参数
             // "args": [

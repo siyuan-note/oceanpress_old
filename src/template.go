@@ -5,8 +5,9 @@ import (
 	"html/template"
 	"path"
 
-	structAll "github.com/2234839/md2website/src/struct"
-	"github.com/2234839/md2website/src/util"
+	conf "github.com/siyuan-note/oceanpress/src/conf"
+	structAll "github.com/siyuan-note/oceanpress/src/struct"
+	"github.com/siyuan-note/oceanpress/src/util"
 )
 
 // HTMLtemplate 包含一些模板
@@ -19,12 +20,12 @@ var embeddedBlockTemplate *template.Template
 var blockRefTemplate *template.Template
 
 func init() {
-	HTMLtemplate = template.Must(template.ParseGlob(path.Join(TemplateDir, "./*.html")))
+	HTMLtemplate = template.Must(template.ParseGlob(path.Join(conf.TemplateDir, "./*.html")))
 	articleTemplate = HTMLtemplate.New("article").Funcs(globalF)
 	embeddedBlockTemplate = HTMLtemplate.New("embeddedBlock").Funcs(globalF)
 	blockRefTemplate = HTMLtemplate.New("blockRef").Funcs(globalF)
 	menuTemplate = HTMLtemplate.New("menu").Funcs(globalF)
-	template.Must(HTMLtemplate.ParseGlob(path.Join(TemplateDir, "./*/*.html")))
+	template.Must(HTMLtemplate.ParseGlob(path.Join(conf.TemplateDir, "./*/*.html")))
 }
 func unescaped(x string) interface{} { return template.HTML(x) }
 

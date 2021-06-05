@@ -5,6 +5,8 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
+	conf "github.com/siyuan-note/oceanpress/src/conf"
 )
 
 // Log 打印
@@ -12,11 +14,20 @@ func Log(a ...interface{}) {
 	fmt.Println(a...)
 }
 
+// DevLog 仅在开发模式下打印
+func DevLog(a ...interface{}) {
+	if conf.IsDev {
+		fmt.Println(a...)
+	}
+}
+
 // Debugger 在这个函数内加上断点，方便调试
 func Debugger(a ...interface{}) {
-	var log []interface{}
-	log = append(log, "[debug]")
-	fmt.Println(append(log, a...)...)
+	if conf.IsDev {
+		var log []interface{}
+		log = append(log, "[debug]")
+		fmt.Println(append(log, a...)...) // 在开发的时候可以在这里加一个断点，方便调试
+	}
 }
 
 // Warn 警告

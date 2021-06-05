@@ -4,9 +4,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/2234839/md2website/src/util"
 	"github.com/88250/lute/ast"
 	"github.com/88250/lute/parse"
+	"github.com/siyuan-note/oceanpress/src/util"
 )
 
 // StructInfo md 结构信息

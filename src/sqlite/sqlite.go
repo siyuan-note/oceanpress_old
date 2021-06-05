@@ -3,8 +3,8 @@ package sqlite
 import (
 	"database/sql"
 
-	"github.com/2234839/md2website/src/util"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/siyuan-note/oceanpress/src/util"
 )
 
 // DbResult 初始化数据库的结果
@@ -22,35 +22,38 @@ func InitDb(dbPath string) DbResult {
 		var ids []string
 
 		rows, err := db.Query(sql)
+		cols, _ := rows.Columns()
+		defer rows.Close()
 		if err != nil {
-			util.Warn(err)
+			util.Warn("sql 查询错误", err)
 			return ids
 		}
-		defer rows.Close()
-
-		columns, _ := rows.Columns()
-		columnLength := len(columns)
-		cache := make([]interface{}, columnLength) //临时存储每行数据
-		for index, _ := range cache {              //为每一列初始化一个指针
-			var a interface{}
-			cache[index] = &a
-		}
-		var list []map[string]interface{} //返回的切片
 		for rows.Next() {
-			err := rows.Scan(cache...)
-
-			item := make(map[string]interface{})
-			for i, data := range cache {
-				item[columns[i]] = *data.(*interface{}) //取实际类型
+			// Create a slice of interface{}'s to represent each column,
+			// and a second slice to contain pointers to each item in the columns slice.
+			columns := make([]interface{}, len(cols))
+			columnPointers := make([]interface{}, len(cols))
+			for i, _ := range columns {
+				columnPointers[i] = &columns[i]
 			}
-			list = append(list, item)
-			if err != nil {
-				util.Warn(err)
+
+			// Scan the result into the column pointers...
+			if err := rows.Scan(columnPointers...); err != nil {
+				util.Warn("sql 结果 scan 错误", err)
 			} else {
-				ids = append(ids, item["id"].(string))
+				// Create our map, and retrieve the value for each column from the pointers slice,
+				// storing it in the map with the name of the column as the key.
+				m := make(map[string]interface{})
+				for i, colName := range cols {
+					val := columnPointers[i].(*interface{})
+					m[colName] = *val
+				}
+				id := m["id"].(string)
+				if len(id) > 0 {
+					ids = append(ids, id)
+				}
 			}
 		}
-		// util.Warn(list)
 		return ids
 	}
 

@@ -1,4 +1,4 @@
-module github.com/2234839/md2website
+module github.com/siyuan-note/oceanpress
 
 go 1.15
 

@@ -8,13 +8,13 @@ import (
 	"strconv"
 	"strings"
 
-	sqlite "github.com/2234839/md2website/src/sqlite"
-	structAll "github.com/2234839/md2website/src/struct"
-	"github.com/2234839/md2website/src/util"
 	"github.com/88250/lute"
 	"github.com/88250/lute/ast"
 	"github.com/88250/lute/parse"
 	protyle "github.com/88250/protyle"
+	sqlite "github.com/siyuan-note/oceanpress/src/sqlite"
+	structAll "github.com/siyuan-note/oceanpress/src/struct"
+	"github.com/siyuan-note/oceanpress/src/util"
 )
 
 func addKramdownIAL(node *ast.Node) {

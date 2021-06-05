@@ -17,9 +17,9 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"github.com/2234839/md2website/src/sqlite"
-	structAll "github.com/2234839/md2website/src/struct"
-	oceanUtil "github.com/2234839/md2website/src/util"
+	"github.com/siyuan-note/oceanpress/src/sqlite"
+	structAll "github.com/siyuan-note/oceanpress/src/struct"
+	oceanUtil "github.com/siyuan-note/oceanpress/src/util"
 
 	"github.com/88250/lute"
 	"github.com/88250/lute/html"
