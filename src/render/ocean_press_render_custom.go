@@ -138,15 +138,16 @@ func (r *OceanPressRender) renderBlockRef(node *ast.Node, entering bool) ast.Wal
 			}
 		}
 	}
+	title = strings.ReplaceAll(title, "\n", "")
 	// findErr 本身已经会发出警告了
 	if findErr == nil && strings.TrimSpace(title) == "" {
 		util.Warn("<块引用渲染为空>", r.context.BaseEntity.RelativePath+" 中的块引用 "+refID)
 	}
-	title = strings.ReplaceAll(title, "\n", "")
 	r.WriteString(r.context.StructToHTML(structAll.BlockRefInfo{
 		Src:   src,
 		Title: title,
 	}))
+
 	return ast.WalkSkipChildren
 }
 
@@ -340,7 +341,6 @@ func (r *OceanPressRender) SqlRender(sql string, headerIncludes bool, removeDupl
 	for _, id := range ids {
 		fileEntity, mdInfo, err := r.FindFileEntityFromID(id)
 		if err != nil {
-			util.Warn("<SqlRender>", err)
 			continue
 		}
 		// err = r.context.push(mdInfo.BlockID)

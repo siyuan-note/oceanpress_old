@@ -25,7 +25,7 @@
     }
 </style>
 
-<svelte:options tag="md2website-embedded-block" />
+<svelte:options tag="oceanpress-embedded-block" />
 <article class="embedded_block">
     <header class="embedded_block-header">
         <svg
