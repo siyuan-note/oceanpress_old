@@ -394,7 +394,7 @@ pre:hover .vditor-copy {
 
 /* fix 可选框 列表的换行问题 */
 [data-type='NodeListItem'] > [data-type='NodeParagraph'] {
-	display: contents;
+	display: initial;
 }
 /* 超级块 横排效果 */
 [data-type='NodeSuperBlock'][data-sb-layout='col'] {
