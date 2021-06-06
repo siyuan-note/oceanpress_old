@@ -235,7 +235,7 @@ func (r *OceanPressRender) renderCodeBlock(node *ast.Node, entering bool) ast.Wa
 
 	if entering {
 		if noHighlight {
-			var attrs [][]string
+			var attrs = node.KramdownIAL
 			tokens := html.EscapeHTML(node.FirstChild.Next.Next.Tokens)
 			tokens = bytes.ReplaceAll(tokens, luteUtil.CaretTokens, nil)
 			tokens = bytes.TrimSpace(tokens)
@@ -254,8 +254,7 @@ func (r *OceanPressRender) renderCodeBlock(node *ast.Node, entering bool) ast.Wa
 			r.Tag("/div", nil, false)
 			return ast.WalkSkipChildren
 		}
-
-		attrs := [][]string{{"class", "code-block"}, {"data-language", language}}
+		attrs := append(node.KramdownIAL, [][]string{{"class", "code-block"}, {"data-language", language}}...)
 		r.Tag("pre", attrs, false)
 		r.WriteString("<code>")
 	} else {
