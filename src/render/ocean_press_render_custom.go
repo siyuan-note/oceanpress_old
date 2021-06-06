@@ -2,6 +2,7 @@ package render
 
 import (
 	"bytes"
+	"errors"
 	"html/template"
 	"path"
 	"strings"
@@ -122,12 +123,19 @@ func (r *OceanPressRender) renderBlockRef(node *ast.Node, entering bool) ast.Wal
 		}
 	}
 
-	if hasEmbedText == false && targetNodeStructInfo.Node != nil {
-		if targetNodeStructInfo.Node.Type == ast.NodeDocument {
-			title = targetEntity.Name
-		} else {
-			html := r.renderNodeToHTML(targetNodeStructInfo.Node, false)
-			title = r.HTML2Text(html)
+	if hasEmbedText == false {
+		name, _, err := FindAttr(targetNodeStructInfo.Node.KramdownIAL, "name")
+		// 对于命名块优先渲染他的名字 而非内容
+		if err == nil {
+			title = name
+		} else if targetNodeStructInfo.Node != nil {
+			// 渲染引用块的内容文本
+			if targetNodeStructInfo.Node.Type == ast.NodeDocument {
+				title = targetEntity.Name
+			} else {
+				html := r.renderNodeToHTML(targetNodeStructInfo.Node, false)
+				title = r.HTML2Text(html)
+			}
 		}
 	}
 	// findErr 本身已经会发出警告了
@@ -275,8 +283,8 @@ func (r *OceanPressRender) Tag(name string, attrs [][]string, selfclosing bool) 
 	if r.DisableTags > 0 {
 		return
 	}
-	id, idIndex := FindAttr(attrs, "id")
-	nId, nIdIndex := FindAttr(attrs, "data-n-id")
+	id, idIndex, _ := FindAttr(attrs, "id")
+	nId, nIdIndex, _ := FindAttr(attrs, "data-n-id")
 
 	var attrsTemp [][]string
 	if idIndex != nIdIndex && id == nId && id != "" {
@@ -432,11 +440,11 @@ func getAllNextByNode(node *ast.Node) []*ast.Node {
 	}
 	return list
 }
-func FindAttr(attrs [][]string, name string) (string, int) {
+func FindAttr(attrs [][]string, name string) (string, int, error) {
 	for i, kv := range attrs {
 		if name == kv[0] {
-			return kv[1], i
+			return kv[1], i, nil
 		}
 	}
-	return "", 0
+	return "", 0, errors.New("没有找到对应的 attr")
 }
