@@ -318,6 +318,12 @@ li.protyle-task input:checked::before {
 	box-sizing: initial;
 	background-color: #fff;
 }
+
+.markdown-body .img {
+	text-align: center;
+	/* 这里赋值block的话起到居中效果 */
+	display: inline-block;
+}
 /** ---------- 以下是 样式扩展 -------------- */
 
 .markdown-body {
