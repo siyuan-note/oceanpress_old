@@ -40,6 +40,9 @@ type Context struct {
 	push    func(id string) error
 	pop     func(id string)
 
+	// 第一层级的引用
+	TopRefId *[]string
+
 	BaseEntity structAll.FileEntity
 	LuteEngine *lute.Lute
 }
@@ -55,6 +58,9 @@ func NewOceanPressRenderer(tree *parse.Tree, options *Options,
 	refID := context.BaseEntity.Tree.ID
 	if context.idStack == nil {
 		context.idStack = &[]string{}
+	}
+	if context.TopRefId == nil {
+		context.TopRefId = &[]string{}
 	}
 	// 或许应该在一个 render 之后pop掉当前push的
 	push := func(id string) error {
@@ -82,6 +88,7 @@ func NewOceanPressRenderer(tree *parse.Tree, options *Options,
 	}
 	context.pop = pop
 	context.push = push
+
 	context.RefID = refID
 
 	ret := &OceanPressRender{NewBaseRenderer(tree, options), context}
@@ -635,8 +642,8 @@ func (r *OceanPressRender) RenderFootnotes() []byte {
 			lc.InsertAfter(link)
 		}
 		defRenderer.RenderingFootnotes = true
-		defContent := defRenderer.Render()
-		buf.Write(defContent)
+		defContent, _ := defRenderer.Render()
+		buf.Write([]byte(defContent))
 		buf.WriteString("</li>\n")
 	}
 	buf.WriteString("</ol></div>")

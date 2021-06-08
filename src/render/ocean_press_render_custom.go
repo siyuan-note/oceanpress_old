@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"path"
 	"strings"
+	"time"
 
 	"github.com/88250/lute"
 	"github.com/88250/lute/ast"
@@ -13,12 +14,18 @@ import (
 	"github.com/88250/lute/parse"
 	"github.com/88250/lute/render"
 	luteUtil "github.com/88250/lute/util"
+	"github.com/siyuan-note/oceanpress/src/conf"
 	structAll "github.com/siyuan-note/oceanpress/src/struct"
 	"github.com/siyuan-note/oceanpress/src/util"
 )
 
-func (r *OceanPressRender) Render() (output []byte) {
-	output = r.BaseRenderer.Render()
+func (r *OceanPressRender) Render() (html string, xml string) {
+	docName := r.context.BaseEntity.Name
+	// 调试用，跳过无关文档,免得浪费时间
+	if conf.IsDev && strings.HasSuffix(docName, "rss.xml") == false {
+		return "", ""
+	}
+	output := r.BaseRenderer.Render()
 	output = append(output, r.RenderFootnotes()...)
 
 	var refHTML string
@@ -26,14 +33,14 @@ func (r *OceanPressRender) Render() (output []byte) {
 
 	sql := `SELECT
 	"refs".block_id AS "id"
-FROM
-	"refs"
-	LEFT JOIN blocks ON "refs".block_id = blocks.id
-WHERE
-	def_block_id = /** 被引用块的 id */
-	'` + curID + `'
-	AND /** 当前文档内对当前文档的引用不显示在反链中 */
-	"blocks".root_id != '` + curID + `';`
+		FROM
+			"refs"
+			LEFT JOIN blocks ON "refs".block_id = blocks.id
+		WHERE
+			def_block_id = /** 被引用块的 id */
+			'` + curID + `'
+			AND /** 当前文档内对当前文档的引用不显示在反链中 */
+			"blocks".root_id != '` + curID + `';`
 	// 底部反链
 	content := r.SqlRender(sql, false, true)
 	if len(content) > 0 {
@@ -41,7 +48,15 @@ WHERE
 		refHTML = `<h2>链接到此文档的相关文档</h2>` + content
 	}
 	output = append(output, []byte(refHTML)...)
-	return
+	html = string(output)
+	// rss.xml 渲染
+	if strings.HasSuffix(docName, "rss.xml") {
+		xml = r.RssXmlRender(*r.context.TopRefId)
+	}
+	if conf.RssNoOutputHtml {
+		html = ""
+	}
+	return html, xml
 }
 
 // renderNodeToHTML 将指定节点渲染为 html
@@ -111,6 +126,7 @@ func (r *OceanPressRender) renderBlockRef(node *ast.Node, entering bool) ast.Wal
 		if n.Type == ast.NodeBlockRefID {
 			// 这里应该每个 NodeBlockRef 都包含了，意味着一般一定执行
 			refID = n.TokensStr()
+			r.pushTopRefId(refID)
 			targetEntity, targetNodeStructInfo, findErr = r.FindFileEntityFromID(refID)
 			if targetEntity.Path != "" {
 				src = currentEntity.FileEntityRelativePath(targetEntity, refID)
@@ -279,6 +295,19 @@ func (r *OceanPressRender) renderDocument(node *ast.Node, entering bool) ast.Wal
 }
 
 // ========= 附加在 OceanPressRender 上的工具方法
+// pushTopRefId 将 RenderLevel==0 的 id 添加到 topRefId
+func (r *OceanPressRender) pushTopRefId(id string) {
+	if r.RenderLevel() == 0 {
+		stack := append((*r.context.TopRefId), id)
+		r.context.TopRefId = &stack
+	}
+
+}
+
+// RenderLevel 返回当前渲染处于第几个层级
+func (r *OceanPressRender) RenderLevel() int {
+	return len(*r.context.idStack)
+}
 func (r *OceanPressRender) Tag(name string, attrs [][]string, selfclosing bool) {
 	if r.DisableTags > 0 {
 		return
@@ -338,6 +367,7 @@ func (r *OceanPressRender) SqlRender(sql string, headerIncludes bool, removeDupl
 
 	var html string
 	for _, id := range ids {
+		r.pushTopRefId(id)
 		fileEntity, mdInfo, err := r.FindFileEntityFromID(id)
 		if err != nil {
 			continue
@@ -366,6 +396,34 @@ func (r *OceanPressRender) SqlRender(sql string, headerIncludes bool, removeDupl
 	return html
 }
 
+// RssXmlRender 通过 id 将 node 渲染成 xml
+func (r *OceanPressRender) RssXmlRender(ids []string) (xml string) {
+	var list []structAll.RssItem
+	for _, id := range ids {
+		FileEntity, StructInfo, err := r.FindFileEntityFromID(id)
+		if err == nil {
+			html := r.renderNodeToHTML(StructInfo.Node, true)
+			list = append(list, structAll.RssItem{
+				Title:       FileEntity.Name,
+				Link:        FileEntity.VirtualPath,
+				Published:   "崮生",
+				Created:     StructInfo.GetCreated().UTC().Format(time.RFC3339),
+				Updated:     StructInfo.GetUpdate().UTC().Format(time.RFC3339),
+				Description: r.HTML2Text(html),
+				ContentBase: FileEntity.VirtualPath,
+				ContentHTML: html,
+				Guid:        StructInfo.BlockID,
+			})
+
+		}
+	}
+	xml = r.context.StructToHTML(structAll.RssInfo{
+		List:          list,
+		LastBuildDate: time.Now().UTC().Format(time.RFC3339),
+	})
+	return xml
+}
+
 // FindFileEntityFromID 附加了人性化警告
 func (r *OceanPressRender) FindFileEntityFromID(id string) (structAll.FileEntity, structAll.StructInfo, error) {
 	a, b, err := r.context.FindFileEntityFromID(id)
@@ -374,6 +432,8 @@ func (r *OceanPressRender) FindFileEntityFromID(id string) (structAll.FileEntity
 	}
 	return a, b, err
 }
+
+// HTML2Text 自定义的，与lute 的相比较会将 code 的内容也返回
 func (r *OceanPressRender) HTML2Text(dom string) string {
 	lute := r.context.LuteEngine
 	tree := lute.HTML2Tree(dom)
@@ -396,7 +456,7 @@ func (r *OceanPressRender) HTML2Text(dom string) string {
 	return buf.String()
 }
 
-// =========
+// ========= 工具方法
 
 func headingChildren(heading *ast.Node) (ret []*ast.Node) {
 	currentLevel := heading.HeadingLevel

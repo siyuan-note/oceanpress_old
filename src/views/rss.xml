@@ -1,0 +1,30 @@
+{{ define "RSS" }}<?xml version="1.0" encoding="utf8" ?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" xmlns:slash="http://purl.org/rss/1.0/modules/slash/">
+<channel>
+    <title>崮生的笔记</title>
+    <link>https://shenzilong.cn</link>
+    <description>崮生的随笔，记录日常，分享信息</description>
+    <generator>Oceanpress, https://github.com/siyuan-note/oceanpress</generator>
+    <lastBuildDate>{{ .LastBuildDate }}</lastBuildDate>
+    <language>zh-cn</language>
+    {{range $i, $v := .List}}
+    <item>
+        <title>{{ $v.Title }}</title>
+        <link>https://shenzilong.cn{{ $v.Link }}</link>
+        <published>{{ $v.Published }}</published>
+        <updated>{{ $v.Updated }}</updated>
+        <pubDate>{{ $v.Created }}</pubDate>
+        <author> 崮生 </author>
+        <guid>{{ $v.Guid }}</guid>
+        <!-- <category>{尚未实现}</category> -->
+        <!-- <description>{这个实现有问题，等待更好的实现}{ $v.Description }</description> -->
+        <content:encoded xml:base="https://shenzilong.cn{{ $v.ContentBase }}">
+            <![CDATA[
+            {{ $v.ContentHTML }}
+            ]]>
+        </content:encoded>
+    </item>
+    {{ end }}
+</channel>
+</rss>
+{{ end }}

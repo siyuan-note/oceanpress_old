@@ -49,34 +49,37 @@ func main() {
 
 	// 转换数据结构 filepath => entityList
 	util.RunningLog("3.1", "收集转换生成所需数据")
-	// store.NewOceanPressRenderer()
-	noteStore := store.DirToStruct(sourceDir, conf.SqlitePath, TemplateRender, func(db sqlite.DbResult, FindFileEntityFromID structAll.FindFileEntityFromID, structToHTML func(interface{}) string) func(entity structAll.FileEntity) string {
-		// luteEngine lute 实例
-		var luteEngine = lute.New()
 
-		/** 对引用块进行渲染 */
-		luteEngine.SetBlockRef(true)
-		// /** 渲染 id （渲染为空） */
-		luteEngine.SetKramdownIAL(true)
-		// /** 标题的链接 a 标签渲染 */
-		luteEngine.SetHeadingAnchor(true)
-		luteEngine.SetKramdownIALIDRenderName("data-n-id")
+	noteStore := store.DirToStruct(
+		sourceDir,
+		conf.SqlitePath,
+		TemplateRender,
+		func(db sqlite.DbResult, FindFileEntityFromID structAll.FindFileEntityFromID, structToHTML func(interface{}) string) func(entity structAll.FileEntity) (html string, xml string) {
+			// luteEngine lute 实例
+			var luteEngine = lute.New()
 
-		// FileEntityToHTML entity 转 html
-		FileEntityToHTML := func(entity structAll.FileEntity) string {
-			context := oceanpress.Context{}
-			context.Db = db
-			context.BaseEntity = entity
-			context.FindFileEntityFromID = FindFileEntityFromID
-			context.LuteEngine = luteEngine
-			context.StructToHTML = structToHTML
-			renderer := oceanpress.NewOceanPressRenderer(entity.Tree, (*oceanpress.Options)(luteEngine.RenderOptions), &context)
+			/** 对引用块进行渲染 */
+			luteEngine.SetBlockRef(true)
+			// /** 渲染 id （渲染为空） */
+			luteEngine.SetKramdownIAL(true)
+			// /** 标题的链接 a 标签渲染 */
+			luteEngine.SetHeadingAnchor(true)
+			luteEngine.SetKramdownIALIDRenderName("data-n-id")
 
-			output := renderer.Render()
-			return string(output)
-		}
-		return FileEntityToHTML
-	})
+			// FileEntityToHTML entity 转 html
+			FileEntityToHTML := func(entity structAll.FileEntity) (html string, xml string) {
+				context := oceanpress.Context{}
+				context.Db = db
+				context.BaseEntity = entity
+				context.FindFileEntityFromID = FindFileEntityFromID
+				context.LuteEngine = luteEngine
+				context.StructToHTML = structToHTML
+				renderer := oceanpress.NewOceanPressRenderer(entity.Tree, (*oceanpress.Options)(luteEngine.RenderOptions), &context)
+
+				return renderer.Render()
+			}
+			return FileEntityToHTML
+		})
 	util.RunningLog("3.2", "复制资源文件")
 	for _, entity := range noteStore.StructList {
 		if entity.Tree == nil {
@@ -96,6 +99,9 @@ func main() {
 		LevelRoot := entity.RootPath()
 
 		if info.IsDir() {
+			if conf.IsDev {
+				continue
+			}
 			// 这里要生成一个类似于当前目录菜单的东西
 			targetPath := filepath.Join(outDir, relativePath, "index.html")
 			// 当前目录的 子路径 不包含更深层级的
@@ -133,15 +139,26 @@ func main() {
 			startT := time.Now()
 			targetPath := filepath.Join(outDir, relativePath[0:len(relativePath)-3]) + ".html"
 
-			rawHTML := entity.ToHTML()
-			html := ArticleRender(ArticleInfo{
-				Content:   template.HTML(rawHTML),
-				PageTitle: entity.Name,
-				LevelRoot: LevelRoot,
-			})
-			var err = ioutil.WriteFile(targetPath, []byte(html), 0777)
-			if err != nil {
-				util.Log(err)
+			rawHTML, xml := entity.Output()
+			if len(rawHTML) != 0 {
+				html := ArticleRender(ArticleInfo{
+					Content:   template.HTML(rawHTML),
+					PageTitle: entity.Name,
+					LevelRoot: LevelRoot,
+				})
+				if conf.RssNoOutputHtml == false {
+					var err = ioutil.WriteFile(targetPath, []byte(html), 0777)
+					if err != nil {
+						util.Log(err)
+					}
+				}
+			}
+			if len(xml) != 0 {
+				targetPath := filepath.Join(outDir, relativePath[0:len(relativePath)-3])
+				var err = ioutil.WriteFile(targetPath, []byte(xml), 0777)
+				if err != nil {
+					util.Log(err)
+				}
 			}
 			tc := time.Since(startT)
 			// 大于 x00 ms 的

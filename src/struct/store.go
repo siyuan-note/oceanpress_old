@@ -2,7 +2,9 @@ package structAll
 
 import (
 	"os"
+	"regexp"
 	"strings"
+	"time"
 
 	"github.com/88250/lute/ast"
 	"github.com/88250/lute/parse"
@@ -15,6 +17,17 @@ type StructInfo struct {
 	BlockType  string
 	Node       *ast.Node
 	FileEntity *FileEntity
+}
+
+func (r *StructInfo) GetCreated() time.Time {
+	reg, _ := regexp.Compile("^\\d+")
+	createdStr := reg.FindString(r.BlockID)
+
+	return util.IDTimeStrToTime(createdStr)
+}
+func (r *StructInfo) GetUpdate() time.Time {
+	updated, _, _ := util.FindAttr(r.Node.KramdownIAL, "updated")
+	return util.IDTimeStrToTime(updated)
 }
 
 // FileEntity md 文件被解析后的结构
@@ -30,7 +43,7 @@ type FileEntity struct {
 	Info           os.FileInfo
 	StructInfoList []StructInfo
 	Tree           *parse.Tree
-	ToHTML         func() string
+	Output         func() (html string, xml string)
 }
 
 // FilePathToWebPath 将相对文件路径转为 web路径，主要是去除文件中的id 以及添加 .html
@@ -93,4 +106,24 @@ type BlockRefInfo struct {
 	ABlockRefInfo int
 	Title         interface{}
 	Src           string
+}
+
+type RssItem struct {
+	Guid          string
+	Title         string
+	Link          string
+	Published     string
+	Updated       string
+	Created       string
+	LastBuildDate string
+	Description   string
+	ContentBase   string
+	ContentHTML   string
+}
+
+// RssInfo 块引用所需信息
+type RssInfo struct {
+	ARssInfo      int
+	LastBuildDate string
+	List          []RssItem
 }

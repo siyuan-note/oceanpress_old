@@ -22,6 +22,9 @@ var TemplateDir string
 var SqlitePath string
 var AssetsDir string
 
+// 对于 [/s/S].rss.xml 的文档不再生成对应的 html 文件
+var RssNoOutputHtml bool = true
+
 // 是否处于开发模式
 var IsDev bool = false
 
@@ -31,8 +34,9 @@ func init() {
 	TemplateDir_ := flag.String("TemplateDir", "./views/", "模板文件所在目录")
 	SqlitePath_ := flag.String("SqlitePath", "", "思源 sqlite db 路径")
 	AssetsDir_ := flag.String("AssetsDir", "", "思源存放资源文件的路径")
-	assetsDir_ := flag.String("assetsDir", "", "思源存放资源文件的路径")
-	IsDev_ := flag.Bool("IsDev", false, "思源存放资源文件的路径")
+	assetsDir_ := flag.String("assetsDir", "", "思源存放资源文件的路径，已弃用，请使用 AssetsDir")
+	IsDev_ := flag.Bool("IsDev", false, "设置为开发模式，请不要开启此选项")
+	RssNoOutputHtml_ := flag.Bool("RssNoOutputHtml", true, "对于 [/s/S].rss.xml 的文档不再生成对应的 html 文件")
 	flag.Parse()
 
 	SourceDir, _ = filepath.Abs(*SourceDir_)
@@ -46,4 +50,5 @@ func init() {
 		panic("\n===\n assetsDir 参数已更名为 AssetsDir , 请修正 \n===")
 	}
 	IsDev = *IsDev_
+	RssNoOutputHtml = *RssNoOutputHtml_
 }

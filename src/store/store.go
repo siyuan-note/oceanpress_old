@@ -63,8 +63,12 @@ func addAll(node *ast.Node, ctx *addKramdownIALContext) {
 // DirToStruct 从 目录 转为更可用的结构
 func DirToStruct(dir string,
 	dbPath string,
-	structToHTML func(interface{}) string,
-	Generate func(db sqlite.DbResult, FindFileEntityFromID structAll.FindFileEntityFromID, structToHTML func(interface{}) string) func(entity structAll.FileEntity) string) structAll.DirToStructRes {
+	structToHTML func(interface{}) (res string),
+	Generate func(
+		db sqlite.DbResult,
+		FindFileEntityFromID structAll.FindFileEntityFromID,
+		structToHTML func(interface{}) (res string),
+	) func(entity structAll.FileEntity) (html string, xml string)) structAll.DirToStructRes {
 	db := sqlite.InitDb(dbPath)
 	/** 用于从 md 文档中解析获得一些结构性信息 */
 	var mdStructuredLuteEngine = lute.New()
@@ -160,7 +164,7 @@ func DirToStruct(dir string,
 		for i := 0; i < len(entity.StructInfoList); i++ {
 			entity.StructInfoList[i].FileEntity = &entity
 		}
-		entity.ToHTML = func() string {
+		entity.Output = func() (html string, xml string) {
 			return FileEntityToHTML(entity)
 		}
 		return entity
