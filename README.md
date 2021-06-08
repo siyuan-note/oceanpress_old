@@ -21,17 +21,18 @@
 ### 参数
 
 
-| 参数名     | 值                                                                           | 示例                                              |
-| ------------ | ------------------------------------------------------------------------------ | --------------------------------------------------- |
-| SourceDir  | 是笔记所在目录                                                               | C:/Users/llej/Documents/SiYuan/data/note          |
-| OutDir     | 是你要输出的目录                                                             | D:/code/doc/docHTML                               |
-| viewDir    | 之前下载的 view.zip 解压后的目录，<br />可以自行修改其中的文件来定制一些效果 | ./views/                                          |
-| SqlitePath | 是思源生成的 db 文件的路径                                                   | C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db |
-| AssetsDir  | 是思源资源文件的路径                                                         | C:/Users/llej/Documents/SiYuan/data/assets        |
+| 参数名          | 值                                                                           | 示例                                              |
+| ----------------- | ------------------------------------------------------------------------------ | --------------------------------------------------- |
+| SourceDir       | 是笔记所在目录                                                               | C:/Users/llej/Documents/SiYuan/data/note          |
+| OutDir          | 是你要输出的目录                                                             | D:/code/doc/docHTML                               |
+| viewDir         | 之前下载的 view.zip 解压后的目录，<br />可以自行修改其中的文件来定制一些效果 | ./views/                                          |
+| SqlitePath      | 是思源生成的 db 文件的路径                                                   | C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db |
+| AssetsDir       | 是思源资源文件的路径                                                         | C:/Users/llej/Documents/SiYuan/data/assets        |
+| RssNoOutputHtml | 对于后缀为.rss.xml的文档不输出对应的html                                     | true（默认值）                                    |
 
 示例：
 
-```bash
+``「
 ❯ ./md2website-windows-4.0-amd64.exe -SourceDir C:/Users/llej/Documents/SiYuan/data/note -OutDir D:/code/doc/docHTML -TemplateDir D:/code/oceanpress/src/views -SqlitePath C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db -AssetsDir C:/Users/llej/Documents/SiYuan/data/assets
 #  运行输出
 0. === 🛬 开始转换 🛫 ===
