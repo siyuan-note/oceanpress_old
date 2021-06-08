@@ -146,7 +146,7 @@ func main() {
 					PageTitle: entity.Name,
 					LevelRoot: LevelRoot,
 				})
-				if conf.RssNoOutputHtml == false {
+				if strings.HasSuffix(entity.Name, ".rss.xml") == false || conf.RssNoOutputHtml {
 					var err = ioutil.WriteFile(targetPath, []byte(html), 0777)
 					if err != nil {
 						util.Log(err)

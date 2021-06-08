@@ -23,7 +23,7 @@ func (r *OceanPressRender) Render() (html string, xml string) {
 	docName := r.context.BaseEntity.Name
 	// 调试用，跳过无关文档,免得浪费时间
 	if conf.IsDev && strings.HasSuffix(docName, "rss.xml") == false {
-		return "", ""
+		// return "", ""
 	}
 	output := r.BaseRenderer.Render()
 	output = append(output, r.RenderFootnotes()...)
@@ -50,12 +50,13 @@ func (r *OceanPressRender) Render() (html string, xml string) {
 	output = append(output, []byte(refHTML)...)
 	html = string(output)
 	// rss.xml 渲染
-	if strings.HasSuffix(docName, "rss.xml") {
+	if strings.HasSuffix(docName, ".rss.xml") {
 		xml = r.RssXmlRender(*r.context.TopRefId)
+		if conf.RssNoOutputHtml {
+			html = ""
+		}
 	}
-	if conf.RssNoOutputHtml {
-		html = ""
-	}
+
 	return html, xml
 }
 
