@@ -1301,30 +1301,30 @@ func (r *OceanPressRender) renderList(node *ast.Node, entering bool) ast.WalkSta
 	return ast.WalkContinue
 }
 
-func (r *OceanPressRender) renderListItem(node *ast.Node, entering bool) ast.WalkStatus {
-	if entering {
-		var attrs [][]string
-		r.handleKramdownBlockIAL(node)
-		attrs = append(attrs, node.KramdownIAL...)
-		if 3 == node.ListData.Typ && nil != node.FirstChild && ((ast.NodeTaskListItemMarker == node.FirstChild.Type) ||
-			(nil != node.FirstChild.FirstChild && ast.NodeTaskListItemMarker == node.FirstChild.FirstChild.Type)) {
-			taskListItemMarker := node.FirstChild.FirstChild
-			if nil == taskListItemMarker {
-				taskListItemMarker = node.FirstChild
-			}
-			taskClass := "protyle-task"
-			if taskListItemMarker.TaskListItemChecked {
-				taskClass += " protyle-task--done"
-			}
-			attrs = append(attrs, []string{"class", taskClass})
-		}
-		r.Tag("li", attrs, false)
-	} else {
-		r.Tag("/li", nil, false)
-		r.Newline()
-	}
-	return ast.WalkContinue
-}
+// func (r *OceanPressRender) renderListItem(node *ast.Node, entering bool) ast.WalkStatus {
+// 	if entering {
+// 		var attrs [][]string
+// 		r.handleKramdownBlockIAL(node)
+// 		attrs = append(attrs, node.KramdownIAL...)
+// 		if 3 == node.ListData.Typ && nil != node.FirstChild && ((ast.NodeTaskListItemMarker == node.FirstChild.Type) ||
+// 			(nil != node.FirstChild.FirstChild && ast.NodeTaskListItemMarker == node.FirstChild.FirstChild.Type)) {
+// 			taskListItemMarker := node.FirstChild.FirstChild
+// 			if nil == taskListItemMarker {
+// 				taskListItemMarker = node.FirstChild
+// 			}
+// 			taskClass := "protyle-task"
+// 			if taskListItemMarker.TaskListItemChecked {
+// 				taskClass += " protyle-task--done"
+// 			}
+// 			attrs = append(attrs, []string{"class", taskClass})
+// 		}
+// 		r.Tag("li", attrs, false)
+// 	} else {
+// 		r.Tag("/li", nil, false)
+// 		r.Newline()
+// 	}
+// 	return ast.WalkContinue
+// }
 
 func (r *OceanPressRender) renderTaskListItemMarker(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering {

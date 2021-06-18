@@ -127,7 +127,7 @@
   padding-left: 0;
   margin-top: 0;
   margin-bottom: 0;
-  --offset: 2.35rem;
+  --offset: 43px;
 }
 .markdown-body ol,
 .markdown-body ul {
@@ -158,26 +158,37 @@
   border-left: 1px solid var(--b3-border-color);
   margin-left: -1rem;
 }
-li.protyle-task {
+li>ul,li>ol{
+  /* display: inline-grid; */
+}
+li[data-type=NodeListItem] {
   list-style: none;
 }
 .protyle-task > input {
-  width: 0;
-  position: absolute;
+  display: none;
 }
-li.protyle-task input::before {
-  position: absolute;
-  content: "";
+.ListItemDot{
+  display:inline-block;
   margin-left: calc((-1) * var(--offset) + 0.95rem);
-  width: 14px;
-  height: 14px;
+  width: 24px;
+  height: 24px;
   margin-top: 4px;
-  background-size: 100%;
+  background-size: 16px;
+  font-size: 15px;
+  background-repeat: no-repeat;
+  background-position: center;
+  text-align: center;
+}
+li.protyle-task > .ListItemDot {
   background-image: url("../icon/input_checkbox.png");
 }
-li.protyle-task input:checked::before {
+li.protyle-task.protyle-task--done>.ListItemDot{
   background-image: url("../icon/input_checkbox-checked.png");
 }
+ul>li[data-type=NodeListItem]  > .ListItemDot{
+  background-image: url("../icon/dot.png");
+}
+
 .markdown-body dd {
   margin-left: 0;
 }
@@ -207,11 +218,11 @@ li.protyle-task input:checked::before {
 
 .markdown-body blockquote,
 .markdown-body details,
-.markdown-body dl,
-.markdown-body ol,
+.markdown-body>dl,
+.markdown-body>ol,
 .markdown-body pre,
 .markdown-body table,
-.markdown-body ul {
+.markdown-body>ul {
   margin-top: 0;
   margin-bottom: 16px;
 }

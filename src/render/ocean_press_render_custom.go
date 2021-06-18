@@ -5,6 +5,7 @@ import (
 	"errors"
 	"html/template"
 	"path"
+	"strconv"
 	"strings"
 	"time"
 
@@ -22,8 +23,8 @@ import (
 func (r *OceanPressRender) Render() (html string, xml string) {
 	docName := r.context.BaseEntity.Name
 	// 调试用，跳过无关文档,免得浪费时间
-	if conf.IsDev && strings.HasSuffix(docName, "rss.xml") == false {
-		// return "", ""
+	if conf.IsDev && strings.Contains(docName, "思源笔记") == false {
+		return "", ""
 	}
 	output := r.BaseRenderer.Render()
 	output = append(output, r.RenderFootnotes()...)
@@ -58,6 +59,37 @@ func (r *OceanPressRender) Render() (html string, xml string) {
 	}
 
 	return html, xml
+}
+
+// renderListItem 这里的改动是为了方便添加前面的效果
+func (r *OceanPressRender) renderListItem(node *ast.Node, entering bool) ast.WalkStatus {
+	if entering {
+		var attrs [][]string
+		r.handleKramdownBlockIAL(node)
+		attrs = append(attrs, node.KramdownIAL...)
+		if 3 == node.ListData.Typ && nil != node.FirstChild && ((ast.NodeTaskListItemMarker == node.FirstChild.Type) ||
+			(nil != node.FirstChild.FirstChild && ast.NodeTaskListItemMarker == node.FirstChild.FirstChild.Type)) {
+			taskListItemMarker := node.FirstChild.FirstChild
+			if nil == taskListItemMarker {
+				taskListItemMarker = node.FirstChild
+			}
+			taskClass := "protyle-task"
+			if taskListItemMarker.TaskListItemChecked {
+				taskClass += " protyle-task--done"
+			}
+			attrs = append(attrs, []string{"class", taskClass})
+		}
+		r.Tag("li", attrs, false)
+		r.Tag("span", [][]string{{"class", "ListItemDot"}}, false)
+		if node.ListData.Num > 0 {
+			r.WriteString(strconv.Itoa(node.ListData.Num) + ".")
+		}
+		r.Tag("/span", nil, false)
+	} else {
+		r.Tag("/li", nil, false)
+		r.Newline()
+	}
+	return ast.WalkContinue
 }
 
 // renderNodeToHTML 将指定节点渲染为 html
