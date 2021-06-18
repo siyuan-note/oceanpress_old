@@ -1,3 +1,6 @@
+html,body{
+  margin: 0;
+}
 .markdown-body {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -334,22 +337,11 @@ ul>li[data-type=NodeListItem]  > .ListItemDot{
   margin: auto;
 }
 
-/** ---------- 以下是 样式扩展 -------------- */
-
 .markdown-body {
   box-sizing: border-box;
   min-width: 200px;
-  max-width: 980px;
   margin: 0 auto;
-  padding: 45px;
 }
-
-@media (max-width: 767px) {
-  .markdown-body {
-    padding: 15px;
-  }
-}
-
 /** 块引用文本类型 */
 .markdown-body [data-block-type="NodeBlockRefText"] {
   color: var(--b3-vditor-mark-block-color);
@@ -449,4 +441,26 @@ p[data-n-id] {
   border-left: 0.25em solid var(--b3-border-color);
   background-color: var(--b3-list-hover);
   margin: 4px 0;
+}
+
+.protyle-background {
+  min-height: 30vh;
+  position: relative;
+}
+
+[data-type=NodeDocument]{
+  max-width: 980px;
+  padding: 0 45px 15px 45px;
+  margin: auto;
+}
+.oceanpress-backLink{
+  max-width: 980px;
+  padding: 0 45px 0 45px;
+  margin: auto;
+}
+
+@media (max-width: 767px){
+  .oceanpress-backLink,[data-type=NodeDocument] {
+    padding: 15px;
+  }
 }

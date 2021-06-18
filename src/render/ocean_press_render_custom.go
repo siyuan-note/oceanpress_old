@@ -49,7 +49,7 @@ func (r *OceanPressRender) Render() (html string, xml string) {
 		// TODO: 这里也应该使用模板，容后再做
 		refHTML = `<h2>链接到此文档的相关文档</h2>` + content
 	}
-	output = append(output, []byte(refHTML)...)
+	output = append(output, []byte("<div class=\"oceanpress-backLink\">"+refHTML+"</div>")...)
 	html = string(output)
 	// rss.xml 渲染
 	if strings.HasSuffix(docName, ".rss.xml") {
@@ -386,6 +386,10 @@ func (r *OceanPressRender) renderCodeBlock(node *ast.Node, entering bool) ast.Wa
 // 文档根节点
 func (r *OceanPressRender) renderDocument(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering {
+		if titleImg := node.IALAttr("title-img");titleImg!=""{
+			r.Tag("div",[][]string{{"class","protyle-background"},{"style",titleImg}},false)
+			r.Tag("/div", nil, false)
+		}
 		r.Tag("main", node.KramdownIAL, false)
 	} else {
 		r.Tag("/main", nil, false)
