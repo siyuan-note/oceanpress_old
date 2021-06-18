@@ -12,6 +12,7 @@ import (
 	"github.com/88250/lute"
 	"github.com/88250/lute/ast"
 	"github.com/88250/lute/html"
+	"github.com/88250/lute/lex"
 	"github.com/88250/lute/parse"
 	"github.com/88250/lute/render"
 	luteUtil "github.com/88250/lute/util"
@@ -60,7 +61,72 @@ func (r *OceanPressRender) Render() (html string, xml string) {
 
 	return html, xml
 }
+// renderImage 为了实现居中效果
+func (r *OceanPressRender) renderImage(node *ast.Node, entering bool) ast.WalkStatus {
+	if entering {
+		if 0 == r.DisableTags {
+			attrs := [][]string{{"class", "img"}}
 
+			// 粗糙的图片居中补丁
+			imgStyle := node.IALAttr("style")
+			if(len(imgStyle)>0){
+				attrs = append(attrs, []string{"style","display: inline-block;"+imgStyle})
+			}
+
+			if style := node.IALAttr("parent-style"); "" != style {
+				attrs = append(attrs, []string{"style", style})
+			}
+			r.Tag("span", attrs, false)
+			r.WriteString("<img src=\"")
+			destTokens := node.ChildByType(ast.NodeLinkDest).Tokens
+			destTokens = r.LinkPath(destTokens)
+			if "" != r.Options.ImageLazyLoading {
+				r.Write(html.EscapeHTML(luteUtil.StrToBytes(r.Options.ImageLazyLoading)))
+				r.WriteString("\" data-src=\"")
+			}
+			r.Write(html.EscapeHTML(destTokens))
+			r.WriteString("\" alt=\"")
+		}
+		r.DisableTags++
+		return ast.WalkContinue
+	}
+
+	r.DisableTags--
+	if 0 == r.DisableTags {
+		r.WriteByte(lex.ItemDoublequote)
+		title := node.ChildByType(ast.NodeLinkTitle)
+		var titleTokens []byte
+		if nil != title && nil != title.Tokens {
+			titleTokens = html.EscapeHTML(title.Tokens)
+			r.WriteString(" title=\"")
+			r.Write(titleTokens)
+			r.WriteByte(lex.ItemDoublequote)
+		}
+		ial := r.NodeAttrsStr(node)
+		if "" != ial {
+			r.WriteString(" " + ial)
+		}
+		r.WriteString(" />")
+		if 0 < len(titleTokens) {
+			r.Tag("span", [][]string{{"class", "protyle-action__title"}}, false)
+			r.Write(titleTokens)
+			r.Tag("/span", nil, false)
+		}
+		r.Tag("/span", nil, false)
+
+		if r.Options.Sanitize {
+			buf := r.Writer.Bytes()
+			idx := bytes.LastIndex(buf, []byte("<img src="))
+			imgBuf := buf[idx:]
+			if r.Options.Sanitize {
+				imgBuf = sanitize(imgBuf)
+			}
+			r.Writer.Truncate(idx)
+			r.Writer.Write(imgBuf)
+		}
+	}
+	return ast.WalkContinue
+}
 // renderListItem 这里的改动是为了方便添加前面的效果
 func (r *OceanPressRender) renderListItem(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering {

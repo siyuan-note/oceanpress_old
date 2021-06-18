@@ -65,6 +65,7 @@ func main() {
 			// /** 标题的链接 a 标签渲染 */
 			luteEngine.SetHeadingAnchor(true)
 			luteEngine.SetKramdownIALIDRenderName("data-n-id")
+			luteEngine.SetKramdownSpanIAL(true)
 
 			// FileEntityToHTML entity 转 html
 			FileEntityToHTML := func(entity structAll.FileEntity) (html string, xml string) {

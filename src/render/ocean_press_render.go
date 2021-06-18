@@ -957,64 +957,64 @@ func (r *OceanPressRender) renderBang(node *ast.Node, entering bool) ast.WalkSta
 	return ast.WalkContinue
 }
 
-func (r *OceanPressRender) renderImage(node *ast.Node, entering bool) ast.WalkStatus {
-	if entering {
-		if 0 == r.DisableTags {
-			attrs := [][]string{{"class", "img"}}
-			if style := node.IALAttr("parent-style"); "" != style {
-				attrs = append(attrs, []string{"style", style})
-			}
-			r.Tag("span", attrs, false)
-			r.WriteString("<img src=\"")
-			destTokens := node.ChildByType(ast.NodeLinkDest).Tokens
-			destTokens = r.LinkPath(destTokens)
-			if "" != r.Options.ImageLazyLoading {
-				r.Write(html.EscapeHTML(util.StrToBytes(r.Options.ImageLazyLoading)))
-				r.WriteString("\" data-src=\"")
-			}
-			r.Write(html.EscapeHTML(destTokens))
-			r.WriteString("\" alt=\"")
-		}
-		r.DisableTags++
-		return ast.WalkContinue
-	}
+// func (r *OceanPressRender) renderImage(node *ast.Node, entering bool) ast.WalkStatus {
+// 	if entering {
+// 		if 0 == r.DisableTags {
+// 			attrs := [][]string{{"class", "img"}}
+// 			if style := node.IALAttr("parent-style"); "" != style {
+// 				attrs = append(attrs, []string{"style", style})
+// 			}
+// 			r.Tag("span", attrs, false)
+// 			r.WriteString("<img src=\"")
+// 			destTokens := node.ChildByType(ast.NodeLinkDest).Tokens
+// 			destTokens = r.LinkPath(destTokens)
+// 			if "" != r.Options.ImageLazyLoading {
+// 				r.Write(html.EscapeHTML(util.StrToBytes(r.Options.ImageLazyLoading)))
+// 				r.WriteString("\" data-src=\"")
+// 			}
+// 			r.Write(html.EscapeHTML(destTokens))
+// 			r.WriteString("\" alt=\"")
+// 		}
+// 		r.DisableTags++
+// 		return ast.WalkContinue
+// 	}
 
-	r.DisableTags--
-	if 0 == r.DisableTags {
-		r.WriteByte(lex.ItemDoublequote)
-		title := node.ChildByType(ast.NodeLinkTitle)
-		var titleTokens []byte
-		if nil != title && nil != title.Tokens {
-			titleTokens = html.EscapeHTML(title.Tokens)
-			r.WriteString(" title=\"")
-			r.Write(titleTokens)
-			r.WriteByte(lex.ItemDoublequote)
-		}
-		ial := r.NodeAttrsStr(node)
-		if "" != ial {
-			r.WriteString(" " + ial)
-		}
-		r.WriteString(" />")
-		if 0 < len(titleTokens) {
-			r.Tag("span", [][]string{{"class", "protyle-action__title"}}, false)
-			r.Write(titleTokens)
-			r.Tag("/span", nil, false)
-		}
-		r.Tag("/span", nil, false)
+// 	r.DisableTags--
+// 	if 0 == r.DisableTags {
+// 		r.WriteByte(lex.ItemDoublequote)
+// 		title := node.ChildByType(ast.NodeLinkTitle)
+// 		var titleTokens []byte
+// 		if nil != title && nil != title.Tokens {
+// 			titleTokens = html.EscapeHTML(title.Tokens)
+// 			r.WriteString(" title=\"")
+// 			r.Write(titleTokens)
+// 			r.WriteByte(lex.ItemDoublequote)
+// 		}
+// 		ial := r.NodeAttrsStr(node)
+// 		if "" != ial {
+// 			r.WriteString(" " + ial)
+// 		}
+// 		r.WriteString(" />")
+// 		if 0 < len(titleTokens) {
+// 			r.Tag("span", [][]string{{"class", "protyle-action__title"}}, false)
+// 			r.Write(titleTokens)
+// 			r.Tag("/span", nil, false)
+// 		}
+// 		r.Tag("/span", nil, false)
 
-		if r.Options.Sanitize {
-			buf := r.Writer.Bytes()
-			idx := bytes.LastIndex(buf, []byte("<img src="))
-			imgBuf := buf[idx:]
-			if r.Options.Sanitize {
-				imgBuf = sanitize(imgBuf)
-			}
-			r.Writer.Truncate(idx)
-			r.Writer.Write(imgBuf)
-		}
-	}
-	return ast.WalkContinue
-}
+// 		if r.Options.Sanitize {
+// 			buf := r.Writer.Bytes()
+// 			idx := bytes.LastIndex(buf, []byte("<img src="))
+// 			imgBuf := buf[idx:]
+// 			if r.Options.Sanitize {
+// 				imgBuf = sanitize(imgBuf)
+// 			}
+// 			r.Writer.Truncate(idx)
+// 			r.Writer.Write(imgBuf)
+// 		}
+// 	}
+// 	return ast.WalkContinue
+// }
 
 func (r *OceanPressRender) renderLink(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering {

@@ -330,13 +330,10 @@ ul>li[data-type=NodeListItem]  > .ListItemDot{
   box-sizing: initial;
   background-color: #fff;
   display: initial;
+
+  margin: auto;
 }
 
-.markdown-body .img {
-  text-align: center;
-  /* 这里赋值block的话起到居中效果 */
-  display: inline-block;
-}
 /** ---------- 以下是 样式扩展 -------------- */
 
 .markdown-body {
@@ -443,6 +440,7 @@ p[data-n-id] {
   display: block;
   font-size: 85%;
   color: var(--b3-theme-on-surface);
+  text-align: center;
 }
 
 [data-type="NodeBlockquote"] {
