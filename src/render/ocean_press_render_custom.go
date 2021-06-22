@@ -24,7 +24,7 @@ import (
 func (r *OceanPressRender) Render() (html string, xml string) {
 	docName := r.context.BaseEntity.Name
 	// 调试用，跳过无关文档,免得浪费时间
-	if conf.IsDev && strings.Contains(docName, "思源笔记") == false {
+	if conf.IsDev && strings.Contains(docName, "观蒲") == false {
 		return "", ""
 	}
 	output := r.BaseRenderer.Render()
@@ -211,9 +211,6 @@ func (r *OceanPressRender) renderBlockRef(node *ast.Node, entering bool) ast.Wal
 		return ast.WalkContinue
 	}
 	var refID string
-	root := getRootByNode(node)
-	currentEntity, _, _ := r.FindFileEntityFromID(root.ID)
-
 	var targetNodeStructInfo structAll.StructInfo
 	var targetEntity structAll.FileEntity
 
@@ -230,7 +227,7 @@ func (r *OceanPressRender) renderBlockRef(node *ast.Node, entering bool) ast.Wal
 			r.pushTopRefId(refID)
 			targetEntity, targetNodeStructInfo, findErr = r.FindFileEntityFromID(refID)
 			if targetEntity.Path != "" {
-				src = currentEntity.FileEntityRelativePath(targetEntity, refID)
+				src = r.context.BaseEntity.FileEntityRelativePath(targetEntity, refID)
 			}
 		}
 		if n.Type == ast.NodeBlockRefText {
