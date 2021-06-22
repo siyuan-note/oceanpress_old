@@ -9,7 +9,7 @@ import (
 
 // DbResult 初始化数据库的结果
 type DbResult struct {
-	SQLToID func(string) []string
+	SQLToID func(string) ([]string, []map[string]interface{})
 }
 
 // InitDb 初始化数据库
@@ -18,15 +18,13 @@ func InitDb(dbPath string) DbResult {
 
 	checkErr(err)
 
-	sqlToID := func(sql string) []string {
-		var ids []string
-
+	sqlToID := func(sql string) (ids []string, rowsData []map[string]interface{}) {
 		rows, err := db.Query(sql)
 		cols, _ := rows.Columns()
 		defer rows.Close()
 		if err != nil {
 			util.Warn("sql 查询错误", err)
-			return ids
+			return ids, rowsData
 		}
 		for rows.Next() {
 			// Create a slice of interface{}'s to represent each column,
@@ -52,9 +50,10 @@ func InitDb(dbPath string) DbResult {
 				if len(id) > 0 {
 					ids = append(ids, id)
 				}
+				rowsData = append(rowsData, m)
 			}
 		}
-		return ids
+		return ids, rowsData
 	}
 
 	return DbResult{

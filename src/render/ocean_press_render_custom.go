@@ -61,6 +61,7 @@ func (r *OceanPressRender) Render() (html string, xml string) {
 
 	return html, xml
 }
+
 // renderImage 为了实现居中效果
 func (r *OceanPressRender) renderImage(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering {
@@ -69,8 +70,8 @@ func (r *OceanPressRender) renderImage(node *ast.Node, entering bool) ast.WalkSt
 
 			// 粗糙的图片居中补丁
 			imgStyle := node.IALAttr("style")
-			if(len(imgStyle)>0){
-				attrs = append(attrs, []string{"style","display: inline-block;"+imgStyle})
+			if len(imgStyle) > 0 {
+				attrs = append(attrs, []string{"style", "display: inline-block;" + imgStyle})
 			}
 
 			if style := node.IALAttr("parent-style"); "" != style {
@@ -127,6 +128,7 @@ func (r *OceanPressRender) renderImage(node *ast.Node, entering bool) ast.WalkSt
 	}
 	return ast.WalkContinue
 }
+
 // renderListItem 这里的改动是为了方便添加前面的效果
 func (r *OceanPressRender) renderListItem(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering {
@@ -386,8 +388,8 @@ func (r *OceanPressRender) renderCodeBlock(node *ast.Node, entering bool) ast.Wa
 // 文档根节点
 func (r *OceanPressRender) renderDocument(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering {
-		if titleImg := node.IALAttr("title-img");titleImg!=""{
-			r.Tag("div",[][]string{{"class","protyle-background"},{"style",titleImg}},false)
+		if titleImg := node.IALAttr("title-img"); titleImg != "" {
+			r.Tag("div", [][]string{{"class", "protyle-background"}, {"style", titleImg}}, false)
 			r.Tag("/div", nil, false)
 		}
 		r.Tag("main", node.KramdownIAL, false)
@@ -448,7 +450,7 @@ func (r *OceanPressRender) Tag(name string, attrs [][]string, selfclosing bool) 
 // SqlRender 通过 sql 渲染出 html
 func (r *OceanPressRender) SqlRender(sql string, headerIncludes bool, removeDuplicate bool) string {
 	sql = util.HTMLEntityDecoder(sql)
-	ids := r.context.Db.SQLToID(sql)
+	ids, _ := r.context.Db.SQLToID(sql)
 	if removeDuplicate {
 		var ret []string
 		retIncludes := func(id string) bool {
@@ -531,7 +533,22 @@ func (r *OceanPressRender) RssXmlRender(ids []string) (xml string) {
 func (r *OceanPressRender) FindFileEntityFromID(id string) (structAll.FileEntity, structAll.StructInfo, error) {
 	a, b, err := r.context.FindFileEntityFromID(id)
 	if err != nil {
-		util.Warn("<没有找到对应块>", r.context.BaseEntity.Name+"("+r.context.BaseEntity.RelativePath+") 引用了 "+id+" 但没有找到该块")
+		_, dataList := r.context.Db.SQLToID(`SELECT
+		*
+	FROM
+		"blocks"
+	WHERE
+		id = '` + id + `'`)
+		if len(dataList) > 0 {
+			box := dataList[0]["box"].(string)
+			if dataList[0]["box"] != conf.BoxName {
+				util.Warn("<跨笔记本引用>", r.context.BaseEntity.Name+"("+r.context.BaseEntity.RelativePath+") 引用了「"+box+"」的 "+id)
+			} else {
+				util.Warn("<程序逻辑错误-没有找到对应块>", "请联系开发者上报此问题")
+			}
+		} else {
+			util.Warn("<没有找到对应块>", r.context.BaseEntity.Name+"("+r.context.BaseEntity.RelativePath+") 引用了 "+id+" 但没有找到该块")
+		}
 	}
 	return a, b, err
 }

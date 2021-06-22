@@ -11,6 +11,8 @@ var curPath = os.Args[0]
 
 // SourceDir 源目录
 var SourceDir string
+// BoxName 笔记本的名字
+var BoxName string
 
 // OutDir 输出到的目录
 var OutDir string
@@ -44,8 +46,11 @@ func init() {
 	TemplateDir, _ = filepath.Abs(*TemplateDir_)
 	SqlitePath, _ = filepath.Abs(*SqlitePath_)
 	AssetsDir, _ = filepath.Abs(*AssetsDir_)
+
 	IsDev = *IsDev_
 	RssNoOutputHtml = *RssNoOutputHtml_
+	BoxName = filepath.Base(SourceDir)
+
 
 	// TODO： 再过上几个版本删掉此提示
 	if *assetsDir_ != "" {

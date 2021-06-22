@@ -85,7 +85,11 @@ func main() {
 		if entity.Tree == nil {
 			// 目录
 		} else {
-			HandlingAssets(entity.Tree.Root, outDir, entity.RootPath())
+			if conf.IsDev {
+				// 开发模式下跳过资源的 copy
+			} else {
+				HandlingAssets(entity.Tree.Root, outDir, entity.RootPath())
+			}
 		}
 	}
 
