@@ -29,7 +29,6 @@ func main() {
 	util.RunningLog("1.2", "outDir:"+outDir)
 	util.RunningLog("1.3", "viewsDir:"+conf.TemplateDir)
 	util.RunningLog("1.4", "SqlitePath:"+conf.SqlitePath)
-	util.RunningLog("1.5", "AssetsDir:"+conf.AssetsDir)
 
 	// 流程 2  copy 源目录中资源文件至输出目录
 	util.RunningLog("2", "copy 资源到 outDir")
@@ -198,13 +197,17 @@ func HandlingAssets(node *ast.Node, outDir string, rootPath string) {
 		dest := node.TokensStr()
 
 		if strings.HasPrefix(filepath.ToSlash(dest), "assets/") {
-			err := copy.Copy(path.Join(path.Join(conf.AssetsDir, dest[len("assets/"):])), path.Join(outDir, dest))
+			// 笔记本中的资源目录
+			sourceDir := filepath.ToSlash(conf.SourceDir)
+			err := copy.Copy(path.Join(sourceDir, dest), path.Join(outDir, dest))
 			if err != nil {
-				util.Warn("复制资源文件失败", err)
+				// 工作空间中的资源目录
+				err := copy.Copy(path.Join(sourceDir, "../", dest), path.Join(outDir, dest))
+				if err != nil {
+					util.Warn("复制资源文件失败", err)
+				}
 			}
-
 			node.Tokens = []byte(path.Join(rootPath, dest))
-
 		}
 	}
 }

@@ -22,19 +22,20 @@
 
 
 | 参数名          | 值                                                                           | 示例                                              |
-| ----------------- | ------------------------------------------------------------------------------ | --------------------------------------------------- |
+| :---------------- | ------------------------------------------------------------------------------ | --------------------------------------------------- |
 | SourceDir       | 是笔记所在目录                                                               | C:/Users/llej/Documents/SiYuan/data/note          |
 | OutDir          | 是你要输出的目录                                                             | D:/code/doc/docHTML                               |
 | viewDir         | 之前下载的 view.zip 解压后的目录，<br />可以自行修改其中的文件来定制一些效果 | ./views/                                          |
 | SqlitePath      | 是思源生成的 db 文件的路径                                                   | C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db |
-| AssetsDir       | 是思源资源文件的路径                                                         | C:/Users/llej/Documents/SiYuan/data/assets        |
 | RssNoOutputHtml | 对于后缀为.rss.xml的文档不输出对应的html                                     | true（默认值）                                    |
 
 示例：
 
-``「
-❯ ./md2website-windows-4.0-amd64.exe -SourceDir C:/Users/llej/Documents/SiYuan/data/note -OutDir D:/code/doc/docHTML -TemplateDir D:/code/oceanpress/src/views -SqlitePath C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db -AssetsDir C:/Users/llej/Documents/SiYuan/data/assets
-#  运行输出
+```bash
+❯ ./md2website-windows-4.0-amd64.exe -SourceDir C:/Users/llej/Documents/SiYuan/data/note -OutDir D:/code/doc/docHTML -TemplateDir D:/code/oceanpress/src/views -SqlitePath C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db
+
+# 运行输出
+
 0. === 🛬 开始转换 🛫 ===
 1. 用户输入
    1.1 sourceDir:C:\Users\llej\Documents\SiYuan\data\note
@@ -48,9 +49,10 @@
    3.1 收集转换生成所需数据
    3.2 复制资源文件
    3.3 从文件到数据结构转换完毕，开始生成html,共 293 项
-[warn] 未找到id 20210104102607-1rhjb41 对应的fileEntity
-[warn] 未找到id 20210511124801-bhveys4 对应的fileEntity
------ End -----
+   [warn] 未找到id 20210104102607-1rhjb41 对应的fileEntity
+   [warn] 未找到id 20210511124801-bhveys4 对应的fileEntity
+   ----- End -----
+
 ```
 
 ## 待完成的功能点（按优先级降序排序）
@@ -116,3 +118,7 @@
 ### build
 
 `go build -o md2website.exe .\src\`
+
+```
+RssNoOutputHtml
+```

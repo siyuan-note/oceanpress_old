@@ -16,7 +16,6 @@
                 "-OutDir=D:\\code\\doc\\docHTML",
                 "-TemplateDir=./views/",
                 "-SqlitePath=C:/Users/llej/AppData/Local/Temp/siyuan/siyuan.db",
-                "-AssetsDir=C:/Users/llej/Documents/SiYuan/data/assets",
                 "-IsDev=true",
             ],
             // "args": [
@@ -24,7 +23,6 @@
             //     "-OutDir=../outHTML",
             //     "-TemplateDir=../src/views/",
             //     "-SqlitePath=../test-doc/siyuan.db",
-            //     "-AssetsDir=../test-doc/assets",
             // ]
             // 旧版思源执行参数
             // "args": [
