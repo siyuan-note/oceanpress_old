@@ -1,6 +1,7 @@
 import App from "./App.svelte";
 
 const allEL = document.createElement("div");
+allEL.classList.add(".markdown-body")
 const app = new App({
   target: allEL,
 });

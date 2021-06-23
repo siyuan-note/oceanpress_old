@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <title>Svelte app</title>
+
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="stylesheet" href="/global.css" />
+    <!-- <link rel='stylesheet' href='/build/bundle.css'> -->
+    <!-- vditor 编辑器 -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css"
+    />
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js"></script> -->
+    <script defer src="/build/app.js"></script>
+  </head>
+
+  <body id="static_app_llej">
+    <pre data-block-id="20201220170225-8qf37ue">
+		<div class="vditor-copy"><textarea></textarea><span aria-label="复制"
+				onmouseover="this.setAttribute('aria-label', '复制')" class="vditor-tooltipped vditor-tooltipped__w"
+				onclick="this.previousElementSibling.select();document.execCommand('copy');this.setAttribute('aria-label', '已复制')"><svg>
+					<use xlink:href="#vditor-icon-copy"></use>
+				</svg></span></div><code class="language-go highlight-chroma hljs" style="max-height: 927px;"><span
+				class="highlight-kn"><span class="hljs-keyword">package</span></span> <span
+				class="highlight-nx">main</span>
+
+			<span class="highlight-kn"><span class="hljs-keyword">import</span></span> <span
+				class="highlight-s"><span class="hljs-string">"fmt"</span></span>
+
+			<span class="highlight-kd"><span class="hljs-function"><span
+						class="hljs-keyword">func</span></span></span><span class="hljs-function"> </span><span
+				class="highlight-nf"><span class="hljs-function"><span
+						class="hljs-title">main</span></span></span><span class="highlight-p"><span
+					class="hljs-function"><span class="hljs-params">()</span></span></span> <span
+				class="highlight-p">{</span>
+			<span class="highlight-nx">fmt</span><span class="highlight-p">.</span><span
+				class="highlight-nf">Println</span><span class="highlight-p">(</span><span class="highlight-s"><span
+					class="hljs-string">"Hello, 世界"</span></span><span class="highlight-p">)</span>
+			<span class="highlight-p">}</span>
+		</code>
+	</pre>
+
+    <h1>全部 web-components 组件的展示</h1>
+
+    <oceanpress-embedded-block src="./" title="嵌入块">
+      嵌入块内容
+      <oceanpress-block-ref src="./#20210521144338-li21s3u" title="块引用">
+        块引用
+      </oceanpress-block-ref>
+    </oceanpress-embedded-block>
+    <p
+      class="hash_selected-highlight"
+      updated="20210523203419"
+      alias="别名测试"
+      bookmark="✨"
+      custom-attr="属性测试"
+      memo="备注测试"
+      name="命名测试"
+      data-type="NodeParagraph"
+      data-n-id="20210521144338-li21s3u"
+    >
+      带标题的嵌套引用，还可以用来测试标题块转文档之后的效果
+    </p>
+  </body>
+</html>

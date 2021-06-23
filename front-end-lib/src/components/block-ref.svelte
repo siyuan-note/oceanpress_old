@@ -3,7 +3,7 @@
 <script lang="ts" context="module">
   import { md2website } from "../lib/md2website.global";
   //@ts-expect-error
-  export const gotoClick = (...arg) => md2website.gotoClick(...arg);
+  export const gotoClick = (...arg:unknown[]) => md2website.gotoClick(...arg);
 </script>
 
 <script lang="ts">

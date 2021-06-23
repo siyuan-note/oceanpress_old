@@ -44,7 +44,6 @@ generalAdaptation(Vditor.adapter.chartRenderAdapter, "echarts");
 generalAdaptation(Vditor.adapter.abcRenderAdapter, "abc");
 generalAdaptation(Vditor.adapter.graphvizRenderAdapter, "graphviz");
 Vditor.adapter.graphvizRenderAdapter.getMathElements = (e) => {
-  debugger;
   return e.querySelectorAll(`[data-subtype=graphviz]`);
 };
 generalAdaptation(Vditor.adapter.flowchartRenderAdapter, "flowchart");

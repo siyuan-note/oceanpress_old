@@ -6,20 +6,20 @@ import { join } from "path";
 
 // const indexHtml = fs.readFileSync("./dist/index.html").toString();
 
-// const assetsCode = `<!-- font-end-lib 生成的资源 star -->\n${indexHtml.match(/\/title>([\s\S]*)<\/head>/)[ 1 ]}\n<!-- font-end-lib 生成的资源 end -->`;
+// const assetsCode = `<!-- front-end-lib 生成的资源 star -->\n${indexHtml.match(/\/title>([\s\S]*)<\/head>/)[ 1 ]}\n<!-- front-end-lib 生成的资源 end -->`;
 
 // const headHtmlPath = "../src/views/head.html";
 // const headHtml = fs.readFileSync(headHtmlPath).toString();
 
 
 // const newHeadHtml = headHtml
-//     .replace(/<!-- font-end-lib 生成的资源 star -->([\s\S]*)<!-- font-end-lib 生成的资源 end -->/, assetsCode)
-//     .replace(`src="./assets`, `src="{{.LevelRoot}}assets/font-end-lib`)
+//     .replace(/<!-- front-end-lib 生成的资源 star -->([\s\S]*)<!-- front-end-lib 生成的资源 end -->/, assetsCode)
+//     .replace(`src="./assets`, `src="{{.LevelRoot}}assets/front-end-lib`)
 
 // fs.writeFileSync(headHtmlPath, newHeadHtml);
 
 
-const font_end_lib = '../src/views/assets/font-end-lib/';
+const font_end_lib = '../src/views/assets/front-end-lib/';
 const assets = './public/build/';
 fse.emptyDirSync(font_end_lib);
 fse.copy(assets, font_end_lib);

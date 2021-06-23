@@ -97,7 +97,7 @@
 - 自定义渲染器在 ./src/render/ocean_press_render_custom.go 下
   - render 目录下的其他文件均是从 lute 项目中 copy 过来的
 
-### /font-end-lib
+### /front-end-lib
 
 > 这个目录下是一个使用 svelte 的前端项目，目的是为了提供前端技术上的支持
 
@@ -108,10 +108,10 @@
 
 | js 文件                                                                                           | 描述                                              | 体积  |
 | --------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------- |
-| [all_components](./src/views/assets/font-end-lib/all_components.js)                               | 包含了所有组件                                    | 266KB |
-| [block-ref.web_components](./src/views/assets/font-end-lib/block-ref.web_components.js)           | 块引用组件                                        | 4KB   |
-| [embedded-block.web_components](./src/views/assets/font-end-lib/embedded-block.web_components.js) | 嵌入块组件                                        | 5KB   |
-| [md.web_components.js](./src/views/assets/font-end-lib/md.web_components.js)                      | 文档渲染组件<br/>因为引入了 vditor 所以稍微有点大 | 263KB |
+| [all_components](./src/views/assets/front-end-lib/all_components.js)                               | 包含了所有组件                                    | 266KB |
+| [block-ref.web_components](./src/views/assets/front-end-lib/block-ref.web_components.js)           | 块引用组件                                        | 4KB   |
+| [embedded-block.web_components](./src/views/assets/front-end-lib/embedded-block.web_components.js) | 嵌入块组件                                        | 5KB   |
+| [md.web_components.js](./src/views/assets/front-end-lib/md.web_components.js)                      | 文档渲染组件<br/>因为引入了 vditor 所以稍微有点大 | 263KB |
 
 默认引入 all_components.js
 
