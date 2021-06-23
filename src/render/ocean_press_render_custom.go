@@ -389,7 +389,13 @@ func (r *OceanPressRender) renderDocument(node *ast.Node, entering bool) ast.Wal
 			r.Tag("div", [][]string{{"class", "protyle-background"}, {"style", titleImg}}, false)
 			r.Tag("/div", nil, false)
 		}
+
 		r.Tag("main", node.KramdownIAL, false)
+
+		r.Tag("h1", node.KramdownIAL, false)
+		fileEntity, _, _ := r.FindFileEntityFromID(node.ID)
+		r.WriteString(fileEntity.Name)
+		r.Tag("/h1", nil, false)
 	} else {
 		r.Tag("/main", nil, false)
 	}

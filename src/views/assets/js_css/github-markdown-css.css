@@ -452,7 +452,7 @@ p[data-n-id] {
 	position: relative;
 }
 
-[data-type='NodeDocument'] {
+main[data-type='NodeDocument'] {
 	max-width: 980px;
 	padding: 0 45px 15px 45px;
 	margin: auto;
@@ -465,7 +465,7 @@ p[data-n-id] {
 
 @media (max-width: 767px) {
 	.oceanpress-backLink,
-	[data-type='NodeDocument'] {
+	main[data-type='NodeDocument'] {
 		padding: 15px;
 	}
 }

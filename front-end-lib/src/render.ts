@@ -40,6 +40,10 @@ async function render() {
       /** ═════════🏳‍🌈 渲染 命名、别名等 🏳‍🌈═════════  */
       Array.from(md2website.fragment.querySelectorAll("[data-n-id]")).map(
         (el) => {
+          if(el.getAttribute("data-type")==="NodeDocument" && el.tagName!=="H1"){
+            // 因为 NodeDocument 还会渲染出一个 h1 在最上方，所以 main NodeDocument 不用渲染
+            return
+          }
           const attrFragment = document.createDocumentFragment();
           function addItem(name: string): boolean {
             const value = el.getAttribute(name);
