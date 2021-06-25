@@ -38,7 +38,7 @@ jobs:
         run: chmod 777 ./build/md2website-linux-amd64
 
       - name: build doc
-        run: ./build/md2website-linux-amd64 -SourceDir ./test-doc/思源笔记用户指南 -OutDir ./outHTML -TemplateDir ./src/views/ -SqlitePath ./test-doc/siyuan.db -AssetsDir ./test-doc/assets
+        run: ./build/md2website-linux-amd64 -SourceDir ./test-doc/思源笔记用户指南 -OutDir ./outHTML -TemplateDir ./src/views/ -SqlitePath ./test-doc/siyuan.db
 
       - name: zip views
         run: zip -q -r ./build/views.zip ./src/views/
