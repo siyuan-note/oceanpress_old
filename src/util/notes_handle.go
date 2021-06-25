@@ -10,7 +10,7 @@ import (
 
 func IsSkipPath(path string) bool {
 	p := filepath.ToSlash(path)
-	return strings.Contains(p, "/.git/") || strings.Contains(p, "/.siyuan/backup/")
+	return strings.Contains(p, "/.git/") || strings.Contains(p, "/.siyuan")
 }
 
 var NotesSuffix = ".sy"

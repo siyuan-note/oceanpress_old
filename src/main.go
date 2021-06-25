@@ -3,6 +3,7 @@ package main
 import (
 	"html/template"
 	"io/ioutil"
+	"net/url"
 	"path"
 	"path/filepath"
 	"strings"
@@ -199,6 +200,10 @@ func HandlingAssets(node *ast.Node, outDir string, rootPath string) {
 
 	if node != nil && node.Type == ast.NodeLinkDest {
 		dest := node.TokensStr()
+		decodeUrl, err := url.QueryUnescape(dest)
+		if err == nil {
+			dest = decodeUrl
+		}
 
 		if strings.HasPrefix(filepath.ToSlash(dest), "assets/") {
 			// 笔记本中的资源目录
