@@ -10,12 +10,12 @@
     <div class="item">
         {{if $v.IsDir }}
         <a href=".{{ $v.WebPath }}">
-            <img src="{{$LevelRoot}}/assets/icon/文件夹.png" style="height:36px" />
+            <img src="{{$LevelRoot}}assets/icon/文件夹.png" style="height:36px" />
             {{ $v.Name }}
         </a>
         {{else}}
             <a href=".{{ $v.WebPath }}">
-                <img src="{{$LevelRoot}}/assets/icon/文件.png" style="height:36px" />
+                <img src="{{$LevelRoot}}assets/icon/文件.png" style="height:36px" />
                 {{ $v.Name }}
             </a>
         {{end}}
