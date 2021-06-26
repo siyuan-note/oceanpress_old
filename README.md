@@ -4,6 +4,8 @@
 
 [点击这里查看生成后的效果](https://siyuan-note.github.io/oceanpress/) 静态文件位于 [gh-pages](https://github.com/siyuan-note/oceanpress/tree/gh-pages)
 
+[搭配 hexo 的效果](https://2234839.github.io/hexo-oceanpress/)
+
 注意！思源1.2 存在一个比较大的改动，这之前的版本请使用 [siyuan-note/oceanpress at b6185cd79f](https://github.com/siyuan-note/oceanpress/tree/b6185cd79f0552698fad38b9ee7062c0abc3e1d7)
 
 ## 运行方式 run
@@ -106,8 +108,8 @@
 目前生成的资源有：
 
 
-| js 文件                                                                                           | 描述                                              | 体积  |
-| --------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------- |
+| js 文件                                                                                            | 描述                                              | 体积  |
+| ---------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------- |
 | [all_components](./src/views/assets/front-end-lib/all_components.js)                               | 包含了所有组件                                    | 266KB |
 | [block-ref.web_components](./src/views/assets/front-end-lib/block-ref.web_components.js)           | 块引用组件                                        | 4KB   |
 | [embedded-block.web_components](./src/views/assets/front-end-lib/embedded-block.web_components.js) | 嵌入块组件                                        | 5KB   |
