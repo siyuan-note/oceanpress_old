@@ -31,9 +31,15 @@ func main() {
 	util.RunningLog("1.2", "outDir:"+outDir)
 	util.RunningLog("1.3", "viewsDir:"+conf.TemplateDir)
 	util.RunningLog("1.4", "SqlitePath:"+conf.SqlitePath)
+	tempDbPath := path.Join(filepath.ToSlash(sourceDir), "../oceanPressTemp.db")
+	err := copy.Copy(conf.SqlitePath, tempDbPath)
+	if err != nil {
+		util.DevLog("copy 数据库失败",err)
+	}
+	conf.SqlitePath = tempDbPath
 
 	// 流程 2  copy 源目录中资源文件至输出目录
-	util.RunningLog("2", "copy 资源到 outDir")
+	util.RunningLog("2", "copy sourceDir 资源到 outDir")
 
 	copy.Copy(sourceDir, outDir, copy.Options{
 		// 跳过一些不必要的目录以及 md 文件
@@ -89,6 +95,7 @@ func main() {
 		} else {
 			if conf.IsDev {
 				// 开发模式下跳过资源的 copy
+				HandlingAssets(entity.Tree.Root, outDir, entity)
 			} else {
 				HandlingAssets(entity.Tree.Root, outDir, entity)
 			}
@@ -211,28 +218,40 @@ func HandlingAssets(node *ast.Node, outDir string, fileEntity structAll.FileEnti
 			sourceDir := filepath.ToSlash(conf.SourceDir)
 			workspaceDir := path.Join(sourceDir, "../")
 
-			assetsPath := path.Join(fileEntity.Path,"./", dest)
+			level := 0
+
 			for {
+				assetsPath := path.Join(filepath.ToSlash(filepath.Dir(fileEntity.Path)), strings.Repeat("../", level), dest)
 				matched, _ := filepath.Match(workspaceDir+"*", assetsPath)
 				if matched {
 					_, err := os.Stat(assetsPath)
-					if(err==nil){
-						util.DevLog("文件存在于 ",assetsPath)
-					}else{
-
+					if err == nil {
+						matched, _ := filepath.Match(sourceDir+"*", assetsPath)
+						if matched {
+							// 资源文件在笔记本内，这里重写链接地址即可
+							p := path.Join(strings.Repeat("../", level), dest)
+							node.Tokens = []byte(p)
+							return
+						} else {
+							// 在工作空间内
+							err := copy.Copy(assetsPath, path.Join(outDir, dest))
+							if err != nil {
+								util.Warn("复制资源文件失败", err)
+							}
+							node.Tokens = []byte(path.Join(fileEntity.RootPath(), dest))
+							return
+						}
+					} else {
+						// 当前路径不存在
+						level += 1
+						continue
 					}
-				}
-				break
-			}
-			err := copy.Copy(path.Join(sourceDir, dest), path.Join(outDir, dest))
-			if err != nil {
-				// 工作空间中的资源目录
-				err := copy.Copy(path.Join(workspaceDir, dest), path.Join(outDir, dest))
-				if err != nil {
-					util.Warn("复制资源文件失败", err)
+				} else {
+					// 超出了工作空间范围
+					util.Warn("没有在工作空间内找到资源文件", err)
+					break
 				}
 			}
-			node.Tokens = []byte(path.Join(fileEntity.RootPath(), dest))
 		}
 	}
 }

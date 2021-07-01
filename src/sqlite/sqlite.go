@@ -20,8 +20,11 @@ func InitDb(dbPath string) DbResult {
 
 	sqlToID := func(sql string) (ids []string, rowsData []map[string]interface{}) {
 		rows, err := db.Query(sql)
-		cols, _ := rows.Columns()
 		defer rows.Close()
+		if(err!=nil){
+			util.Log("sql 执行失败",sql,err)
+		}
+		cols, _ := rows.Columns()
 		if err != nil {
 			util.Warn("sql 查询错误", err)
 			return ids, rowsData
