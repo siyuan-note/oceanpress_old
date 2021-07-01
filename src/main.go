@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"io/ioutil"
 	"net/url"
+	"os"
 	"path"
 	"path/filepath"
 	"strings"
@@ -89,7 +90,7 @@ func main() {
 			if conf.IsDev {
 				// 开发模式下跳过资源的 copy
 			} else {
-				HandlingAssets(entity.Tree.Root, outDir, entity.RootPath())
+				HandlingAssets(entity.Tree.Root, outDir, entity)
 			}
 		}
 	}
@@ -187,15 +188,15 @@ func fileEntityListFilter(list []structAll.FileEntity, test func(structAll.FileE
 	}
 	return
 }
-func HandlingAssets(node *ast.Node, outDir string, rootPath string) {
+func HandlingAssets(node *ast.Node, outDir string, fileEntity structAll.FileEntity) {
 	if node.Next != nil {
-		HandlingAssets(node.Next, outDir, rootPath)
+		HandlingAssets(node.Next, outDir, fileEntity)
 	}
 	if node.FirstChild != nil {
-		HandlingAssets(node.FirstChild, outDir, rootPath)
+		HandlingAssets(node.FirstChild, outDir, fileEntity)
 	}
 	for _, n := range node.Children {
-		HandlingAssets(n, outDir, rootPath)
+		HandlingAssets(n, outDir, fileEntity)
 	}
 
 	if node != nil && node.Type == ast.NodeLinkDest {
@@ -208,15 +209,30 @@ func HandlingAssets(node *ast.Node, outDir string, rootPath string) {
 		if strings.HasPrefix(filepath.ToSlash(dest), "assets/") {
 			// 笔记本中的资源目录
 			sourceDir := filepath.ToSlash(conf.SourceDir)
+			workspaceDir := path.Join(sourceDir, "../")
+
+			assetsPath := path.Join(fileEntity.Path,"./", dest)
+			for {
+				matched, _ := filepath.Match(workspaceDir+"*", assetsPath)
+				if matched {
+					_, err := os.Stat(assetsPath)
+					if(err==nil){
+						util.DevLog("文件存在于 ",assetsPath)
+					}else{
+
+					}
+				}
+				break
+			}
 			err := copy.Copy(path.Join(sourceDir, dest), path.Join(outDir, dest))
 			if err != nil {
 				// 工作空间中的资源目录
-				err := copy.Copy(path.Join(sourceDir, "../", dest), path.Join(outDir, dest))
+				err := copy.Copy(path.Join(workspaceDir, dest), path.Join(outDir, dest))
 				if err != nil {
 					util.Warn("复制资源文件失败", err)
 				}
 			}
-			node.Tokens = []byte(path.Join(rootPath, dest))
+			node.Tokens = []byte(path.Join(fileEntity.RootPath(), dest))
 		}
 	}
 }
