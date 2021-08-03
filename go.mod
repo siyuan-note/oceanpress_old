@@ -3,10 +3,12 @@ module github.com/siyuan-note/oceanpress
 go 1.15
 
 require (
-	github.com/88250/lute v1.7.3-0.20210617162846-96d3feeaeda3 // https://pkg.go.dev/github.com/88250/lute
-	github.com/88250/protyle v0.0.0-20210615031906-5d0b654a3c27
+	github.com/88250/gulu v1.1.73 // indirect
+	github.com/88250/lute v1.7.4-0.20210621082928-317445fdbb1f // https://pkg.go.dev/github.com/88250/lute
+	github.com/88250/protyle v0.0.0-20210727111915-ed3aa2dc751a
 	github.com/alecthomas/chroma v0.9.2
 	github.com/alecthomas/repr v0.0.0-20210301060118-828286944d6a // indirect
+	github.com/gopherjs/gopherjs v0.0.0-20210722203344-69c5ea87048d // indirect
 	github.com/jinzhu/gorm v1.9.16 // indirect
 	github.com/mattn/go-sqlite3 v1.14.6
 	github.com/otiai10/copy v1.5.1

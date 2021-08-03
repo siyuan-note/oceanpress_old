@@ -2,7 +2,6 @@ package structAll
 
 import (
 	"os"
-	"regexp"
 	"strings"
 	"time"
 
@@ -20,10 +19,7 @@ type StructInfo struct {
 }
 
 func (r *StructInfo) GetCreated() time.Time {
-	reg, _ := regexp.Compile("^\\d+")
-	createdStr := reg.FindString(r.BlockID)
-
-	return util.IDTimeStrToTime(createdStr)
+	return util.IDTimeStrToTime(r.BlockID)
 }
 func (r *StructInfo) GetUpdate() time.Time {
 	updated, _, _ := util.FindAttr(r.Node.KramdownIAL, "updated")

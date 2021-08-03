@@ -26,11 +26,8 @@ func addKramdownIAL(node *ast.Node) {
 	// 文档最后更新时间
 	node.KramdownIAL = append(node.KramdownIAL, []string{"updated", strconv.Itoa(ctx.docUpdated)})
 	//TODO: 所有块 id 都应该改成 data-block-id 这里应该要看下 lute 内是如何实现的，不应该这里还要写死
-	for _, v := range node.KramdownIAL {
-		if v[0] == "id" {
-			node.KramdownIAL = append(node.KramdownIAL, []string{"data-n-id", v[1]})
-		}
-	}
+	id, _, _ := util.FindAttr(node.KramdownIAL, "id")
+	node.KramdownIAL = append(node.KramdownIAL, []string{"data-n-id", id})
 }
 
 type addKramdownIALContext struct {
@@ -39,30 +36,26 @@ type addKramdownIALContext struct {
 
 // addAll 遍历整颗树，附加一些数据到 KramdownIAL. 目前有 id 最后更新时间
 func addAll(node *ast.Node, ctx *addKramdownIALContext) {
-	for _, v := range node.KramdownIAL {
-		// 获取文档最后更新时间
-		if v[0] == "updated" {
-			updated, _ := strconv.Atoi(v[1])
-			if updated > ctx.docUpdated {
-				ctx.docUpdated = updated
-			}
+	if node.Type == ast.NodeDocument {
+		if ctx.docUpdated == 0 {
+			time := util.TimeFromID(node.ID)
+			updated, _ := strconv.Atoi(time)
+			ctx.docUpdated = updated
 		}
 	}
+	updatedAttr, _, err := util.FindAttr(node.KramdownIAL, "updated")
+	if err == nil {
+		// 获取文档最后更新时间
+		updated, _ := strconv.Atoi(updatedAttr)
+		if updated > ctx.docUpdated {
+			ctx.docUpdated = updated
+		}
+	}
+
 	node.KramdownIAL = append(node.KramdownIAL, []string{"data-type", node.Type.String()})
 	if node.IALAttr("id") != "" {
 		node.SetIALAttr("data-n-id", node.IALAttr("id"))
 	}
-	// KramdownSpanIAL
-	// if node.Type == ast.NodeKramdownSpanIAL {
-	// 	_, ret := parseKramdownSpanIAL(node.Tokens)
-	// 	for _, attr := range ret {
-	// 		if node.Previous!=nil {
-	// 			name := attr[0]
-	// 			value := attr[1]
-	// 			node.Previous.SetIALAttr(name, value)
-	// 		}
-	// 	}
-	// }
 
 	if node.Next != nil {
 		addAll(node.Next, ctx)
