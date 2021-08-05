@@ -5,6 +5,7 @@ import (
 	"errors"
 	"html/template"
 	"path"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -24,7 +25,7 @@ import (
 func (r *OceanPressRender) Render() (html string, xml string) {
 	docName := r.context.BaseEntity.Name
 	// 调试用，跳过无关文档,免得浪费时间
-	if conf.IsDev && strings.Contains(docName, "思源笔记") == false {
+	if conf.IsDev && strings.Contains(docName, "挂件块开发") == false {
 		return "", ""
 	}
 	output := r.BaseRenderer.Render()
@@ -402,6 +403,28 @@ func (r *OceanPressRender) renderDocument(node *ast.Node, entering bool) ast.Wal
 	return ast.WalkContinue
 }
 
+func (r *OceanPressRender) renderIFrame(node *ast.Node, entering bool) ast.WalkStatus {
+	if entering {
+		attr := [][]string{{"class", "iframe"}}
+		attr = append(attr, node.KramdownIAL...)
+		r.Tag("div", attr, false)
+		tokens := node.Tokens
+		if r.Options.Sanitize {
+			tokens = sanitize(tokens)
+		}
+		data := (string(tokens))
+
+		// monkey patch 挂件块的绝对路径改成相对路径
+		reg, _ := regexp.Compile("src=\"/widgets/")
+		str := reg.ReplaceAllString(data, "src=\""+r.context.BaseEntity.RootPath()+"widgets/")
+
+		tokens = r.tagSrcPath([]byte(str))
+		r.Write(tokens)
+		r.Tag("/div", nil, false)
+	}
+	return ast.WalkContinue
+}
+
 // ========= 附加在 OceanPressRender 上的工具方法
 // pushTopRefId 将 RenderLevel==0 的 id 添加到 topRefId
 func (r *OceanPressRender) pushTopRefId(id string) {
@@ -466,7 +489,7 @@ func (r *OceanPressRender) SqlRender(sql string, headerIncludes bool, removeDupl
 			return count > 0
 		}
 		for _, id := range ids {
-			if retIncludes(id) == false {
+			if !retIncludes(id) {
 				ret = append(ret, id)
 			}
 		}
