@@ -98,19 +98,20 @@ func DirToStruct(dir string,
 			panic(err)
 		}
 		var infoList []structAll.StructInfo
+
 		ast.Walk(tree.Root, func(n *ast.Node, entering bool) ast.WalkStatus {
 			if entering {
 				return ast.WalkContinue
 			}
+			infoList = append(infoList, structAll.StructInfo{
+				BlockID:   n.ID,
+				BlockType: n.Type.String(),
+				Node:      n,
+			})
 
 			if nil == n.FirstChild {
 				return ast.WalkSkipChildren
 			}
-			infoList = append(infoList, structAll.StructInfo{
-				BlockID:   n.IALAttr("id"),
-				BlockType: n.Type.String(),
-				Node:      n,
-			})
 			return ast.WalkContinue
 		})
 		return infoList, tree
