@@ -27,6 +27,7 @@ func main() {
 	util.RunningLog("1", "用户输入")
 	sourceDir := conf.SourceDir
 	outDir := conf.OutDir
+	workspaceDir := path.Join(filepath.ToSlash(conf.SourceDir), "../")
 	util.RunningLog("1.1", "sourceDir:"+sourceDir)
 	util.RunningLog("1.2", "outDir:"+outDir)
 	util.RunningLog("1.3", "viewsDir:"+conf.TemplateDir)
@@ -34,7 +35,7 @@ func main() {
 	tempDbPath := path.Join(filepath.ToSlash(sourceDir), "../oceanPressTemp.db")
 	err := copy.Copy(conf.SqlitePath, tempDbPath)
 	if err != nil {
-		util.DevLog("copy 数据库失败",err)
+		util.DevLog("copy 数据库失败", err)
 	}
 	conf.SqlitePath = tempDbPath
 
@@ -50,6 +51,8 @@ func main() {
 	// copy views 中的资源文件
 	copy.Copy(path.Join(conf.TemplateDir, "./assets"), path.Join(outDir, "./assets"))
 	util.RunningLog("2.1", "copy 完成")
+	copy.Copy(path.Join(workspaceDir, "./widgets"), path.Join(outDir, "./widgets"))
+	util.RunningLog("2.2", "copy widgets")
 
 	// 流程 3  遍历源目录 生成 html 到输出目录
 	util.RunningLog("3", "生成 html")
