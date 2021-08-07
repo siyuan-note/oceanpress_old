@@ -1,8 +1,0 @@
-{
-   "publish": false,
-   "updated": 1620726507893,
-   "refCreateSavePath": "",
-   "createDocNameTemplate": "",
-   "dailyNoteSavePath": "/daily note/{{now | date \"2006/01\"}}/{{now | date \"2006-01-02\"}}.sy",
-   "dailyNoteTemplatePath": ""
-}
