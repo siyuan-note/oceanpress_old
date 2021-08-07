@@ -2,7 +2,7 @@
 
 将 MarkDown 文件转换为 html 的静态站点
 
-[点击这里查看生成后的效果](https://siyuan-note.github.io/oceanpress/) 静态文件位于 [gh-pages](https://github.com/siyuan-note/oceanpress/tree/gh-pages)
+[点击这里查看生成后的效果](https://siyuan-note.github.io/oceanpress/OceanPress.html) 静态文件位于 [gh-pages](https://github.com/siyuan-note/oceanpress/tree/gh-pages)
 
 [搭配 hexo 的效果](https://2234839.github.io/hexo-oceanpress/)
 
