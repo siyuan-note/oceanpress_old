@@ -1,0 +1,818 @@
+{
+	"ID": "20210807155017-xz6i9yy",
+	"Type": "NodeDocument",
+	"Properties": {
+		"id": "20210807155017-xz6i9yy",
+		"title": "OceanPress",
+		"updated": "20210807161918"
+	},
+	"Children": [
+		{
+			"ID": "20210807155018-258faos",
+			"Type": "NodeBlockquote",
+			"Properties": {
+				"id": "20210807155018-258faos",
+				"updated": "20210807155541"
+			},
+			"Children": [
+				{
+					"Type": "NodeBlockquoteMarker",
+					"Data": "\u003e"
+				},
+				{
+					"ID": "20210807155039-ixkewie",
+					"Type": "NodeParagraph",
+					"Properties": {
+						"id": "20210807155039-ixkewie",
+						"updated": "20210807155541"
+					},
+					"Children": [
+						{
+							"Type": "NodeText",
+							"Data": "这里是 "
+						},
+						{
+							"Type": "NodeLink",
+							"Data": "span",
+							"Children": [
+								{
+									"Type": "NodeOpenBracket"
+								},
+								{
+									"Type": "NodeLinkText",
+									"Data": "OceanPress"
+								},
+								{
+									"Type": "NodeCloseBracket"
+								},
+								{
+									"Type": "NodeOpenParen"
+								},
+								{
+									"Type": "NodeLinkDest",
+									"Data": "https://github.com/siyuan-note/oceanpress"
+								},
+								{
+									"Type": "NodeCloseParen"
+								}
+							]
+						},
+						{
+							"Type": "NodeText",
+							"Data": " 的测试文档地址，"
+						},
+						{
+							"Type": "NodeLink",
+							"Data": "span",
+							"Children": [
+								{
+									"Type": "NodeOpenBracket"
+								},
+								{
+									"Type": "NodeLinkText",
+									"Data": "开发进度 ＆  \u003e\u003e"
+								},
+								{
+									"Type": "NodeCloseBracket"
+								},
+								{
+									"Type": "NodeOpenParen"
+								},
+								{
+									"Type": "NodeLinkDest",
+									"Data": "https://shenzilong.cn/%E6%83%B3%E6%B3%95/%E9%A1%B9%E7%9B%AE/OceanPress.html"
+								},
+								{
+									"Type": "NodeCloseParen"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"ID": "20210807155201-36oxpd4",
+			"Type": "NodeHeading",
+			"HeadingLevel": 2,
+			"Properties": {
+				"alias": "引用块",
+				"bookmark": "✨",
+				"id": "20210807155201-36oxpd4",
+				"memo": "这里是一段备注",
+				"name": "块引用",
+				"updated": "20210807160043"
+			},
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "块引用"
+				}
+			]
+		},
+		{
+			"ID": "20210807160613-xlctgwa",
+			"Type": "NodeParagraph",
+			"Properties": {
+				"id": "20210807160613-xlctgwa",
+				"style": "color: var(--b3-card-info-color);background-color: var(--b3-card-info-background);",
+				"updated": "20210807160716"
+			},
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "这个块有一个 「信息样式」，另外你注意到 "
+				},
+				{
+					"Type": "NodeBlockRef",
+					"Data": "span",
+					"Children": [
+						{
+							"Type": "NodeOpenParen"
+						},
+						{
+							"Type": "NodeOpenParen"
+						},
+						{
+							"Type": "NodeBlockRefID",
+							"Data": "20210807155201-36oxpd4"
+						},
+						{
+							"Type": "NodeCloseParen"
+						},
+						{
+							"Type": "NodeCloseParen"
+						}
+					]
+				},
+				{
+					"Type": "NodeText",
+					"Data": " 的右上角有显示他的书签、命名、别名、备注了吗"
+				}
+			]
+		},
+		{
+			"ID": "20210807160045-0bgwlgn",
+			"Type": "NodeParagraph",
+			"Properties": {
+				"id": "20210807160045-0bgwlgn",
+				"updated": "20210807161335"
+			},
+			"Children": [
+				{
+					"Type": "NodeBlockRef",
+					"Data": "span",
+					"Children": [
+						{
+							"Type": "NodeOpenParen"
+						},
+						{
+							"Type": "NodeOpenParen"
+						},
+						{
+							"Type": "NodeBlockRefID",
+							"Data": "20210807160022-0hn1p55"
+						},
+						{
+							"Type": "NodeCloseParen"
+						},
+						{
+							"Type": "NodeCloseParen"
+						}
+					]
+				},
+				{
+					"Type": "NodeText",
+					"Data": " , "
+				},
+				{
+					"Type": "NodeBlockRef",
+					"Data": "span",
+					"Children": [
+						{
+							"Type": "NodeOpenParen"
+						},
+						{
+							"Type": "NodeOpenParen"
+						},
+						{
+							"Type": "NodeBlockRefID",
+							"Data": "20210807160059-tibne5x"
+						},
+						{
+							"Type": "NodeCloseParen"
+						},
+						{
+							"Type": "NodeCloseParen"
+						}
+					]
+				},
+				{
+					"Type": "NodeText",
+					"Data": " / 跳转到当前页的 "
+				},
+				{
+					"Type": "NodeBlockRef",
+					"Data": "span",
+					"Children": [
+						{
+							"Type": "NodeOpenParen"
+						},
+						{
+							"Type": "NodeOpenParen"
+						},
+						{
+							"Type": "NodeBlockRefID",
+							"Data": "20210807155751-77cnllv"
+						},
+						{
+							"Type": "NodeCloseParen"
+						},
+						{
+							"Type": "NodeCloseParen"
+						}
+					]
+				}
+			]
+		},
+		{
+			"ID": "20210807160152-1uvbt4h",
+			"Type": "NodeParagraph",
+			"Properties": {
+				"id": "20210807160152-1uvbt4h",
+				"updated": "20210807160234"
+			},
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "这里引用了上一行 "
+				},
+				{
+					"Type": "NodeBlockRef",
+					"Data": "span",
+					"Children": [
+						{
+							"Type": "NodeOpenParen"
+						},
+						{
+							"Type": "NodeOpenParen"
+						},
+						{
+							"Type": "NodeBlockRefID",
+							"Data": "20210807160045-0bgwlgn"
+						},
+						{
+							"Type": "NodeCloseParen"
+						},
+						{
+							"Type": "NodeCloseParen"
+						}
+					]
+				},
+				{
+					"Type": "NodeText",
+					"Data": " "
+				}
+			]
+		},
+		{
+			"ID": "20210807160242-btuw9xx",
+			"Type": "NodeHeading",
+			"HeadingLevel": 3,
+			"Properties": {
+				"id": "20210807160242-btuw9xx",
+				"updated": "20210807160308"
+			},
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "嵌入块"
+				}
+			]
+		},
+		{
+			"ID": "20210807160302-ooot1r6",
+			"Type": "NodeBlockQueryEmbed",
+			"Properties": {
+				"id": "20210807160302-ooot1r6",
+				"updated": "20210807160302"
+			},
+			"Children": [
+				{
+					"Type": "NodeOpenBrace"
+				},
+				{
+					"Type": "NodeOpenBrace"
+				},
+				{
+					"Type": "NodeBlockQueryEmbedScript",
+					"Data": "select * from blocks where id='20210807160059-tibne5x'"
+				},
+				{
+					"Type": "NodeCloseBrace"
+				},
+				{
+					"Type": "NodeCloseBrace"
+				}
+			]
+		},
+		{
+			"ID": "20210807155713-nh60wum",
+			"Type": "NodeHeading",
+			"HeadingLevel": 2,
+			"Properties": {
+				"id": "20210807155713-nh60wum",
+				"updated": "20210807155722"
+			},
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "挂件块"
+				}
+			]
+		},
+		{
+			"ID": "20210807155723-jbzlouj",
+			"Type": "NodeIFrame",
+			"Data": "\u003ciframe src=\"/widgets/run-code/index.html\" data-src=\"\" border=\"0\" frameborder=\"no\" framespacing=\"0\" allowfullscreen=\"true\" style=\"width: 970px; height: 213px;\"\u003e\u003c/iframe\u003e",
+			"Properties": {
+				"custom-config": "{\u0026quot;source\u0026quot;:\u0026quot;const a = `\u0026lt;a href=\\\u0026quot;https://github.com/2234839/run-code\\\u0026quot;\u0026gt;run-code github repo\u0026lt;/a\u0026gt;`\u0026quot;,\u0026quot;inside\u0026quot;:\u0026quot;inside\u0026quot;,\u0026quot;title\u0026quot;:\u0026quot;\u0026quot;,\u0026quot;preamble\u0026quot;:\u0026quot;\u0026quot;,\u0026quot;version\u0026quot;:\u0026quot;16.x.x\u0026quot;}",
+				"custom-z-ir-3793959573687473": "{\u0026quot;block_id\u0026quot;:\u0026quot;20210807155723-jbzlouj\u0026quot;,\u0026quot;box\u0026quot;:\u0026quot;OceanPress\u0026quot;,\u0026quot;id\u0026quot;:\u0026quot;\u0026quot;,\u0026quot;name\u0026quot;:\u0026quot;custom-config\u0026quot;,\u0026quot;path\u0026quot;:\u0026quot;/OceanPress.sy\u0026quot;,\u0026quot;root_id\u0026quot;:\u0026quot;20210807155017-xz6i9yy\u0026quot;,\u0026quot;type\u0026quot;:\u0026quot;b\u0026quot;,\u0026quot;value\u0026quot;:\u0026quot;{\u0026quot;source\u0026quot;:\u0026quot;const a = `\u0026lt;a href=\\\\\u0026quot;https://github.com/2234839/run-code\\\\\u0026quot;\u0026gt;run-code github repo\u0026lt;/a\u0026gt;`\u0026quot;,\u0026quot;inside\u0026quot;:\u0026quot;inside\u0026quot;,\u0026quot;title\u0026quot;:\u0026quot;\u0026quot;,\u0026quot;preamble\u0026quot;:\u0026quot;\u0026quot;,\u0026quot;version\u0026quot;:\u0026quot;16.x.x\u0026quot;}\u0026quot;}",
+				"id": "20210807155723-jbzlouj",
+				"updated": "20210807155729"
+			}
+		},
+		{
+			"ID": "20210807155751-77cnllv",
+			"Type": "NodeHeading",
+			"HeadingLevel": 2,
+			"Properties": {
+				"id": "20210807155751-77cnllv",
+				"updated": "20210807161030"
+			},
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "超级块"
+				}
+			]
+		},
+		{
+			"ID": "20210807161101-am2ssru",
+			"Type": "NodeSuperBlock",
+			"Properties": {
+				"id": "20210807161101-am2ssru",
+				"updated": "20210807161237"
+			},
+			"Children": [
+				{
+					"Type": "NodeSuperBlockOpenMarker"
+				},
+				{
+					"Type": "NodeSuperBlockLayoutMarker",
+					"Data": "col"
+				},
+				{
+					"ID": "20210807161158-to44aku",
+					"Type": "NodeSuperBlock",
+					"Properties": {
+						"id": "20210807161158-to44aku",
+						"updated": "20210807161209"
+					},
+					"Children": [
+						{
+							"Type": "NodeSuperBlockOpenMarker"
+						},
+						{
+							"Type": "NodeSuperBlockLayoutMarker",
+							"Data": "row"
+						},
+						{
+							"ID": "20210807161031-wskkgg5",
+							"Type": "NodeParagraph",
+							"Properties": {
+								"id": "20210807161031-wskkgg5",
+								"style": "color: var(--b3-card-info-color); background-color: var(--b3-card-info-background);",
+								"updated": "20210807161138"
+							},
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "超级块的最大作用就是："
+								}
+							]
+						},
+						{
+							"ID": "20210807161139-dg61e1d",
+							"Type": "NodeList",
+							"ListData": {},
+							"Properties": {
+								"id": "20210807161139-dg61e1d",
+								"updated": "20210807161209"
+							},
+							"Children": [
+								{
+									"ID": "20210807161143-ins6pww",
+									"Type": "NodeListItem",
+									"ListData": {
+										"BulletChar": 42,
+										"Marker": "Kg=="
+									},
+									"Properties": {
+										"id": "20210807161143-ins6pww",
+										"updated": "20210807161209"
+									},
+									"Children": [
+										{
+											"ID": "20210807161143-wwwpox6",
+											"Type": "NodeParagraph",
+											"Properties": {
+												"id": "20210807161143-wwwpox6",
+												"updated": "20210807161146"
+											},
+											"Children": [
+												{
+													"Type": "NodeText",
+													"Data": "列表"
+												}
+											]
+										},
+										{
+											"ID": "20210807161204-g5ydolf",
+											"Type": "NodeList",
+											"ListData": {},
+											"Properties": {
+												"id": "20210807161204-g5ydolf",
+												"updated": "20210807161209"
+											},
+											"Children": [
+												{
+													"ID": "20210807161203-f77t7dj",
+													"Type": "NodeListItem",
+													"ListData": {
+														"BulletChar": 42,
+														"Marker": "Kg=="
+													},
+													"Properties": {
+														"id": "20210807161203-f77t7dj",
+														"updated": "20210807161209"
+													},
+													"Children": [
+														{
+															"ID": "20210807161203-djznoq7",
+															"Type": "NodeParagraph",
+															"Properties": {
+																"id": "20210807161203-djznoq7",
+																"updated": "20210807161206"
+															},
+															"Children": [
+																{
+																	"Type": "NodeText",
+																	"Data": "2"
+																}
+															]
+														},
+														{
+															"ID": "20210807161207-fg7jpeh",
+															"Type": "NodeList",
+															"ListData": {},
+															"Properties": {
+																"id": "20210807161207-fg7jpeh",
+																"updated": "20210807161209"
+															},
+															"Children": [
+																{
+																	"ID": "20210807161207-y94t8dh",
+																	"Type": "NodeListItem",
+																	"ListData": {
+																		"BulletChar": 42,
+																		"Marker": "Kg=="
+																	},
+																	"Properties": {
+																		"id": "20210807161207-y94t8dh",
+																		"updated": "20210807161209"
+																	},
+																	"Children": [
+																		{
+																			"ID": "20210807161207-9j8adnq",
+																			"Type": "NodeParagraph",
+																			"Properties": {
+																				"id": "20210807161207-9j8adnq",
+																				"updated": "20210807161209"
+																			},
+																			"Children": [
+																				{
+																					"Type": "NodeText",
+																					"Data": "3"
+																				}
+																			]
+																		}
+																	]
+																}
+															]
+														}
+													]
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"Type": "NodeSuperBlockCloseMarker"
+						}
+					]
+				},
+				{
+					"ID": "20210807161219-or6vreb",
+					"Type": "NodeSuperBlock",
+					"Properties": {
+						"id": "20210807161219-or6vreb",
+						"updated": "20210807161237"
+					},
+					"Children": [
+						{
+							"Type": "NodeSuperBlockOpenMarker"
+						},
+						{
+							"Type": "NodeSuperBlockLayoutMarker",
+							"Data": "row"
+						},
+						{
+							"ID": "20210807161046-3ai3v8d",
+							"Type": "NodeParagraph",
+							"Properties": {
+								"id": "20210807161046-3ai3v8d",
+								"style": "color: var(--b3-card-success-color); background-color: var(--b3-card-success-background);",
+								"updated": "20210807161054"
+							},
+							"Children": [
+								{
+									"Type": "NodeText",
+									"Data": "用来排版"
+								}
+							]
+						},
+						{
+							"ID": "20210807161229-gcvahjl",
+							"Type": "NodeList",
+							"ListData": {
+								"Typ": 3
+							},
+							"Properties": {
+								"id": "20210807161229-gcvahjl",
+								"updated": "20210807161237"
+							},
+							"Children": [
+								{
+									"ID": "20210807161229-13lkdum",
+									"Type": "NodeListItem",
+									"ListData": {
+										"Typ": 3,
+										"BulletChar": 42,
+										"Marker": "Kg=="
+									},
+									"Properties": {
+										"id": "20210807161229-13lkdum",
+										"updated": "20210807161237"
+									},
+									"Children": [
+										{
+											"Type": "NodeTaskListItemMarker"
+										},
+										{
+											"ID": "20210807161211-fzz7u17",
+											"Type": "NodeParagraph",
+											"Properties": {
+												"id": "20210807161211-fzz7u17",
+												"updated": "20210807161234"
+											},
+											"Children": [
+												{
+													"Type": "NodeText",
+													"Data": "任务列表"
+												}
+											]
+										},
+										{
+											"ID": "20210807161237-i2jp5jz",
+											"Type": "NodeList",
+											"ListData": {
+												"Typ": 3
+											},
+											"Properties": {
+												"id": "20210807161237-i2jp5jz",
+												"updated": "20210807161237"
+											},
+											"Children": [
+												{
+													"ID": "20210807161237-1n7ivxx",
+													"Type": "NodeListItem",
+													"ListData": {
+														"Typ": 3,
+														"BulletChar": 42,
+														"Marker": "Kg=="
+													},
+													"Properties": {
+														"id": "20210807161237-1n7ivxx",
+														"updated": "20210807161237"
+													},
+													"Children": [
+														{
+															"Type": "NodeTaskListItemMarker",
+															"TaskListItemChecked": true
+														},
+														{
+															"ID": "20210807161237-30uibvm",
+															"Type": "NodeParagraph",
+															"Properties": {
+																"id": "20210807161237-30uibvm",
+																"updated": "20210807161239"
+															},
+															"Children": [
+																{
+																	"Type": "NodeText",
+																	"Data": "done"
+																}
+															]
+														}
+													]
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"Type": "NodeSuperBlockCloseMarker"
+						}
+					]
+				},
+				{
+					"Type": "NodeSuperBlockCloseMarker"
+				}
+			]
+		},
+		{
+			"ID": "20210807161102-d45ty6p",
+			"Type": "NodeHeading",
+			"HeadingLevel": 2,
+			"Properties": {
+				"id": "20210807161102-d45ty6p",
+				"updated": "20210807161432"
+			},
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "数学公式"
+				}
+			]
+		},
+		{
+			"ID": "20210807161455-k9ac0y8",
+			"Type": "NodeParagraph",
+			"Properties": {
+				"id": "20210807161455-k9ac0y8",
+				"updated": "20210807161513"
+			},
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "行内公式 "
+				},
+				{
+					"Type": "NodeInlineMath",
+					"Data": "span",
+					"Children": [
+						{
+							"Type": "NodeInlineMathOpenMarker"
+						},
+						{
+							"Type": "NodeInlineMathContent",
+							"Data": " a = 4"
+						},
+						{
+							"Type": "NodeInlineMathCloseMarker"
+						}
+					]
+				},
+				{
+					"Type": "NodeText",
+					"Data": "\n"
+				}
+			]
+		},
+		{
+			"ID": "20210807161433-ctzd8id",
+			"Type": "NodeMathBlock",
+			"Properties": {
+				"id": "20210807161433-ctzd8id",
+				"updated": "20210807161450"
+			},
+			"Children": [
+				{
+					"Type": "NodeMathBlockOpenMarker"
+				},
+				{
+					"Type": "NodeMathBlockContent",
+					"Data": "1+1=1\n"
+				},
+				{
+					"Type": "NodeMathBlockCloseMarker"
+				}
+			]
+		},
+		{
+			"ID": "20210807161451-h24ybfq",
+			"Type": "NodeHeading",
+			"HeadingLevel": 2,
+			"Properties": {
+				"id": "20210807161451-h24ybfq",
+				"updated": "20210807161846"
+			},
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "图表"
+				}
+			]
+		},
+		{
+			"ID": "20210807161856-3ghc9r1",
+			"Type": "NodeParagraph",
+			"Properties": {
+				"id": "20210807161856-3ghc9r1",
+				"updated": "20210807161915"
+			},
+			"Children": [
+				{
+					"Type": "NodeText",
+					"Data": "下表数据 copy 自 "
+				},
+				{
+					"Type": "NodeLink",
+					"Data": "span",
+					"Children": [
+						{
+							"Type": "NodeOpenBracket"
+						},
+						{
+							"Type": "NodeLinkText",
+							"Data": "https://www.runoob.com/echarts/echarts-dataset.html"
+						},
+						{
+							"Type": "NodeCloseBracket"
+						},
+						{
+							"Type": "NodeOpenParen"
+						},
+						{
+							"Type": "NodeLinkDest",
+							"Data": "https://www.runoob.com/echarts/echarts-dataset.html"
+						},
+						{
+							"Type": "NodeCloseParen"
+						}
+					]
+				}
+			]
+		},
+		{
+			"ID": "20210807161556-mu1qvie",
+			"Type": "NodeCodeBlock",
+			"IsFencedCodeBlock": true,
+			"Properties": {
+				"id": "20210807161556-mu1qvie",
+				"updated": "20210807161839"
+			},
+			"Children": [
+				{
+					"Type": "NodeCodeBlockFenceOpenMarker",
+					"Data": "```"
+				},
+				{
+					"Type": "NodeCodeBlockFenceInfoMarker",
+					"CodeBlockInfo": "ZWNoYXJ0cw=="
+				},
+				{
+					"Type": "NodeCodeBlockCode",
+					"Data": "{\n  \"legend\": {},\n  \"tooltip\": {},\n  \"dataset\": {\n    \"source\": [\n      [\n        \"product\",\n        \"2012\",\n        \"2013\",\n        \"2014\",\n        \"2015\"\n      ],\n      [\n        \"Matcha Latte\",\n        41.1,\n        30.4,\n        65.1,\n        53.3\n      ],\n      [\n        \"Milk Tea\",\n        86.5,\n        92.1,\n        85.7,\n        83.1\n      ],\n      [\n        \"Cheese Cocoa\",\n        24.1,\n        67.2,\n        79.5,\n        86.4\n      ]\n    ]\n  },\n  \"xAxis\": [\n    {\n      \"type\": \"category\",\n      \"gridIndex\": 0\n    },\n    {\n      \"type\": \"category\",\n      \"gridIndex\": 1\n    }\n  ],\n  \"yAxis\": [\n    {\n      \"gridIndex\": 0\n    },\n    {\n      \"gridIndex\": 1\n    }\n  ],\n  \"grid\": [\n    {\n      \"bottom\": \"55%\"\n    },\n    {\n      \"top\": \"55%\"\n    }\n  ],\n  \"series\": [\n    {\n      \"type\": \"bar\",\n      \"seriesLayoutBy\": \"row\"\n    },\n    {\n      \"type\": \"bar\",\n      \"seriesLayoutBy\": \"row\"\n    },\n    {\n      \"type\": \"bar\",\n      \"seriesLayoutBy\": \"row\"\n    },\n    {\n      \"type\": \"bar\",\n      \"xAxisIndex\": 1,\n      \"yAxisIndex\": 1\n    },\n    {\n      \"type\": \"bar\",\n      \"xAxisIndex\": 1,\n      \"yAxisIndex\": 1\n    },\n    {\n      \"type\": \"bar\",\n      \"xAxisIndex\": 1,\n      \"yAxisIndex\": 1\n    },\n    {\n      \"type\": \"bar\",\n      \"xAxisIndex\": 1,\n      \"yAxisIndex\": 1\n    }\n  ]\n}"
+				},
+				{
+					"Type": "NodeCodeBlockFenceCloseMarker",
+					"Data": "```"
+				}
+			]
+		},
+		{
+			"ID": "20210807161918-1xn04l4",
+			"Type": "NodeParagraph",
+			"Properties": {
+				"id": "20210807161918-1xn04l4",
+				"updated": "20210807161918"
+			}
+		}
+	]
+}

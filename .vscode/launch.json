@@ -18,13 +18,13 @@
             //     "-SqlitePath=C:/Users/llej/Documents/SiYuan/temp/siyuan.db",
             //     // "-IsDev=true",
             // ],
-            "args": [
-                "-SourceDir=C:/Users/llej/Documents/SiYuan/data/note",
-                "-OutDir=D:\\code\\doc\\docHTML",
-                "-TemplateDir=./views/",
-                "-SqlitePath=C:/Users/llej/Documents/SiYuan/temp/siyuan.db",
-                // "-IsDev=true",
-            ],
+            // "args": [
+            //     "-SourceDir=C:/Users/llej/Documents/SiYuan/data/note",
+            //     "-OutDir=D:\\code\\doc\\docHTML",
+            //     "-TemplateDir=./views/",
+            //     "-SqlitePath=C:/Users/llej/Documents/SiYuan/temp/siyuan.db",
+            //     // "-IsDev=true",
+            // ],
             // "args": [
             //     "-SourceDir=C:/Users/llej/Documents/SiYuan/data/思源笔记用户指南",
             //     "-OutDir=D:/test_code/hexo/blog/source/oceanpress",
@@ -32,12 +32,12 @@
             //     "-SqlitePath=C:/Users/llej/Documents/SiYuan/temp/siyuan.db",
             //     // "-IsDev=true",
             // ],
-            // "args": [
-            //     "-SourceDir=../test-doc/思源笔记用户指南",
-            //     "-OutDir=../outHTML",
-            //     "-TemplateDir=../src/views/",
-            //     "-SqlitePath=../test-doc/siyuan.db",
-            // ]
+            "args": [
+                "-SourceDir=../test-doc/data/OceanPress",
+                "-OutDir=../outHTML",
+                "-TemplateDir=../src/views/",
+                "-SqlitePath=../test-doc/temp/siyuan.db",
+            ]
             // 旧版思源执行参数
             // "args": [
             //     "D:\\code\\doc\\doc",
