@@ -2,6 +2,7 @@
 	"ID": "20210807160022-0hn1p55",
 	"Type": "NodeDocument",
 	"Properties": {
+		"icon": "huaji.gif",
 		"id": "20210807160022-0hn1p55",
 		"title": "被引用页面",
 		"updated": "20210807160901"
