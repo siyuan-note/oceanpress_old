@@ -6,7 +6,8 @@
 
 [搭配 hexo 的效果](https://2234839.github.io/hexo-oceanpress/)
 
-注意！思源1.2 存在一个比较大的改动，这之前的版本请使用 [siyuan-note/oceanpress at b6185cd79f](https://github.com/siyuan-note/oceanpress/tree/b6185cd79f0552698fad38b9ee7062c0abc3e1d7)
+- 思源 1.2.5 改动了目录名为文档 id，这之前的版本请使用 [siyuan-note/oceanpress v0.4.4](https://github.com/siyuan-note/oceanpress/releases/tag/v0.4.4)
+- 注意！思源1.2 存在一个比较大的改动，这之前的版本请使用 [siyuan-note/oceanpress at b6185cd79f](https://github.com/siyuan-note/oceanpress/tree/b6185cd79f0552698fad38b9ee7062c0abc3e1d7)
 
 ## 运行方式 run
 
@@ -59,6 +60,7 @@
 
 ## 待完成的功能点（按优先级降序排序）
 
+**[下面很久没有更新了，请点击此链接查看更新记录](https://shenzilong.cn/%E6%83%B3%E6%B3%95/%E9%A1%B9%E7%9B%AE/OceanPress.html)**
 
 | 可用 | 功能名                                                                                                                                                                                                                                                                                                                             | 大致进度 |
 | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- |
