@@ -12,10 +12,11 @@ package render
 
 import (
 	"bytes"
-	"github.com/88250/lute/html"
 	"strconv"
 	"unicode"
 	"unicode/utf8"
+
+	"github.com/88250/lute/html"
 
 	"github.com/88250/lute/ast"
 	"github.com/88250/lute/lex"
@@ -791,7 +792,7 @@ func (r *HtmlRenderer) renderImage(node *ast.Node, entering bool) ast.WalkStatus
 			r.WriteString(" " + ial)
 		}
 		r.WriteString(" />")
-		if style := node.IALAttr("parent-style"); "" != style {
+		if style := node.IALAttr("style"); "" != style {
 			r.Tag("/span", nil, false)
 		}
 

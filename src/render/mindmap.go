@@ -12,8 +12,9 @@ package render
 
 import (
 	"bytes"
-	"github.com/88250/lute/html"
 	"strings"
+
+	"github.com/88250/lute/html"
 
 	"github.com/88250/lute/ast"
 	"github.com/88250/lute/parse"

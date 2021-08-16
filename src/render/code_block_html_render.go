@@ -14,9 +14,10 @@ package render
 
 import (
 	"bytes"
-	"github.com/88250/lute/html"
 	"go/format"
 	"strings"
+
+	"github.com/88250/lute/html"
 
 	"github.com/88250/lute/ast"
 	"github.com/88250/lute/lex"

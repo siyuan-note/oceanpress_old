@@ -218,7 +218,30 @@ func NewOceanPressRenderer(tree *parse.Tree, options *Options,
 	ret.RendererFuncs[ast.NodeUnderlineOpenMarker] = ret.renderUnderlineOpenMarker
 	ret.RendererFuncs[ast.NodeUnderlineCloseMarker] = ret.renderUnderlineCloseMarker
 	ret.RendererFuncs[ast.NodeBr] = ret.renderBr
+	ret.RendererFuncs[ast.NodeTextMark] = ret.renderTextMark
+	ret.RendererFuncs[ast.NodeTextMarkOpenMarker] = ret.renderTextMarkOpenMarker
+	ret.RendererFuncs[ast.NodeTextMarkCloseMarker] = ret.renderTextMarkCloseMarker
 	return ret
+}
+
+func (r *OceanPressRender) renderTextMark(node *ast.Node, entering bool) ast.WalkStatus {
+	return ast.WalkContinue
+}
+
+func (r *OceanPressRender) renderTextMarkOpenMarker(node *ast.Node, entering bool) ast.WalkStatus {
+	if entering {
+		r.WriteString("<span data-type=\"")
+		r.Write(node.Tokens)
+		r.WriteString("\">")
+	}
+	return ast.WalkContinue
+}
+
+func (r *OceanPressRender) renderTextMarkCloseMarker(node *ast.Node, entering bool) ast.WalkStatus {
+	if entering {
+		r.WriteString("</span>")
+	}
+	return ast.WalkContinue
 }
 
 func (r *OceanPressRender) renderBr(node *ast.Node, entering bool) ast.WalkStatus {
@@ -769,6 +792,11 @@ func (r *OceanPressRender) renderInlineMathOpenMarker(node *ast.Node, entering b
 }
 
 func (r *OceanPressRender) renderInlineMath(node *ast.Node, entering bool) ast.WalkStatus {
+	if entering {
+		r.TextAutoSpacePrevious(node)
+	} else {
+		r.TextAutoSpaceNext(node)
+	}
 	return ast.WalkContinue
 }
 
@@ -1071,10 +1099,10 @@ func (r *OceanPressRender) renderParagraph(node *ast.Node, entering bool) ast.Wa
 		r.handleKramdownBlockIAL(node)
 		var attrs [][]string
 		attrs = append(attrs, node.KramdownIAL...)
-		if r.Options.ChineseParagraphBeginningSpace && ast.NodeDocument == node.Parent.Type {
-			attrs = append(attrs, []string{"class", "indent--2"})
-		}
 		r.Tag("p", attrs, false)
+		if r.Options.ChineseParagraphBeginningSpace && ast.NodeDocument == node.Parent.Type {
+			r.WriteString("　　")
+		}
 	} else {
 		r.Tag("/p", nil, false)
 		r.Newline()
@@ -1089,10 +1117,6 @@ func (r *OceanPressRender) renderText(node *ast.Node, entering bool) ast.WalkSta
 			tokens = r.Space(node.Tokens)
 		} else {
 			tokens = node.Tokens
-		}
-
-		if r.Options.FixTermTypo {
-			tokens = r.FixTermTypo(tokens)
 		}
 		r.Write(html.EscapeHTML(tokens))
 	}

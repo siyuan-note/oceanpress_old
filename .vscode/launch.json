@@ -32,12 +32,12 @@
             //     "-SqlitePath=C:/Users/llej/Documents/SiYuan/temp/siyuan.db",
             //     // "-IsDev=true",
             // ],
-            "args": [
-                "-SourceDir=../test-doc/data/OceanPress",
-                "-OutDir=../outHTML",
-                "-TemplateDir=../src/views/",
-                "-SqlitePath=../test-doc/temp/siyuan.db",
-            ]
+            // "args": [
+            //     "-SourceDir=../test-doc/data/OceanPress",
+            //     "-OutDir=../outHTML",
+            //     "-TemplateDir=../src/views/",
+            //     "-SqlitePath=../test-doc/temp/siyuan.db",
+            // ]
             // 旧版思源执行参数
             // "args": [
             //     "D:\\code\\doc\\doc",

@@ -12,11 +12,12 @@ package render
 
 import (
 	"bytes"
-	"github.com/88250/lute/html"
 	"strconv"
 	"strings"
 	"unicode"
 	"unicode/utf8"
+
+	"github.com/88250/lute/html"
 
 	"github.com/88250/lute/ast"
 	"github.com/88250/lute/lex"
@@ -108,6 +109,8 @@ type Options struct {
 	NodeIndexStart int
 	// ProtyleContenteditable 设置 Protyle 渲染时标签中的 contenteditable 属性。
 	ProtyleContenteditable bool
+	// KeepParagraphBeginningSpace 设置是否保留段首空格
+	KeepParagraphBeginningSpace bool
 }
 
 func NewOptions() *Options {
@@ -353,9 +356,10 @@ func normalizeHeadingID(heading *ast.Node) (ret string) {
 }
 
 type Heading struct {
-	URL      string     `json:"url"`
-	Path     string     `json:"path"`
 	ID       string     `json:"id"`
+	Box      string     `json:"box"`
+	Path     string     `json:"path"`
+	HPath    string     `json:"hPath"`
 	Content  string     `json:"content"`
 	Level    int        `json:"level"`
 	Children []*Heading `json:"children"`
@@ -439,9 +443,10 @@ func (r *BaseRenderer) headings() (ret []*Heading) {
 		}
 
 		h := &Heading{
-			URL:     r.Tree.URL,
-			Path:    r.Tree.Path,
 			ID:      id,
+			Box:     r.Tree.Box,
+			Path:    r.Tree.Path,
+			HPath:   r.Tree.HPath,
 			Content: headingText(heading),
 			Level:   heading.HeadingLevel,
 		}
