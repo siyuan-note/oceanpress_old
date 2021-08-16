@@ -92,8 +92,9 @@ func DirToStruct(dir string,
 		} else if suffix == ".md" {
 			tree = parse.Parse("", []byte(notesCode), mdStructuredLuteEngine.ParseOptions)
 		}
-		addKramdownIAL(tree.Root)
-
+		if tree.Root != nil {
+			addKramdownIAL(tree.Root)
+		}
 		if err != nil {
 			panic(err)
 		}
@@ -137,15 +138,13 @@ func DirToStruct(dir string,
 
 	// FileToFileEntity 通过文件路径以及文件信息获取他的结构信息
 	FileToFileEntity := func(sourceDir string, path string, info os.FileInfo) structAll.FileEntity {
-		relativePath := strings.ReplaceAll(path[len(sourceDir):], string(os.PathSeparator), "/")
+		relativePath := filepath.ToSlash(path[len(sourceDir):])
 		var virtualPath string
 		var notesCode string
 		var name string
 		var StructInfo []structAll.StructInfo
 		var tree *parse.Tree
-		if strings.Contains(path, "css 变量") {
-			// util.Debugger(path)
-		}
+
 		if info.IsDir() {
 			virtualPath = relativePath
 		} else {
@@ -157,8 +156,10 @@ func DirToStruct(dir string,
 			notesCode = string(mdByte)
 			StructInfo, tree = GetStructInfoByNotesCode(notesCode, filepath.Ext(path))
 			if util.IsNotes(relativePath) {
-				baseName := filepath.Base(relativePath)
-				name = baseName[:len(baseName)-3]
+				name, _, err = util.FindAttr(tree.Root.KramdownIAL, "title")
+				if err != nil {
+					util.Warn(path + " 没有标题")
+				}
 			}
 		}
 		entity := structAll.FileEntity{
