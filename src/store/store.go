@@ -1,19 +1,15 @@
 package store
 
 import (
-	"bytes"
 	"errors"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strconv"
-	"strings"
 
 	"github.com/88250/lute"
 	"github.com/88250/lute/ast"
-	"github.com/88250/lute/lex"
 	"github.com/88250/lute/parse"
-	luteUtil "github.com/88250/lute/util"
 	protyle "github.com/88250/protyle"
 	sqlite "github.com/siyuan-note/oceanpress/src/sqlite"
 	structAll "github.com/siyuan-note/oceanpress/src/struct"
@@ -139,16 +135,14 @@ func DirToStruct(dir string,
 	// FileToFileEntity 通过文件路径以及文件信息获取他的结构信息
 	FileToFileEntity := func(sourceDir string, path string, info os.FileInfo) structAll.FileEntity {
 		relativePath := filepath.ToSlash(path[len(sourceDir):])
-		var virtualPath string
 		var notesCode string
 		var name string
 		var StructInfo []structAll.StructInfo
 		var tree *parse.Tree
 
 		if info.IsDir() {
-			virtualPath = relativePath
+
 		} else {
-			virtualPath = FilePathToWebPath(relativePath)
 			mdByte, err := ioutil.ReadFile(path)
 			if err != nil {
 				util.Warn("读取文件失败", err)
@@ -166,7 +160,6 @@ func DirToStruct(dir string,
 			Path:           path,
 			Info:           info,
 			RelativePath:   relativePath,
-			VirtualPath:    virtualPath,
 			NotesCode:      notesCode,
 			StructInfoList: StructInfo,
 			Name:           name,
@@ -208,184 +201,4 @@ func DirToStruct(dir string,
 		StructList:           StructList,
 		FindFileEntityFromID: FindFileEntityFromID,
 	}
-}
-
-// FilePathToWebPath 将相对文件路径转为 web路径，主要是去除文件中的id 以及添加 .html
-func FilePathToWebPath(filePath string) string {
-	if util.IsNotes(filePath) {
-		return filePath[0:len(filePath)-len(util.NotesSuffix)] + ".html"
-	}
-	// 大概率是空
-	return filePath
-}
-
-var openCurlyBrace = []byte("{")
-var closeCurlyBrace = []byte("}")
-
-// 解析 KramdownSpan 以下四个函数代码来自 github.com\88250\lute\parse\inline_attribute_list.go
-func parseKramdownSpanIAL(tokens []byte) (pos int, ret [][]string) {
-	pos = bytes.Index(tokens, closeCurlyBrace)
-	if curlyBracesStart := bytes.Index(tokens, []byte("{:")); 0 == curlyBracesStart && curlyBracesStart+2 < pos {
-		tokens = tokens[curlyBracesStart+2:]
-		curlyBracesEnd := bytes.Index(tokens, closeCurlyBrace)
-		if 3 > curlyBracesEnd {
-			return
-		}
-
-		tokens = tokens[:curlyBracesEnd]
-		for {
-			valid, remains, attr, name, val := TagAttr(tokens)
-			if !valid {
-				break
-			}
-
-			tokens = remains
-			if 1 > len(attr) {
-				break
-			}
-
-			nameStr := strings.ReplaceAll(string(name), luteUtil.Caret, "")
-			valStr := strings.ReplaceAll(string(val), luteUtil.Caret, "")
-			ret = append(ret, []string{nameStr, valStr})
-		}
-	}
-	return
-}
-
-func TagAttr(tokens []byte) (valid bool, remains, attr, name, val []byte) {
-	valid = true
-	remains = tokens
-	var whitespaces []byte
-	var i int
-	var token byte
-	for i, token = range tokens {
-		if !lex.IsWhitespace(token) {
-			break
-		}
-		whitespaces = append(whitespaces, token)
-	}
-	if 1 > len(whitespaces) {
-		return
-	}
-	tokens = tokens[i:]
-
-	var attrName []byte
-	tokens, attrName = parseAttrName(tokens)
-	if 1 > len(attrName) {
-		return
-	}
-
-	var valSpec []byte
-	valid, tokens, valSpec = parseAttrValSpec(tokens)
-	if !valid {
-		return
-	}
-
-	remains = tokens
-	attr = append(attr, whitespaces...)
-	attr = append(attr, attrName...)
-	attr = append(attr, valSpec...)
-	if nil != valSpec {
-		name = attrName
-		val = valSpec[2 : len(valSpec)-1]
-	}
-	return
-}
-func parseAttrName(tokens []byte) (remains, attrName []byte) {
-	remains = tokens
-	if !lex.IsASCIILetter(tokens[0]) && lex.ItemUnderscore != tokens[0] && lex.ItemColon != tokens[0] {
-		return
-	}
-	attrName = append(attrName, tokens[0])
-	tokens = tokens[1:]
-	var i int
-	var token byte
-	for i, token = range tokens {
-		if !lex.IsASCIILetterNumHyphen(token) && lex.ItemUnderscore != token && lex.ItemDot != token && lex.ItemColon != token {
-			break
-		}
-		attrName = append(attrName, token)
-	}
-	if 1 > len(attrName) {
-		return
-	}
-
-	remains = tokens[i:]
-	return
-}
-func parseAttrValSpec(tokens []byte) (valid bool, remains, valSpec []byte) {
-	valid = true
-	remains = tokens
-	var i int
-	var token byte
-	for i, token = range tokens {
-		if !lex.IsWhitespace(token) {
-			break
-		}
-		valSpec = append(valSpec, token)
-	}
-	if lex.ItemEqual != token {
-		valSpec = nil
-		return
-	}
-	valSpec = append(valSpec, token)
-	tokens = tokens[i+1:]
-	if 1 > len(tokens) {
-		valid = false
-		return
-	}
-
-	for i, token = range tokens {
-		if !lex.IsWhitespace(token) {
-			break
-		}
-		valSpec = append(valSpec, token)
-	}
-	token = tokens[i]
-	valSpec = append(valSpec, token)
-	tokens = tokens[i+1:]
-	closed := false
-	if lex.ItemDoublequote == token { // A double-quoted attribute value consists of ", zero or more characters not including ", and a final ".
-		for i, token = range tokens {
-			valSpec = append(valSpec, token)
-			if lex.ItemDoublequote == token {
-				closed = true
-				break
-			}
-		}
-	} else if lex.ItemSinglequote == token { // A single-quoted attribute value consists of ', zero or more characters not including ', and a final '.
-		for i, token = range tokens {
-			valSpec = append(valSpec, token)
-			if lex.ItemSinglequote == token {
-				closed = true
-				break
-			}
-		}
-	} else { // An unquoted attribute value is a nonempty string of characters not including whitespace, ", ', =, <, >, or `.
-		for i, token = range tokens {
-			if lex.ItemGreater == token {
-				i-- // 大于字符 > 不计入 valSpec
-				break
-			}
-			valSpec = append(valSpec, token)
-			if lex.IsWhitespace(token) {
-				// 属性使用空白分隔
-				break
-			}
-			if lex.ItemDoublequote == token || lex.ItemSinglequote == token || lex.ItemEqual == token || lex.ItemLess == token || lex.ItemGreater == token || lex.ItemBacktick == token {
-				closed = false
-				break
-			}
-			closed = true
-		}
-	}
-
-	if !closed {
-		valid = false
-		valSpec = nil
-		return
-	}
-
-	remains = tokens[i+1:]
-	return
 }

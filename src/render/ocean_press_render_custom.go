@@ -536,12 +536,12 @@ func (r *OceanPressRender) RssXmlRender(ids []string) (xml string) {
 			html := r.renderNodeToHTML(StructInfo.Node, true)
 			list = append(list, structAll.RssItem{
 				Title:       FileEntity.Name,
-				Link:        FileEntity.VirtualPath,
+				Link:        FileEntity.VirtualPath(),
 				Published:   "崮生",
 				Created:     StructInfo.GetCreated().UTC().Format(time.RFC3339),
 				Updated:     StructInfo.GetUpdate().UTC().Format(time.RFC3339),
 				Description: r.HTML2Text(html),
-				ContentBase: FileEntity.VirtualPath,
+				ContentBase: FileEntity.VirtualPath(),
 				ContentHTML: html,
 				Guid:        StructInfo.BlockID,
 			})

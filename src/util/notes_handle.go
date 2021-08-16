@@ -30,6 +30,13 @@ func FindAttr(attrs [][]string, name string) (string, int, error) {
 	}
 	return "", 0, errors.New("没有找到对应的 attr")
 }
+
+// IsID 判断是否是 ID
+func IsID(id string) bool {
+	reg, _ := regexp.Compile(`^\d{14}-[a-z0-9]{7}`)
+	return reg.MatchString(id)
+}
+
 // TimeFromID 从 id 中提取创建时间
 func TimeFromID(id string) string {
 	reg, _ := regexp.Compile(`^\d+`)

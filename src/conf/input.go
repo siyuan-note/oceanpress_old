@@ -11,6 +11,7 @@ var curPath = os.Args[0]
 
 // SourceDir 源目录
 var SourceDir string
+
 // BoxName 笔记本的名字
 var BoxName string
 
@@ -30,6 +31,9 @@ var RssNoOutputHtml bool = true
 // 是否处于开发模式
 var IsDev bool = false
 
+// OutMode 输出的模式，默认为使用文档名作为文件名即是"title"模式，可以设置为 "id" "title" "hexoPost"
+var OutMode string = "title"
+
 func init() {
 	SourceDir_ := flag.String("SourceDir", "", "笔记本所在目录")
 	OutDir_ := flag.String("OutDir", "", "将结果输出到此目录")
@@ -39,6 +43,7 @@ func init() {
 	assetsDir_ := flag.String("assetsDir", "", "思源存放资源文件的路径，已弃用，请使用 AssetsDir")
 	IsDev_ := flag.Bool("IsDev", false, "设置为开发模式，请不要开启此选项")
 	RssNoOutputHtml_ := flag.Bool("RssNoOutputHtml", true, "对于 [/s/S].rss.xml 的文档不再生成对应的 html 文件")
+	OutMode_ := flag.String("OutMode", "title", "输出的模式，默认为使用文档名作为文件名即是\"title\"模式，可以设置为 \"id\" \"title\" \"hexoPost\"")
 	flag.Parse()
 
 	SourceDir, _ = filepath.Abs(*SourceDir_)
@@ -48,9 +53,9 @@ func init() {
 	AssetsDir, _ = filepath.Abs(*AssetsDir_)
 
 	IsDev = *IsDev_
+	OutMode = *OutMode_
 	RssNoOutputHtml = *RssNoOutputHtml_
 	BoxName = filepath.Base(SourceDir)
-
 
 	// TODO： 再过上几个版本删掉此提示
 	if *assetsDir_ != "" {

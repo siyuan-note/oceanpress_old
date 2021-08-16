@@ -41,13 +41,13 @@ func main() {
 
 	// 流程 2  copy 源目录中资源文件至输出目录
 	util.RunningLog("2", "copy sourceDir 资源到 outDir")
-
-	copy.Copy(sourceDir, outDir, copy.Options{
-		// 跳过一些不必要的目录以及 md 文件
-		Skip: func(src string) (bool, error) {
-			return (util.IsSkipPath(src) || util.IsNotes(src)), nil
-		},
-	})
+	// TODO: 此文件下方的 HandlingAssets 函数在一定程度上替代了下面这部分代码，由于 思源 1.2.5 的改动，所以这里不确定是否还有意义
+	// copy.Copy(sourceDir, outDir, copy.Options{
+	// 	// 跳过一些不必要的目录以及 md 文件
+	// 	Skip: func(src string) (bool, error) {
+	// 		return (util.IsSkipPath(src) || util.IsNotes(src)), nil
+	// 	},
+	// })
 	// copy views 中的资源文件
 	copy.Copy(path.Join(conf.TemplateDir, "./assets"), path.Join(outDir, "./assets"))
 	util.RunningLog("2.1", "copy 完成")
@@ -59,8 +59,7 @@ func main() {
 
 	// 转换数据结构 filepath => entityList
 	util.RunningLog("3.1", "收集转换生成所需数据")
-
-	noteStore := store.DirToStruct(
+	structAll.NoteStore = store.DirToStruct(
 		sourceDir,
 		conf.SqlitePath,
 		TemplateRender,
@@ -92,7 +91,7 @@ func main() {
 			return FileEntityToHTML
 		})
 	util.RunningLog("3.2", "复制资源文件")
-	for _, entity := range noteStore.StructList {
+	for _, entity := range structAll.NoteStore.StructList {
 		if entity.Tree == nil {
 			// 目录
 		} else {
@@ -105,12 +104,11 @@ func main() {
 		}
 	}
 
-	util.RunningLog("3.3", "从文件到数据结构转换完毕，开始生成html,共", len(noteStore.StructList), "项")
+	util.RunningLog("3.3", "从文件到数据结构转换完毕，开始生成html,共", len(structAll.NoteStore.StructList), "项")
 
-	for _, entity := range noteStore.StructList {
+	for _, entity := range structAll.NoteStore.StructList {
 		info := entity.Info
-		relativePath := entity.RelativePath
-		virtualPath := entity.VirtualPath
+		virtualPath := entity.VirtualPath()
 
 		LevelRoot := entity.RootPath()
 
@@ -119,17 +117,17 @@ func main() {
 				continue
 			}
 			// 这里要生成一个类似于当前目录菜单的东西
-			targetPath := filepath.Join(outDir, relativePath, "index.html")
+			targetPath := filepath.Join(outDir, virtualPath, "index.html")
 			// 当前目录的 子路径 不包含更深层级的
-			sonList := fileEntityListFilter(noteStore.StructList, func(f structAll.FileEntity) bool {
-				return strings.HasPrefix(f.VirtualPath, virtualPath) &&
+			sonList := fileEntityListFilter(structAll.NoteStore.StructList, func(f structAll.FileEntity) bool {
+				return strings.HasPrefix(f.VirtualPath(), virtualPath) &&
 					// 这个条件去除了间隔一层以上的其他路径
-					strings.LastIndex(f.VirtualPath[len(virtualPath):], "/") == 0
+					strings.LastIndex(f.VirtualPath()[len(virtualPath):], "/") == 0
 			})
 
 			var sonEntityList []sonEntityI
 			for _, sonEntity := range sonList {
-				webPath := sonEntity.VirtualPath[len(virtualPath):]
+				webPath := sonEntity.VirtualPath()[len(virtualPath):]
 				var name string
 				if sonEntity.Info.IsDir() {
 					name = webPath + "/"
@@ -150,10 +148,13 @@ func main() {
 				LevelRoot:     LevelRoot,
 			})
 			html := menuInfo.Render()
+			if _, err := os.Stat(targetPath); os.IsNotExist(err) {
+				os.MkdirAll(filepath.Join(outDir, virtualPath), 0700) // Create your file
+			}
 			ioutil.WriteFile(targetPath, []byte(html), 0777)
 		} else {
 			startT := time.Now()
-			targetPath := filepath.Join(outDir, relativePath[0:len(relativePath)-3]) + ".html"
+			targetPath := filepath.Join(outDir, virtualPath)
 
 			rawHTML, xml := entity.Output()
 			if len(rawHTML) != 0 {
@@ -170,7 +171,7 @@ func main() {
 				}
 			}
 			if len(xml) != 0 {
-				targetPath := filepath.Join(outDir, relativePath[0:len(relativePath)-3])
+				targetPath := filepath.Join(outDir, virtualPath[0:len(virtualPath)-5])
 				var err = ioutil.WriteFile(targetPath, []byte(xml), 0777)
 				if err != nil {
 					util.Log(err)

@@ -7,6 +7,7 @@ import (
 
 	"github.com/88250/lute/ast"
 	"github.com/88250/lute/parse"
+	"github.com/siyuan-note/oceanpress/src/conf"
 	"github.com/siyuan-note/oceanpress/src/util"
 )
 
@@ -28,13 +29,12 @@ func (r *StructInfo) GetUpdate() time.Time {
 
 // FileEntity md 文件被解析后的结构
 type FileEntity struct {
+	// 文档名 title
 	Name string
 	// 文件绝对路径
 	Path string
 	// 相对源目录的路径
-	RelativePath string
-	// 最终要在浏览器中可以访问的路径
-	VirtualPath    string
+	RelativePath   string
 	NotesCode      string
 	Info           os.FileInfo
 	StructInfoList []StructInfo
@@ -54,11 +54,11 @@ func FilePathToWebPath(filePath string) string {
 func (r *FileEntity) FileEntityRelativePath(target FileEntity, id string) string {
 	base := r
 	// 减一是因为 路径开头必有 / 而这里只需要跳到这一层
-	count := strings.Count(base.RelativePath, "/")
-	if strings.HasPrefix(base.RelativePath, "/") {
+	count := strings.Count(base.VirtualPath(), "/")
+	if strings.HasPrefix(base.VirtualPath(), "/") {
 		count--
 	}
-	l2 := strings.Split(target.RelativePath, "/")
+	l2 := strings.Split(target.VirtualPath(), "/")
 	url := strings.Repeat("../", count)
 	url += strings.Join(l2[1:], "/")
 	url = FilePathToWebPath(url)
@@ -66,9 +66,47 @@ func (r *FileEntity) FileEntityRelativePath(target FileEntity, id string) string
 	return url
 }
 
+// VirtualPath 是最终要在浏览器中可以访问的路径
+func (r *FileEntity) VirtualPath() (path string) {
+
+	// 使用文档名作为路径名
+	if conf.OutMode == "title" {
+		entries := strings.Split(r.RelativePath, "/")
+		var virtualPath = []string{}
+		for _, v := range entries {
+			id := v
+			if strings.HasSuffix(v, util.NotesSuffix) {
+				id = v[:len(v)-len(util.NotesSuffix)]
+			}
+			if util.IsID(id) {
+				FileEntity, _, err := NoteStore.FindFileEntityFromID(id)
+				if err == nil {
+					virtualPath = append(virtualPath, FileEntity.Name)
+					continue
+				}
+			}
+			virtualPath = append(virtualPath, id)
+		}
+		path = strings.Join(virtualPath, "/")
+		if util.IsNotes(r.RelativePath) {
+			path += ".html"
+		}
+		return path
+	} else {
+		// 直接使用 ID 作为路径名
+		if conf.OutMode != "id" {
+			util.Warn("OutMode 参数的值在预设之外，默认采用 id 模式")
+		}
+		if util.IsNotes(r.RelativePath) {
+			return r.RelativePath[0:len(r.RelativePath)-len(util.NotesSuffix)] + ".html"
+		}
+		return r.RelativePath
+	}
+}
+
 // RootPath 获取当前对象相对于 root 目录的路径
 func (r *FileEntity) RootPath() string {
-	Level := strings.Count(r.VirtualPath, "/") - 1
+	Level := strings.Count(r.VirtualPath(), "/") - 1
 	if r.Info.IsDir() {
 		Level++
 	}
