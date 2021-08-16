@@ -1,3 +1,7 @@
+:root{
+	--max-width:980px;
+	--doc-pw:45px;
+}
 html,
 body {
 	margin: 0;
@@ -453,20 +457,19 @@ p[data-n-id] {
 }
 
 main[data-type='NodeDocument'] {
-	max-width: 980px;
-	padding: 0 45px 15px 45px;
+	max-width: var(--max-width);
+	padding: 30px var(--doc-pw) 15px var(--doc-pw);
 	margin: auto;
 }
 .oceanpress-backLink {
-	max-width: 980px;
-	padding: 0 45px 0 45px;
+	max-width: var(--max-width);
+	padding: 0 var(--doc-pw) 0 var(--doc-pw);
 	margin: auto;
 }
 
 @media (max-width: 767px) {
-	.oceanpress-backLink,
-	main[data-type='NodeDocument'] {
-		padding: 15px;
+	:root {
+		--doc-pw: 15px;
 	}
 }
 /* 块属性的样式 */
@@ -505,4 +508,30 @@ main[data-type='NodeDocument'] {
 }
 .protyle-attr--alias::before {
 	background-image: url('../icon/iconA.png');
+}
+/* 文档 icon */
+.protyle-background__icon {
+	left: calc((100vw - var(--max-width))/2 + var(--doc-pw) - 5px);
+    height: 80px;
+    width: 80px;
+    transition: var(--b3-transition);
+    border-radius: 8px;
+    position: absolute;
+    bottom: -40px;
+    cursor: pointer;
+    font-size: 80px;
+    line-height: 80px;
+    text-align: center;
+    font-family: var(--b3-font-family-emoji);
+}
+@media (max-width: 980px) {
+	.protyle-background__icon {
+		left: calc( var(--doc-pw) - 5px);
+	}
+}
+.protyle-background__icon img {
+    height: 80px;
+    width: 80px;
+    float: left;
+	background-color: transparent;
 }

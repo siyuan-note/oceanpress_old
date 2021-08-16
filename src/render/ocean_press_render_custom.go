@@ -25,7 +25,7 @@ import (
 func (r *OceanPressRender) Render() (html string, xml string) {
 	docName := r.context.BaseEntity.Name
 	// 调试用，跳过无关文档,免得浪费时间
-	if conf.IsDev && strings.Contains(docName, "挂件块开发") == false {
+	if conf.IsDev && !strings.Contains(docName, "8月") {
 		return "", ""
 	}
 	output := r.BaseRenderer.Render()
@@ -388,6 +388,13 @@ func (r *OceanPressRender) renderDocument(node *ast.Node, entering bool) ast.Wal
 	if entering {
 		if titleImg := node.IALAttr("title-img"); titleImg != "" {
 			r.Tag("div", [][]string{{"class", "protyle-background"}, {"style", titleImg}}, false)
+			// 文档 icon
+			if icon := node.IALAttr("icon"); icon != "" {
+				r.Tag("div", [][]string{{"class", "protyle-background__icon"}}, false)
+				src := r.context.BaseEntity.RootPath() + "assets/appearance/emojis/" + icon + ".svg"
+				r.Tag("img", [][]string{{"src", src}}, false)
+				r.Tag("/div", nil, false)
+			}
 			r.Tag("/div", nil, false)
 		}
 
