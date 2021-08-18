@@ -65,7 +65,22 @@ func (r *OceanPressRender) Render() (html string, xml string) {
 
 	return html, xml
 }
-
+func (r *OceanPressRender) renderIFrame(node *ast.Node, entering bool) ast.WalkStatus {
+	if entering {
+		attr := [][]string{{"class", "iframe"}}
+		// 添加自定义属性
+		attr = append(attr, node.KramdownIAL...)
+		r.Tag("div", attr, false)
+		tokens := node.Tokens
+		if r.Options.Sanitize {
+			tokens = sanitize(tokens)
+		}
+		tokens = r.tagSrcPath(tokens)
+		r.Write(tokens)
+		r.Tag("/div", nil, false)
+	}
+	return ast.WalkContinue
+}
 // renderImage 为了实现居中效果
 func (r *OceanPressRender) renderImage(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering {
