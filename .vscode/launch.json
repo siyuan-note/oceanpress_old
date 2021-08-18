@@ -23,7 +23,7 @@
                 "-OutDir=D:\\code\\doc\\docHTML",
                 "-TemplateDir=./views/",
                 "-SqlitePath=C:/Users/llej/Documents/SiYuan/temp/siyuan.db",
-                "-IsDev=true",
+                "-IsDev=false",
             ],
             // "args": [
             //     "-SourceDir=C:/Users/llej/Documents/SiYuan/data/思源笔记用户指南",

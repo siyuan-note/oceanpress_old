@@ -51,7 +51,7 @@ func main() {
 	// copy views 中的资源文件
 	copy.Copy(path.Join(conf.TemplateDir, "./assets"), path.Join(outDir, "./assets"))
 	util.RunningLog("2.1", "copy 完成")
-	copy.Copy(path.Join(workspaceDir, "./widgets"), path.Join(outDir, "./widgets"))
+	copy.Copy(path.Join(workspaceDir, "./widgets"), path.Join(outDir, "./assets/widgets"))
 	util.RunningLog("2.2", "copy widgets")
 
 	// 流程 3  遍历源目录 生成 html 到输出目录
@@ -127,6 +127,9 @@ func main() {
 
 			var sonEntityList []sonEntityI
 			for _, sonEntity := range sonList {
+				if conf.RssNoOutputHtml && strings.HasSuffix(sonEntity.Name, ".rss.xml") {
+					continue
+				}
 				webPath := sonEntity.VirtualPath()[len(virtualPath):]
 				var name string
 				if sonEntity.Info.IsDir() {
@@ -199,6 +202,8 @@ func fileEntityListFilter(list []structAll.FileEntity, test func(structAll.FileE
 	}
 	return
 }
+
+// TODO: 逻辑不够严谨，还是存在错误 例如 file:///D:/code/doc/docHTML/工具/文本处理/简单文本处理.html 中的资源地址无法访问
 func HandlingAssets(node *ast.Node, outDir string, fileEntity structAll.FileEntity) {
 	if node.Next != nil {
 		HandlingAssets(node.Next, outDir, fileEntity)
@@ -235,16 +240,16 @@ func HandlingAssets(node *ast.Node, outDir string, fileEntity structAll.FileEnti
 							// 资源文件在笔记本内，这里重写链接地址即可
 							p := path.Join(strings.Repeat("../", level), dest)
 							node.Tokens = []byte(p)
-							return
 						} else {
 							// 在工作空间内
-							err := copy.Copy(assetsPath, path.Join(outDir, dest))
-							if err != nil {
-								util.Warn("复制资源文件失败", err)
-							}
 							node.Tokens = []byte(path.Join(fileEntity.RootPath(), dest))
-							return
 						}
+						// TODO 因为会有多个链接指向同一个资源，所以下面的写法会导致多余的 copy 需要优化
+						err := copy.Copy(assetsPath, path.Join(outDir, dest))
+						if err != nil {
+							util.Warn("复制资源文件失败", err)
+						}
+						return
 					} else {
 						// 当前路径不存在
 						level += 1

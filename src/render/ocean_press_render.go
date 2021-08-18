@@ -315,19 +315,19 @@ func (r *OceanPressRender) renderAudio(node *ast.Node, entering bool) ast.WalkSt
 	return ast.WalkContinue
 }
 
-// func (r *OceanPressRender) renderIFrame(node *ast.Node, entering bool) ast.WalkStatus {
-// 	if entering {
-// 		r.Tag("div", [][]string{{"class", "iframe"}}, false)
-// 		tokens := node.Tokens
-// 		if r.Options.Sanitize {
-// 			tokens = sanitize(tokens)
-// 		}
-// 		tokens = r.tagSrcPath(tokens)
-// 		r.Write(tokens)
-// 		r.Tag("/div", nil, false)
-// 	}
-// 	return ast.WalkContinue
-// }
+func (r *OceanPressRender) renderIFrame(node *ast.Node, entering bool) ast.WalkStatus {
+	if entering {
+		r.Tag("div", [][]string{{"class", "iframe"}}, false)
+		tokens := node.Tokens
+		if r.Options.Sanitize {
+			tokens = sanitize(tokens)
+		}
+		tokens = r.tagSrcPath(tokens)
+		r.Write(tokens)
+		r.Tag("/div", nil, false)
+	}
+	return ast.WalkContinue
+}
 
 // func (r *OceanPressRender) Render() (output []byte) {
 // 	output = r.BaseRenderer.Render()

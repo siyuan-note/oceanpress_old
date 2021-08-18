@@ -32,21 +32,33 @@ func (r *BaseRenderer) PrefixPath(dest []byte) []byte {
 	return ret
 }
 
+// BaseLinkOcean 链接 BaseRenderer 与 OceanPressRender
+var BaseLinkOcean = make(map[string]*OceanPressRender)
+
 func (r *BaseRenderer) RelativePath(dest []byte) []byte {
-	if "" == r.Options.LinkBase {
-		return dest
-	}
+
+	// if "" == r.Options.LinkBase {
+	// 	return dest
+	// }
+	oceanpressRender := BaseLinkOcean[r.Tree.ID]
 
 	// 强制将 %5C 即反斜杠 \ 转换为斜杠 / 以兼容 Windows 平台上使用的路径
 	dest = bytes.ReplaceAll(dest, []byte("%5C"), []byte("\\"))
 	if !r.isRelativePath(dest) {
+		if bytes.HasPrefix(dest, []byte("/widgets/")) {
+			dest = append([]byte(oceanpressRender.context.BaseEntity.RootPath()+"assets/"), dest...)
+		}
 		return dest
 	}
 
 	linkBase := util.StrToBytes(r.Options.LinkBase)
-	if !bytes.HasSuffix(linkBase, []byte("/")) {
-		linkBase = append(linkBase, []byte("/")...)
+	// if !bytes.HasSuffix(linkBase, []byte("/")) {
+	// 	linkBase = append(linkBase, []byte("/")...)
+	// }
+	if len(linkBase) > 0 && !bytes.HasPrefix(dest, []byte("/")) {
+		dest = append([]byte("/"), dest...)
 	}
+
 	ret := append(linkBase, dest...)
 	if bytes.Equal(linkBase, ret) {
 		return []byte("")

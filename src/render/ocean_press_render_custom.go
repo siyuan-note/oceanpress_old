@@ -5,16 +5,13 @@ import (
 	"errors"
 	"html/template"
 	"path"
-	"regexp"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/88250/lute"
 	"github.com/88250/lute/ast"
 	"github.com/88250/lute/html"
 	"github.com/88250/lute/lex"
-	"github.com/88250/lute/parse"
 	"github.com/88250/lute/render"
 	luteUtil "github.com/88250/lute/util"
 	"github.com/siyuan-note/oceanpress/src/conf"
@@ -25,9 +22,11 @@ import (
 func (r *OceanPressRender) Render() (html string, xml string) {
 	docName := r.context.BaseEntity.Name
 	// 调试用，跳过无关文档,免得浪费时间
-	if conf.IsDev && !strings.Contains(docName, "8月") {
+	if conf.IsDev && !strings.Contains(docName, "小心的使用") {
 		return "", ""
 	}
+	BaseLinkOcean[r.Tree.ID] = r
+
 	output := r.BaseRenderer.Render()
 	output = append(output, r.RenderFootnotes()...)
 
@@ -42,8 +41,12 @@ func (r *OceanPressRender) Render() (html string, xml string) {
 		WHERE
 			def_block_id = /** 被引用块的 id */
 			'` + curID + `'
-			AND /** 当前文档内对当前文档的引用不显示在反链中 */
-			"blocks".root_id != '` + curID + `';`
+		AND NOT /** 当前文档内对当前文档的引用不显示在反链中 */
+			"blocks".root_id = '` + curID + `'
+		`
+	if conf.RssNoOutputHtml {
+		sql += `AND NOT "blocks".hpath LIKE '%.rss.xml'`
+	}
 	// 底部反链
 	content := r.SqlRender(sql, false, true)
 	if len(content) > 0 {
@@ -177,12 +180,6 @@ func (r *OceanPressRender) renderNodeToHTML(node *ast.Node, headerIncludes bool)
 		return ast.WalkSkipChildren
 	})
 
-	// 渲染块
-	root := &ast.Node{Type: ast.NodeDocument}
-	luteEngine := lute.New()
-	tree := &parse.Tree{Root: root, Context: &parse.Context{ParseOption: luteEngine.ParseOptions}}
-	tree.Context.ParseOption.KramdownBlockIAL = false // 关闭 IAL
-
 	if node.ID != "" {
 		err := r.context.push(node.ID)
 		if err != nil {
@@ -192,7 +189,7 @@ func (r *OceanPressRender) renderNodeToHTML(node *ast.Node, headerIncludes bool)
 		}
 	}
 
-	renderer := NewOceanPressRenderer(tree, (*Options)(luteEngine.RenderOptions), r.context)
+	renderer := NewOceanPressRenderer(r.Tree, (*Options)(r.context.LuteEngine.RenderOptions), r.context)
 	// renderer2 := render.NewFormatRenderer(tree, luteEngine.RenderOptions)
 	renderer.Writer = &bytes.Buffer{}
 	// renderer.NodeWriterStack = append(renderer.NodeWriterStack, renderer.Writer) // 因为有可能不是从 root 开始渲染，所以需要初始化
@@ -410,29 +407,36 @@ func (r *OceanPressRender) renderDocument(node *ast.Node, entering bool) ast.Wal
 	return ast.WalkContinue
 }
 
-func (r *OceanPressRender) renderIFrame(node *ast.Node, entering bool) ast.WalkStatus {
-	if entering {
-		attr := [][]string{{"class", "iframe"}}
-		attr = append(attr, node.KramdownIAL...)
-		r.Tag("div", attr, false)
-		tokens := node.Tokens
-		if r.Options.Sanitize {
-			tokens = sanitize(tokens)
-		}
-		data := (string(tokens))
+// ========= 附加在 OceanPressRender 上的工具方法
+// 重写baserender的RelativePath
+func (r *OceanPressRender) RelativePath(dest []byte) []byte {
+	// r.		// monkey patch 挂件块的绝对路径改成相对路径
+	// reg, _ := regexp.Compile("src=\"/widgets/")
+	// str := reg.ReplaceAllString(data, "src=\""+r.context.BaseEntity.RootPath()+"widgets/")
 
-		// monkey patch 挂件块的绝对路径改成相对路径
-		reg, _ := regexp.Compile("src=\"/widgets/")
-		str := reg.ReplaceAllString(data, "src=\""+r.context.BaseEntity.RootPath()+"widgets/")
+	// tokens = r.tagSrcPath([]byte(str))
 
-		tokens = r.tagSrcPath([]byte(str))
-		r.Write(tokens)
-		r.Tag("/div", nil, false)
+	if "" == r.Options.LinkBase {
+		return dest
 	}
-	return ast.WalkContinue
+
+	// 强制将 %5C 即反斜杠 \ 转换为斜杠 / 以兼容 Windows 平台上使用的路径
+	dest = bytes.ReplaceAll(dest, []byte("%5C"), []byte("\\"))
+	if !r.isRelativePath(dest) {
+		return dest
+	}
+
+	linkBase := luteUtil.StrToBytes(r.Options.LinkBase)
+	if !bytes.HasSuffix(linkBase, []byte("/")) {
+		linkBase = append(linkBase, []byte("/")...)
+	}
+	ret := append(linkBase, dest...)
+	if bytes.Equal(linkBase, ret) {
+		return []byte("")
+	}
+	return ret
 }
 
-// ========= 附加在 OceanPressRender 上的工具方法
 // pushTopRefId 将 RenderLevel==0 的 id 添加到 topRefId
 func (r *OceanPressRender) pushTopRefId(id string) {
 	if r.RenderLevel() == 0 {
