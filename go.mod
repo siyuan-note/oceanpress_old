@@ -4,7 +4,7 @@ go 1.15
 
 require (
 	github.com/88250/gulu v1.1.73 // indirect
-	github.com/88250/lute v1.7.4-0.20210815035840-a302673505b5 // https://pkg.go.dev/github.com/88250/lute
+	github.com/88250/lute v1.7.4-0.20210818085620-40fd2957c84d // https://pkg.go.dev/github.com/88250/lute
 	github.com/88250/protyle v0.0.0-20210807012712-9e3fb38884a3
 	github.com/alecthomas/chroma v0.9.2
 	github.com/alecthomas/repr v0.0.0-20210301060118-828286944d6a // indirect

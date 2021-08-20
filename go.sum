@@ -42,6 +42,8 @@ github.com/88250/lute v1.7.4-0.20210621082928-317445fdbb1f/go.mod h1:3CPco034YZB
 github.com/88250/lute v1.7.4-0.20210807011731-01e77cd8c859/go.mod h1:JLw8S/0mSj/WOCu5vYmgQvgtHuLSMRnzZjGEJBE/wCg=
 github.com/88250/lute v1.7.4-0.20210815035840-a302673505b5 h1:tl37h0uvLJcRrloXPCXYlNPhEldhRqfDpaQ+cy6zM6I=
 github.com/88250/lute v1.7.4-0.20210815035840-a302673505b5/go.mod h1:JLw8S/0mSj/WOCu5vYmgQvgtHuLSMRnzZjGEJBE/wCg=
+github.com/88250/lute v1.7.4-0.20210818085620-40fd2957c84d h1:e0Fg3RRAiPBfac+KjicBGlZ1pHsYiD51K9uSnPq2MAg=
+github.com/88250/lute v1.7.4-0.20210818085620-40fd2957c84d/go.mod h1:JLw8S/0mSj/WOCu5vYmgQvgtHuLSMRnzZjGEJBE/wCg=
 github.com/88250/protyle v0.0.0-20210508161541-ff01131d28fa h1:GTaMQrd8ni8kvVBvPgFIz04MkE5vjvMYXTVybAjyC9E=
 github.com/88250/protyle v0.0.0-20210508161541-ff01131d28fa/go.mod h1:H/WeBwpKV6xL5A/QwNz06NR6d9BsOK0ggIWJeWcD7N0=
 github.com/88250/protyle v0.0.0-20210518094840-aa422a7e3988 h1:bweXCiXtiI3eR1Mcz6zKOxbBN7S1S/tq+sojqW5v7rE=
