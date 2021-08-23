@@ -11,7 +11,7 @@
     <title>重定向中...</title>
 </head>
 <body>
-    <h2>原文档已经移动到<a href="{{ .RedirectPath }}">新地址,现名『 {{ .Title }}』</a>，将在<span id="time"></span> 秒后自动跳转。</h2>
+    <h2>原文档已经移动到<a id="link" href="{{ .RedirectPath }}">新地址,现名『 {{ .Title }}』</a>，将在<span id="time"></span> 秒后自动跳转。</h2>
 </body>
 <script>
     var refreshTime =Number(document.querySelector("meta[http-equiv='refresh']").getAttribute("content").split(";")[0])
@@ -22,6 +22,9 @@
     setInterval(function(){
         refreshTime-=1
         render()
+        if(refreshTime<=0){
+            location.href = document.getElementById("link").getAttribute("href")
+        }
     },1000)
 </script>
 </html>
