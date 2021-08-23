@@ -228,13 +228,19 @@ func HandlingAssets(node *ast.Node, outDir string, fileEntity structAll.FileEnti
 			for {
 				assetsPath := path.Join(filepath.ToSlash(filepath.Dir(fileEntity.Path)), strings.Repeat("../", level), dest)
 				matched, _ := filepath.Match(workspaceDir+"*", assetsPath)
+
 				if matched {
 					_, err := os.Stat(assetsPath)
 					if err == nil {
 						matched, _ := filepath.Match(sourceDir+"*", assetsPath)
 						if matched {
 							// 资源文件在笔记本内，这里重写链接地址即可
-							p := path.Join(strings.Repeat("../", level), dest)
+							var p string
+							if level == 0 {
+								p = path.Join(fileEntity.RootPath(), dest)
+							} else {
+								p = path.Join(strings.Repeat("../", level), dest)
+							}
 							node.Tokens = []byte(p)
 						} else {
 							// 在工作空间内
