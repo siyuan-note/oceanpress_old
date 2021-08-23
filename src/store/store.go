@@ -88,29 +88,29 @@ func DirToStruct(dir string,
 		} else if suffix == ".md" {
 			tree = parse.Parse("", []byte(notesCode), mdStructuredLuteEngine.ParseOptions)
 		}
-		if tree.Root != nil {
-			addKramdownIAL(tree.Root)
-		}
+
 		if err != nil {
-			panic(err)
+			util.Warn("<无法打开文件>", err)
 		}
 		var infoList []structAll.StructInfo
+		if tree != nil && tree.Root != nil {
+			addKramdownIAL(tree.Root)
+			ast.Walk(tree.Root, func(n *ast.Node, entering bool) ast.WalkStatus {
+				if entering {
+					return ast.WalkContinue
+				}
+				infoList = append(infoList, structAll.StructInfo{
+					BlockID:   n.ID,
+					BlockType: n.Type.String(),
+					Node:      n,
+				})
 
-		ast.Walk(tree.Root, func(n *ast.Node, entering bool) ast.WalkStatus {
-			if entering {
+				if nil == n.FirstChild {
+					return ast.WalkSkipChildren
+				}
 				return ast.WalkContinue
-			}
-			infoList = append(infoList, structAll.StructInfo{
-				BlockID:   n.ID,
-				BlockType: n.Type.String(),
-				Node:      n,
 			})
-
-			if nil == n.FirstChild {
-				return ast.WalkSkipChildren
-			}
-			return ast.WalkContinue
-		})
+		}
 		return infoList, tree
 	}
 
@@ -133,30 +133,31 @@ func DirToStruct(dir string,
 	FileEntityToHTML := Generate(db, FindFileEntityFromID, structToHTML)
 
 	// FileToFileEntity 通过文件路径以及文件信息获取他的结构信息
-	FileToFileEntity := func(sourceDir string, path string, info os.FileInfo) structAll.FileEntity {
+	FileToFileEntity := func(sourceDir string, path string, info os.FileInfo) (entity structAll.FileEntity, err error) {
 		relativePath := filepath.ToSlash(path[len(sourceDir):])
 		var notesCode string
 		var name string
 		var StructInfo []structAll.StructInfo
 		var tree *parse.Tree
-
 		if info.IsDir() {
 
 		} else {
 			mdByte, err := ioutil.ReadFile(path)
 			if err != nil {
-				util.Warn("读取文件失败", err)
-			}
-			notesCode = string(mdByte)
-			StructInfo, tree = GetStructInfoByNotesCode(notesCode, filepath.Ext(path))
-			if util.IsNotes(relativePath) {
-				name, _, err = util.FindAttr(tree.Root.KramdownIAL, "title")
-				if err != nil {
-					util.Warn(path + " 没有标题")
+				util.Warn("<读取文件失败>", err)
+				return entity, err
+			} else {
+				notesCode = string(mdByte)
+				StructInfo, tree = GetStructInfoByNotesCode(notesCode, filepath.Ext(path))
+				if util.IsNotes(relativePath) {
+					name, _, err = util.FindAttr(tree.Root.KramdownIAL, "title")
+					if err != nil {
+						util.Warn(path + " 没有标题")
+					}
 				}
 			}
 		}
-		entity := structAll.FileEntity{
+		entity = structAll.FileEntity{
 			Path:           path,
 			Info:           info,
 			RelativePath:   relativePath,
@@ -171,7 +172,7 @@ func DirToStruct(dir string,
 		entity.Output = func() (html string, xml string) {
 			return FileEntityToHTML(entity)
 		}
-		return entity
+		return entity, nil
 	}
 
 	filepath.Walk(dir,
@@ -182,9 +183,14 @@ func DirToStruct(dir string,
 			} else if util.IsSkipPath(p) || (!info.IsDir() && !util.IsNotes(p)) {
 				return nil
 			} else {
-				fileEntity := FileToFileEntity(dir, p, info)
-				StructList = append(StructList, fileEntity)
-				return nil
+				fileEntity, err := FileToFileEntity(dir, p, info)
+				if err == nil {
+					StructList = append(StructList, fileEntity)
+					return nil
+				} else {
+					// 由于思源锁定文件或其他程序锁定文件导致解析失败的 Entity 就不参与后面的流程了
+					return nil
+				}
 			}
 		})
 	// 构建 StructInfoMap

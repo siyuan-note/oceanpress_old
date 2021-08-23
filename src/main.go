@@ -1,7 +1,6 @@
 package main
 
 import (
-	"html/template"
 	"io/ioutil"
 	"net/url"
 	"os"
@@ -14,10 +13,12 @@ import (
 	"github.com/88250/lute/ast"
 	copy "github.com/otiai10/copy"
 	conf "github.com/siyuan-note/oceanpress/src/conf"
+	"github.com/siyuan-note/oceanpress/src/historical_data_processing"
 	oceanpress "github.com/siyuan-note/oceanpress/src/render"
 	"github.com/siyuan-note/oceanpress/src/sqlite"
 	store "github.com/siyuan-note/oceanpress/src/store"
 	structAll "github.com/siyuan-note/oceanpress/src/struct"
+	"github.com/siyuan-note/oceanpress/src/template"
 	"github.com/siyuan-note/oceanpress/src/util"
 )
 
@@ -40,18 +41,11 @@ func main() {
 	conf.SqlitePath = tempDbPath
 
 	// 流程 2  copy 源目录中资源文件至输出目录
-	util.RunningLog("2", "copy sourceDir 资源到 outDir")
-	// TODO: 此文件下方的 HandlingAssets 函数在一定程度上替代了下面这部分代码，由于 思源 1.2.5 的改动，所以这里不确定是否还有意义
-	// copy.Copy(sourceDir, outDir, copy.Options{
-	// 	// 跳过一些不必要的目录以及 md 文件
-	// 	Skip: func(src string) (bool, error) {
-	// 		return (util.IsSkipPath(src) || util.IsNotes(src)), nil
-	// 	},
-	// })
+	util.RunningLog("2", "copy 资源到 outDir")
 	// copy views 中的资源文件
 	copy.Copy(path.Join(conf.TemplateDir, "./assets"), path.Join(outDir, "./assets"))
-	util.RunningLog("2.1", "copy 完成")
 	copy.Copy(path.Join(workspaceDir, "./widgets"), path.Join(outDir, "./assets/widgets"))
+	util.RunningLog("2.1", "copy 完成")
 	util.RunningLog("2.2", "copy widgets")
 
 	// 流程 3  遍历源目录 生成 html 到输出目录
@@ -62,7 +56,7 @@ func main() {
 	structAll.NoteStore = store.DirToStruct(
 		sourceDir,
 		conf.SqlitePath,
-		TemplateRender,
+		template.TemplateRender,
 		func(db sqlite.DbResult, FindFileEntityFromID structAll.FindFileEntityFromID, structToHTML func(interface{}) string) func(entity structAll.FileEntity) (html string, xml string) {
 			// luteEngine lute 实例
 			var luteEngine = lute.New()
@@ -90,7 +84,9 @@ func main() {
 			}
 			return FileEntityToHTML
 		})
+
 	util.RunningLog("3.2", "复制资源文件")
+
 	for _, entity := range structAll.NoteStore.StructList {
 		if entity.Tree == nil {
 			// 目录
@@ -105,7 +101,7 @@ func main() {
 	}
 
 	util.RunningLog("3.3", "从文件到数据结构转换完毕，开始生成html,共", len(structAll.NoteStore.StructList), "项")
-
+	historical_data_processing.GenerateRedirectFile()
 	for _, entity := range structAll.NoteStore.StructList {
 		info := entity.Info
 		virtualPath := entity.VirtualPath()
@@ -125,7 +121,7 @@ func main() {
 					strings.LastIndex(f.VirtualPath()[len(virtualPath):], "/") == 0
 			})
 
-			var sonEntityList []sonEntityI
+			var sonEntityList []template.SonEntityI
 			for _, sonEntity := range sonList {
 				if conf.RssNoOutputHtml && strings.HasSuffix(sonEntity.Name, ".rss.xml") {
 					continue
@@ -139,13 +135,13 @@ func main() {
 					name = sonEntity.Name
 				}
 
-				sonEntityList = append(sonEntityList, sonEntityI{
+				sonEntityList = append(sonEntityList, template.SonEntityI{
 					WebPath: webPath,
 					Name:    name,
 					IsDir:   sonEntity.Info.IsDir(),
 				})
 			}
-			var menuInfo = (MenuInfo{
+			var menuInfo = (template.MenuInfo{
 				SonEntityList: sonEntityList,
 				PageTitle:     "菜单页",
 				LevelRoot:     LevelRoot,
@@ -161,7 +157,7 @@ func main() {
 
 			rawHTML, xml := entity.Output()
 			if len(rawHTML) != 0 {
-				html := ArticleRender(ArticleInfo{
+				html := template.ArticleRender(template.ArticleInfo{
 					Content:   template.HTML(rawHTML),
 					PageTitle: entity.Name,
 					LevelRoot: LevelRoot,

@@ -161,3 +161,8 @@ type RssInfo struct {
 	LastBuildDate string
 	List          []RssItem
 }
+// RedirectInfo 重定向模板所需信息
+type RedirectInfo struct {
+	RedirectPath string
+	Title string
+}

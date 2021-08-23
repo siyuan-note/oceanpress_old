@@ -81,6 +81,7 @@ func (r *OceanPressRender) renderIFrame(node *ast.Node, entering bool) ast.WalkS
 	}
 	return ast.WalkContinue
 }
+
 // renderImage 为了实现居中效果
 func (r *OceanPressRender) renderImage(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering {
@@ -249,27 +250,30 @@ func (r *OceanPressRender) renderBlockRef(node *ast.Node, entering bool) ast.Wal
 			title = n.TokensStr()
 		}
 	}
-
-	if hasEmbedText == false {
-		name, _, err := FindAttr(targetNodeStructInfo.Node.KramdownIAL, "name")
-		// 对于命名块优先渲染他的名字 而非内容
-		if err == nil {
-			title = name
-		} else if targetNodeStructInfo.Node != nil {
-			// 渲染引用块的内容文本
-			if targetNodeStructInfo.Node.Type == ast.NodeDocument {
-				title = targetEntity.Name
-			} else {
-				html := r.renderNodeToHTML(targetNodeStructInfo.Node, false)
-				title = r.HTML2Text(html)
+	if findErr == nil {
+		if hasEmbedText == false {
+			name, _, err := FindAttr(targetNodeStructInfo.Node.KramdownIAL, "name")
+			// 对于命名块优先渲染他的名字 而非内容
+			if err == nil {
+				title = name
+			} else if targetNodeStructInfo.Node != nil {
+				// 渲染引用块的内容文本
+				if targetNodeStructInfo.Node.Type == ast.NodeDocument {
+					title = targetEntity.Name
+				} else {
+					html := r.renderNodeToHTML(targetNodeStructInfo.Node, false)
+					title = r.HTML2Text(html)
+				}
 			}
 		}
+		title = strings.ReplaceAll(title, "\n", "")
+		if strings.TrimSpace(title) == "" {
+			util.Warn("<块引用渲染为空>", r.context.BaseEntity.RelativePath+" 中的块引用 "+refID)
+		}
+	} else {
+		title = "没有找到对应块"
 	}
-	title = strings.ReplaceAll(title, "\n", "")
-	// findErr 本身已经会发出警告了
-	if findErr == nil && strings.TrimSpace(title) == "" {
-		util.Warn("<块引用渲染为空>", r.context.BaseEntity.RelativePath+" 中的块引用 "+refID)
-	}
+
 	r.WriteString(r.context.StructToHTML(structAll.BlockRefInfo{
 		Src:   src,
 		Title: title,

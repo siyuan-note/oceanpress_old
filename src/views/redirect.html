@@ -1,0 +1,29 @@
+{{ define "redirect" }}
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta http-equiv="refresh" content="5;url={{ .RedirectPath }}">
+    <title>重定向中...</title>
+</head>
+<body>
+    <h2>原文档已经移动到<a href="{{ .RedirectPath }}">新地址,现名『 {{ .Title }}』</a>，将在<span id="time"></span> 秒后自动跳转。</h2>
+</body>
+<script>
+    var refreshTime =Number(document.querySelector("meta[http-equiv='refresh']").getAttribute("content").split(";")[0])
+    function render(){
+        document.getElementById("time").textContent=String(refreshTime)
+    }
+    render()
+    setInterval(function(){
+        refreshTime-=1
+        render()
+    },1000)
+</script>
+</html>
+
+{{end}}

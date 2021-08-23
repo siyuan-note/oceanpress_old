@@ -1,4 +1,4 @@
-package main
+package template
 
 import (
 	"bytes"
@@ -20,6 +20,7 @@ var articleTemplate *template.Template
 var embeddedBlockTemplate *template.Template
 var blockRefTemplate *template.Template
 var rssTemplate *textTemplate.Template
+var redirectTemplate *template.Template
 
 func init() {
 	HTMLtemplate = template.Must(template.ParseGlob(path.Join(conf.TemplateDir, "./*.html")))
@@ -27,6 +28,7 @@ func init() {
 	embeddedBlockTemplate = HTMLtemplate.New("embeddedBlock").Funcs(globalF)
 	blockRefTemplate = HTMLtemplate.New("blockRef").Funcs(globalF)
 	menuTemplate = HTMLtemplate.New("menu").Funcs(globalF)
+	redirectTemplate = HTMLtemplate.New("redirect").Funcs(globalF)
 	template.Must(HTMLtemplate.ParseGlob(path.Join(conf.TemplateDir, "./*/*.html")))
 
 	// ParseGlob(path.Join(conf.TemplateDir, "./*.xml"))
@@ -48,7 +50,7 @@ func ExecTemplate(t *template.Template, data interface{}) string {
 	return buf.String()
 }
 
-type sonEntityI struct {
+type SonEntityI struct {
 	WebPath string
 	IsDir   bool
 	Name    string
@@ -63,7 +65,7 @@ type ArticleInfo struct {
 
 // MenuInfo 菜单结构
 type MenuInfo struct {
-	SonEntityList []sonEntityI
+	SonEntityList []SonEntityI
 	PageTitle     string
 	LevelRoot     string
 }
@@ -103,10 +105,15 @@ func TemplateRender(info interface{}) string {
 	if ok {
 		return BlockRefRender(BlockRef)
 	}
+
+	Redirect, ok := info.(structAll.RedirectInfo)
+	if ok {
+		return ExecTemplate(redirectTemplate, Redirect)
+	}
 	RssInfo, ok := info.(structAll.RssInfo)
 	if ok {
 		buf := new(bytes.Buffer)
-		err := rssTemplate.ExecuteTemplate(buf,"RSS", RssInfo)
+		err := rssTemplate.ExecuteTemplate(buf, "RSS", RssInfo)
 		if err != nil {
 			util.Warn("<rss模板执行失败>", err)
 		}
@@ -115,4 +122,8 @@ func TemplateRender(info interface{}) string {
 	}
 	util.Warn("没有找到对应的 template render", info)
 	return "[渲染错误]没有找到对应的 template render"
+}
+
+func HTML(s string) template.HTML {
+	return template.HTML(s)
 }
