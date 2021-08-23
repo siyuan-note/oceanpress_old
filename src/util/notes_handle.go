@@ -36,7 +36,6 @@ func IsID(id string) bool {
 	reg, _ := regexp.Compile(`^\d{14}-[a-z0-9]{7}`)
 	return reg.MatchString(id)
 }
-
 // TimeFromID 从 id 中提取创建时间
 func TimeFromID(id string) string {
 	reg, _ := regexp.Compile(`^\d+`)

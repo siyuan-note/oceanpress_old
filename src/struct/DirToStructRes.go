@@ -7,7 +7,6 @@ import (
 
 	"github.com/88250/lute/ast"
 	"github.com/88250/lute/parse"
-	"github.com/siyuan-note/oceanpress/src/conf"
 	"github.com/siyuan-note/oceanpress/src/util"
 )
 
@@ -68,40 +67,11 @@ func (r *FileEntity) FileEntityRelativePath(target FileEntity, id string) string
 
 // VirtualPath 是最终要在浏览器中可以访问的路径
 func (r *FileEntity) VirtualPath() (path string) {
-
-	// 使用文档名作为路径名
-	if conf.OutMode == "title" {
-		entries := strings.Split(r.RelativePath, "/")
-		var virtualPath = []string{}
-		for _, v := range entries {
-			id := v
-			if strings.HasSuffix(v, util.NotesSuffix) {
-				id = v[:len(v)-len(util.NotesSuffix)]
-			}
-			if util.IsID(id) {
-				FileEntity, _, err := NoteStore.FindFileEntityFromID(id)
-				if err == nil {
-					virtualPath = append(virtualPath, FileEntity.Name)
-					continue
-				}
-			}
-			virtualPath = append(virtualPath, id)
-		}
-		path = strings.Join(virtualPath, "/")
-		if util.IsNotes(r.RelativePath) {
-			path += ".html"
-		}
-		return path
-	} else {
-		// 直接使用 ID 作为路径名
-		if conf.OutMode != "id" {
-			util.Warn("OutMode 参数的值在预设之外，默认采用 id 模式")
-		}
-		if util.IsNotes(r.RelativePath) {
-			return r.RelativePath[0:len(r.RelativePath)-len(util.NotesSuffix)] + ".html"
-		}
-		return r.RelativePath
+	path = PathResolve(r.RelativePath)
+	if util.IsNotes(path) {
+		return path[:len(path)-len(util.NotesSuffix)] + ".html"
 	}
+	return path
 }
 
 // RootPath 获取当前对象相对于 root 目录的路径
@@ -115,7 +85,7 @@ func (r *FileEntity) RootPath() string {
 	if Level > 0 {
 		LevelRoot += strings.Repeat("../", Level)
 	}
-	return LevelRoot
+	return PathResolve(LevelRoot)
 }
 
 // FindFileEntityFromID 通过 id 返回对应实体
@@ -161,8 +131,9 @@ type RssInfo struct {
 	LastBuildDate string
 	List          []RssItem
 }
+
 // RedirectInfo 重定向模板所需信息
 type RedirectInfo struct {
 	RedirectPath string
-	Title string
+	Title        string
 }

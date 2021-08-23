@@ -13,6 +13,7 @@ import (
 
 // WriteFile 确保文件路径存在，且不超出 conf.outDir
 func WriteFile(targetPath string, data []byte, perm os.FileMode) error {
+	targetPath = filepath.ToSlash(targetPath)
 	rel, err := filepath.Rel(conf.OutDir, targetPath)
 	if err != nil {
 		return err
