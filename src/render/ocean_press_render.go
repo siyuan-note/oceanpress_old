@@ -209,6 +209,7 @@ func NewOceanPressRenderer(tree *parse.Tree, options *Options,
 	ret.RendererFuncs[ast.NodeGitConflictContent] = ret.renderGitConflictContent
 	ret.RendererFuncs[ast.NodeGitConflictCloseMarker] = ret.renderGitConflictCloseMarker
 	ret.RendererFuncs[ast.NodeIFrame] = ret.renderIFrame
+	ret.RendererFuncs[ast.NodeWidget] = ret.renderWidget
 	ret.RendererFuncs[ast.NodeVideo] = ret.renderVideo
 	ret.RendererFuncs[ast.NodeAudio] = ret.renderAudio
 	ret.RendererFuncs[ast.NodeKbd] = ret.renderKbd
@@ -315,25 +316,39 @@ func (r *OceanPressRender) renderAudio(node *ast.Node, entering bool) ast.WalkSt
 	return ast.WalkContinue
 }
 
-// func (r *OceanPressRender) renderIFrame(node *ast.Node, entering bool) ast.WalkStatus {
-// 	if entering {
-// 		r.Tag("div", [][]string{{"class", "iframe"}}, false)
-// 		tokens := node.Tokens
-// 		if r.Options.Sanitize {
-// 			tokens = sanitize(tokens)
-// 		}
-// 		tokens = r.tagSrcPath(tokens)
-// 		r.Write(tokens)
-// 		r.Tag("/div", nil, false)
-// 	}
-// 	return ast.WalkContinue
-// }
+func (r *OceanPressRender) renderIFrame(node *ast.Node, entering bool) ast.WalkStatus {
+	if entering {
+		r.Tag("div", [][]string{{"class", "iframe"}}, false)
+		tokens := node.Tokens
+		if r.Options.Sanitize {
+			tokens = sanitize(tokens)
+		}
+		tokens = r.tagSrcPath(tokens)
+		r.Write(tokens)
+		r.Tag("/div", nil, false)
+	}
+	return ast.WalkContinue
+}
 
-// func (r *OceanPressRender) Render() (output []byte) {
-// 	output = r.BaseRenderer.Render()
-// 	output = append(output, r.RenderFootnotes()...)
-// 	return
-// }
+func (r *OceanPressRender) renderWidget_(node *ast.Node, entering bool) ast.WalkStatus {
+	if entering {
+		r.Tag("div", [][]string{{"class", "iframe"}}, false)
+		tokens := node.Tokens
+		if r.Options.Sanitize {
+			tokens = sanitize(tokens)
+		}
+		tokens = r.tagSrcPath(tokens)
+		r.Write(tokens)
+		r.Tag("/div", nil, false)
+	}
+	return ast.WalkContinue
+}
+
+func (r *OceanPressRender) Render_() (output []byte) {
+	output = r.BaseRenderer.Render()
+	output = append(output, r.RenderFootnotes()...)
+	return
+}
 
 func (r *OceanPressRender) renderGitConflictCloseMarker(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering {
@@ -372,9 +387,9 @@ func (r *OceanPressRender) renderGitConflict(node *ast.Node, entering bool) ast.
 	return ast.WalkContinue
 }
 
-// func (r *OceanPressRender) renderSuperBlock(node *ast.Node, entering bool) ast.WalkStatus {
-// 	return ast.WalkContinue
-// }
+func (r *OceanPressRender) renderSuperBlock_(node *ast.Node, entering bool) ast.WalkStatus {
+	return ast.WalkContinue
+}
 
 func (r *OceanPressRender) renderSuperBlockOpenMarker(node *ast.Node, entering bool) ast.WalkStatus {
 	return ast.WalkSkipChildren
@@ -502,16 +517,16 @@ func (r *OceanPressRender) renderSubCloseMarker(node *ast.Node, entering bool) a
 	return ast.WalkContinue
 }
 
-// func (r *OceanPressRender) renderBlockQueryEmbed(node *ast.Node, entering bool) ast.WalkStatus {
-// 	if entering {
-// 		r.Newline()
-// 		r.Tag("div", nil, false)
-// 	} else {
-// 		r.Tag("/div", nil, false)
-// 		r.Newline()
-// 	}
-// 	return ast.WalkContinue
-// }
+func (r *OceanPressRender) renderBlockQueryEmbed_(node *ast.Node, entering bool) ast.WalkStatus {
+	if entering {
+		r.Newline()
+		r.Tag("div", nil, false)
+	} else {
+		r.Tag("/div", nil, false)
+		r.Newline()
+	}
+	return ast.WalkContinue
+}
 
 func (r *OceanPressRender) renderBlockQueryEmbedScript(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering {
@@ -551,9 +566,9 @@ func (r *OceanPressRender) renderBlockEmbedText(node *ast.Node, entering bool) a
 	return ast.WalkContinue
 }
 
-// func (r *OceanPressRender) renderBlockRef(node *ast.Node, entering bool) ast.WalkStatus {
-// 	return ast.WalkContinue
-// }
+func (r *OceanPressRender) renderBlockRef_(node *ast.Node, entering bool) ast.WalkStatus {
+	return ast.WalkContinue
+}
 
 func (r *OceanPressRender) renderBlockRefID(node *ast.Node, entering bool) ast.WalkStatus {
 	return ast.WalkContinue
@@ -692,44 +707,44 @@ func (r *OceanPressRender) renderFootnotesDef(node *ast.Node, entering bool) ast
 	return ast.WalkContinue
 }
 
-// func (r *OceanPressRender) renderCodeBlock(node *ast.Node, entering bool) ast.WalkStatus {
-// 	r.Newline()
+func (r *OceanPressRender) renderCodeBlock_(node *ast.Node, entering bool) ast.WalkStatus {
+	r.Newline()
 
-// 	noHighlight := false
-// 	var language string
-// 	if nil != node.FirstChild.Next && 0 < len(node.FirstChild.Next.CodeBlockInfo) {
-// 		language = util.BytesToStr(node.FirstChild.Next.CodeBlockInfo)
-// 		noHighlight = r.NoHighlight(language)
-// 	}
+	noHighlight := false
+	var language string
+	if nil != node.FirstChild.Next && 0 < len(node.FirstChild.Next.CodeBlockInfo) {
+		language = util.BytesToStr(node.FirstChild.Next.CodeBlockInfo)
+		noHighlight = r.NoHighlight(language)
+	}
 
-// 	if entering {
-// 		if noHighlight {
-// 			var attrs [][]string
-// 			tokens := html.EscapeHTML(node.FirstChild.Next.Next.Tokens)
-// 			tokens = bytes.ReplaceAll(tokens, util.CaretTokens, nil)
-// 			tokens = bytes.TrimSpace(tokens)
-// 			attrs = append(attrs, []string{"data-content", util.BytesToStr(tokens)})
-// 			attrs = append(attrs, []string{"data-subtype", language})
-// 			r.Tag("div", attrs, false)
-// 			r.Tag("div", [][]string{{"spin", "1"}}, false)
-// 			r.Tag("/div", nil, false)
-// 			r.Tag("/div", nil, false)
-// 			return ast.WalkSkipChildren
-// 		}
+	if entering {
+		if noHighlight {
+			var attrs [][]string
+			tokens := html.EscapeHTML(node.FirstChild.Next.Next.Tokens)
+			tokens = bytes.ReplaceAll(tokens, util.CaretTokens, nil)
+			tokens = bytes.TrimSpace(tokens)
+			attrs = append(attrs, []string{"data-content", util.BytesToStr(tokens)})
+			attrs = append(attrs, []string{"data-subtype", language})
+			r.Tag("div", attrs, false)
+			r.Tag("div", [][]string{{"spin", "1"}}, false)
+			r.Tag("/div", nil, false)
+			r.Tag("/div", nil, false)
+			return ast.WalkSkipChildren
+		}
 
-// 		attrs := [][]string{{"class", "code-block"}, {"data-language", language}}
-// 		r.Tag("pre", attrs, false)
-// 		r.WriteString("<code>")
-// 	} else {
-// 		if noHighlight {
-// 			return ast.WalkSkipChildren
-// 		}
+		attrs := [][]string{{"class", "code-block"}, {"data-language", language}}
+		r.Tag("pre", attrs, false)
+		r.WriteString("<code>")
+	} else {
+		if noHighlight {
+			return ast.WalkSkipChildren
+		}
 
-// 		r.Tag("/code", nil, false)
-// 		r.Tag("/pre", nil, false)
-// 	}
-// 	return ast.WalkContinue
-// }
+		r.Tag("/code", nil, false)
+		r.Tag("/pre", nil, false)
+	}
+	return ast.WalkContinue
+}
 
 func (r *OceanPressRender) renderCodeBlockCode(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering {
@@ -985,64 +1000,64 @@ func (r *OceanPressRender) renderBang(node *ast.Node, entering bool) ast.WalkSta
 	return ast.WalkContinue
 }
 
-// func (r *OceanPressRender) renderImage(node *ast.Node, entering bool) ast.WalkStatus {
-// 	if entering {
-// 		if 0 == r.DisableTags {
-// 			attrs := [][]string{{"class", "img"}}
-// 			if style := node.IALAttr("parent-style"); "" != style {
-// 				attrs = append(attrs, []string{"style", style})
-// 			}
-// 			r.Tag("span", attrs, false)
-// 			r.WriteString("<img src=\"")
-// 			destTokens := node.ChildByType(ast.NodeLinkDest).Tokens
-// 			destTokens = r.LinkPath(destTokens)
-// 			if "" != r.Options.ImageLazyLoading {
-// 				r.Write(html.EscapeHTML(util.StrToBytes(r.Options.ImageLazyLoading)))
-// 				r.WriteString("\" data-src=\"")
-// 			}
-// 			r.Write(html.EscapeHTML(destTokens))
-// 			r.WriteString("\" alt=\"")
-// 		}
-// 		r.DisableTags++
-// 		return ast.WalkContinue
-// 	}
+func (r *OceanPressRender) renderImage_(node *ast.Node, entering bool) ast.WalkStatus {
+	if entering {
+		if 0 == r.DisableTags {
+			attrs := [][]string{{"class", "img"}}
+			if style := node.IALAttr("parent-style"); "" != style {
+				attrs = append(attrs, []string{"style", style})
+			}
+			r.Tag("span", attrs, false)
+			r.WriteString("<img src=\"")
+			destTokens := node.ChildByType(ast.NodeLinkDest).Tokens
+			destTokens = r.LinkPath(destTokens)
+			if "" != r.Options.ImageLazyLoading {
+				r.Write(html.EscapeHTML(util.StrToBytes(r.Options.ImageLazyLoading)))
+				r.WriteString("\" data-src=\"")
+			}
+			r.Write(html.EscapeHTML(destTokens))
+			r.WriteString("\" alt=\"")
+		}
+		r.DisableTags++
+		return ast.WalkContinue
+	}
 
-// 	r.DisableTags--
-// 	if 0 == r.DisableTags {
-// 		r.WriteByte(lex.ItemDoublequote)
-// 		title := node.ChildByType(ast.NodeLinkTitle)
-// 		var titleTokens []byte
-// 		if nil != title && nil != title.Tokens {
-// 			titleTokens = html.EscapeHTML(title.Tokens)
-// 			r.WriteString(" title=\"")
-// 			r.Write(titleTokens)
-// 			r.WriteByte(lex.ItemDoublequote)
-// 		}
-// 		ial := r.NodeAttrsStr(node)
-// 		if "" != ial {
-// 			r.WriteString(" " + ial)
-// 		}
-// 		r.WriteString(" />")
-// 		if 0 < len(titleTokens) {
-// 			r.Tag("span", [][]string{{"class", "protyle-action__title"}}, false)
-// 			r.Write(titleTokens)
-// 			r.Tag("/span", nil, false)
-// 		}
-// 		r.Tag("/span", nil, false)
+	r.DisableTags--
+	if 0 == r.DisableTags {
+		r.WriteByte(lex.ItemDoublequote)
+		title := node.ChildByType(ast.NodeLinkTitle)
+		var titleTokens []byte
+		if nil != title && nil != title.Tokens {
+			titleTokens = html.EscapeHTML(title.Tokens)
+			r.WriteString(" title=\"")
+			r.Write(titleTokens)
+			r.WriteByte(lex.ItemDoublequote)
+		}
+		ial := r.NodeAttrsStr(node)
+		if "" != ial {
+			r.WriteString(" " + ial)
+		}
+		r.WriteString(" />")
+		if 0 < len(titleTokens) {
+			r.Tag("span", [][]string{{"class", "protyle-action__title"}}, false)
+			r.Write(titleTokens)
+			r.Tag("/span", nil, false)
+		}
+		r.Tag("/span", nil, false)
 
-// 		if r.Options.Sanitize {
-// 			buf := r.Writer.Bytes()
-// 			idx := bytes.LastIndex(buf, []byte("<img src="))
-// 			imgBuf := buf[idx:]
-// 			if r.Options.Sanitize {
-// 				imgBuf = sanitize(imgBuf)
-// 			}
-// 			r.Writer.Truncate(idx)
-// 			r.Writer.Write(imgBuf)
-// 		}
-// 	}
-// 	return ast.WalkContinue
-// }
+		if r.Options.Sanitize {
+			buf := r.Writer.Bytes()
+			idx := bytes.LastIndex(buf, []byte("<img src="))
+			imgBuf := buf[idx:]
+			if r.Options.Sanitize {
+				imgBuf = sanitize(imgBuf)
+			}
+			r.Writer.Truncate(idx)
+			r.Writer.Write(imgBuf)
+		}
+	}
+	return ast.WalkContinue
+}
 
 func (r *OceanPressRender) renderLink(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering {
@@ -1089,9 +1104,9 @@ func (r *OceanPressRender) renderInlineHTML(node *ast.Node, entering bool) ast.W
 	return ast.WalkContinue
 }
 
-// func (r *OceanPressRender) renderDocument(node *ast.Node, entering bool) ast.WalkStatus {
-// 	return ast.WalkContinue
-// }
+func (r *OceanPressRender) renderDocument_(node *ast.Node, entering bool) ast.WalkStatus {
+	return ast.WalkContinue
+}
 
 func (r *OceanPressRender) renderParagraph(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering {
@@ -1259,39 +1274,39 @@ func (r *OceanPressRender) renderBlockquoteMarker(node *ast.Node, entering bool)
 	return ast.WalkContinue
 }
 
-// func (r *OceanPressRender) renderHeading(node *ast.Node, entering bool) ast.WalkStatus {
-// 	if entering {
-// 		r.Newline()
-// 		level := headingLevel[node.HeadingLevel : node.HeadingLevel+1]
-// 		r.WriteString("<h" + level)
-// 		id := HeadingID(node)
-// 		if r.Options.ToC || r.Options.HeadingID || r.Options.KramdownBlockIAL {
-// 			r.WriteString(" id=\"" + id + "\"")
-// 			if r.Options.KramdownBlockIAL {
-// 				if "id" != r.Options.KramdownIALIDRenderName && 0 < len(node.KramdownIAL) {
-// 					r.WriteString(" " + r.Options.KramdownIALIDRenderName + "=\"" + node.KramdownIAL[0][1] + "\"")
-// 				}
-// 				if 1 < len(node.KramdownIAL) {
-// 					exceptID := node.KramdownIAL[1:]
-// 					for _, attr := range exceptID {
-// 						r.WriteString(" " + attr[0] + "=\"" + attr[1] + "\"")
-// 					}
-// 				}
-// 			}
-// 		}
-// 		r.WriteString(">")
-// 	} else {
-// 		if r.Options.HeadingAnchor {
-// 			id := HeadingID(node)
-// 			r.Tag("a", [][]string{{"id", "vditorAnchor-" + id}, {"class", "vditor-anchor"}, {"href", "#" + id}}, false)
-// 			r.WriteString(`<svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg>`)
-// 			r.Tag("/a", nil, false)
-// 		}
-// 		r.WriteString("</h" + headingLevel[node.HeadingLevel:node.HeadingLevel+1] + ">")
-// 		r.Newline()
-// 	}
-// 	return ast.WalkContinue
-// }
+func (r *OceanPressRender) renderHeading_(node *ast.Node, entering bool) ast.WalkStatus {
+	if entering {
+		r.Newline()
+		level := headingLevel[node.HeadingLevel : node.HeadingLevel+1]
+		r.WriteString("<h" + level)
+		id := HeadingID(node)
+		if r.Options.ToC || r.Options.HeadingID || r.Options.KramdownBlockIAL {
+			r.WriteString(" id=\"" + id + "\"")
+			if r.Options.KramdownBlockIAL {
+				if "id" != r.Options.KramdownIALIDRenderName && 0 < len(node.KramdownIAL) {
+					r.WriteString(" " + r.Options.KramdownIALIDRenderName + "=\"" + node.KramdownIAL[0][1] + "\"")
+				}
+				if 1 < len(node.KramdownIAL) {
+					exceptID := node.KramdownIAL[1:]
+					for _, attr := range exceptID {
+						r.WriteString(" " + attr[0] + "=\"" + attr[1] + "\"")
+					}
+				}
+			}
+		}
+		r.WriteString(">")
+	} else {
+		if r.Options.HeadingAnchor {
+			id := HeadingID(node)
+			r.Tag("a", [][]string{{"id", "vditorAnchor-" + id}, {"class", "vditor-anchor"}, {"href", "#" + id}}, false)
+			r.WriteString(`<svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg>`)
+			r.Tag("/a", nil, false)
+		}
+		r.WriteString("</h" + headingLevel[node.HeadingLevel:node.HeadingLevel+1] + ">")
+		r.Newline()
+	}
+	return ast.WalkContinue
+}
 
 func (r *OceanPressRender) renderHeadingC8hMarker(node *ast.Node, entering bool) ast.WalkStatus {
 	return ast.WalkContinue
@@ -1325,30 +1340,30 @@ func (r *OceanPressRender) renderList(node *ast.Node, entering bool) ast.WalkSta
 	return ast.WalkContinue
 }
 
-// func (r *OceanPressRender) renderListItem(node *ast.Node, entering bool) ast.WalkStatus {
-// 	if entering {
-// 		var attrs [][]string
-// 		r.handleKramdownBlockIAL(node)
-// 		attrs = append(attrs, node.KramdownIAL...)
-// 		if 3 == node.ListData.Typ && nil != node.FirstChild && ((ast.NodeTaskListItemMarker == node.FirstChild.Type) ||
-// 			(nil != node.FirstChild.FirstChild && ast.NodeTaskListItemMarker == node.FirstChild.FirstChild.Type)) {
-// 			taskListItemMarker := node.FirstChild.FirstChild
-// 			if nil == taskListItemMarker {
-// 				taskListItemMarker = node.FirstChild
-// 			}
-// 			taskClass := "protyle-task"
-// 			if taskListItemMarker.TaskListItemChecked {
-// 				taskClass += " protyle-task--done"
-// 			}
-// 			attrs = append(attrs, []string{"class", taskClass})
-// 		}
-// 		r.Tag("li", attrs, false)
-// 	} else {
-// 		r.Tag("/li", nil, false)
-// 		r.Newline()
-// 	}
-// 	return ast.WalkContinue
-// }
+func (r *OceanPressRender) renderListItem_(node *ast.Node, entering bool) ast.WalkStatus {
+	if entering {
+		var attrs [][]string
+		r.handleKramdownBlockIAL(node)
+		attrs = append(attrs, node.KramdownIAL...)
+		if 3 == node.ListData.Typ && nil != node.FirstChild && ((ast.NodeTaskListItemMarker == node.FirstChild.Type) ||
+			(nil != node.FirstChild.FirstChild && ast.NodeTaskListItemMarker == node.FirstChild.FirstChild.Type)) {
+			taskListItemMarker := node.FirstChild.FirstChild
+			if nil == taskListItemMarker {
+				taskListItemMarker = node.FirstChild
+			}
+			taskClass := "protyle-task"
+			if taskListItemMarker.TaskListItemChecked {
+				taskClass += " protyle-task--done"
+			}
+			attrs = append(attrs, []string{"class", taskClass})
+		}
+		r.Tag("li", attrs, false)
+	} else {
+		r.Tag("/li", nil, false)
+		r.Newline()
+	}
+	return ast.WalkContinue
+}
 
 func (r *OceanPressRender) renderTaskListItemMarker(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering {

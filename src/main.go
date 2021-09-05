@@ -78,6 +78,7 @@ func main() {
 				context.FindFileEntityFromID = FindFileEntityFromID
 				context.LuteEngine = luteEngine
 				context.StructToHTML = structToHTML
+				// 当(*oceanpress.Options)之后的代码报错的时候，请按照查阅 [0dev](./render/0dev.md) 同步相关代码
 				renderer := oceanpress.NewOceanPressRenderer(entity.Tree, (*oceanpress.Options)(luteEngine.RenderOptions), &context)
 
 				return renderer.Render()

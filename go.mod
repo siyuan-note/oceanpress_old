@@ -4,7 +4,7 @@ go 1.15
 
 require (
 	github.com/88250/gulu v1.1.73 // indirect
-	github.com/88250/lute v1.7.4-0.20210818085620-40fd2957c84d // https://pkg.go.dev/github.com/88250/lute
+	github.com/88250/lute v1.7.4-0.20210905031547-428c40898db4 // https://pkg.go.dev/github.com/88250/lute
 	github.com/88250/protyle v0.0.0-20210807012712-9e3fb38884a3
 	github.com/alecthomas/chroma v0.9.2
 	github.com/alecthomas/repr v0.0.0-20210801044451-80ca428c5142 // indirect
@@ -19,6 +19,6 @@ require (
 )
 
 // replace github.com/88250/lute => D:\view_code\lute
-// 配置国内代理 go env -w GOPROXY=https://goproxy.cn,direct
+// 配置国内代理 go env -w GOPROXY=https://goproxy.cn
 // 更新  go get github.com/88250/lute@master
 // 更新  go get github.com/88250/protyle@main
