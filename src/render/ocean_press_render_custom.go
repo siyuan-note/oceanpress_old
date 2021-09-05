@@ -14,6 +14,7 @@ import (
 	"github.com/88250/lute/lex"
 	"github.com/88250/lute/render"
 	luteUtil "github.com/88250/lute/util"
+	"github.com/PuerkitoBio/goquery"
 	"github.com/siyuan-note/oceanpress/src/conf"
 	structAll "github.com/siyuan-note/oceanpress/src/struct"
 	"github.com/siyuan-note/oceanpress/src/util"
@@ -65,11 +66,36 @@ func (r *OceanPressRender) Render() (html string, xml string) {
 
 	return html, xml
 }
-func (r *OceanPressRender) renderIFrame(node *ast.Node, entering bool) ast.WalkStatus {
+
+func (r *OceanPressRender) renderWidget(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering {
 		attr := [][]string{{"class", "iframe"}}
 		// 添加自定义属性
 		attr = append(attr, node.KramdownIAL...)
+		htmlStr := node.TokensStr()
+		dom, err := goquery.NewDocumentFromReader(strings.NewReader(htmlStr))
+		if err == nil {
+			iframe := dom.Find("iframe")
+			src, exists := iframe.Attr("src")
+			if exists {
+				localPrefix := "http://127.0.0.1:6806/"
+				if strings.HasPrefix(src, localPrefix) {
+					src = src[len(localPrefix):]
+					if strings.HasSuffix(src, "/") {
+						src += "index.html"
+					} else if !strings.HasSuffix(src, ".html") {
+						src += "/index.html"
+					}
+					iframe.SetAttr("src", r.context.BaseEntity.RootPath()+"assets/"+src)
+				}
+				html, err := goquery.OuterHtml(iframe)
+				if err == nil {
+					node.Tokens = []byte(html)
+				}
+			}
+		} else {
+			util.Warn("renderWidget", err)
+		}
 		r.Tag("div", attr, false)
 		tokens := node.Tokens
 		if r.Options.Sanitize {
@@ -205,7 +231,7 @@ func (r *OceanPressRender) renderNodeToHTML(node *ast.Node, headerIncludes bool)
 		}
 	}
 
-	renderer := NewOceanPressRenderer(r.Tree, (*Options)(r.context.LuteEngine.RenderOptions), r.context)
+	renderer := NewOceanPressRenderer(r.Tree, (*Options)(r.Options), r.context)
 	// renderer2 := render.NewFormatRenderer(tree, luteEngine.RenderOptions)
 	renderer.Writer = &bytes.Buffer{}
 	// renderer.NodeWriterStack = append(renderer.NodeWriterStack, renderer.Writer) // 因为有可能不是从 root 开始渲染，所以需要初始化
@@ -475,7 +501,6 @@ func (r *OceanPressRender) Tag(name string, attrs [][]string, selfclosing bool) 
 	}
 	id, idIndex, _ := FindAttr(attrs, "id")
 	nId, nIdIndex, _ := FindAttr(attrs, "data-n-id")
-
 	var attrsTemp [][]string
 	if idIndex != nIdIndex && id == nId && id != "" {
 		for i, v := range attrs {
@@ -647,13 +672,6 @@ func headingChildren(heading *ast.Node) (ret []*ast.Node) {
 	}
 	ret = append(ret, blocks...)
 	return
-}
-func getRootByNode(node *ast.Node) *ast.Node {
-	if node.Parent == nil {
-		return node
-	} else {
-		return getRootByNode(node.Parent)
-	}
 }
 
 // getAllNextByNode 获取一个节点的 所有后续节点

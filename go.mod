@@ -6,6 +6,7 @@ require (
 	github.com/88250/gulu v1.1.73 // indirect
 	github.com/88250/lute v1.7.4-0.20210905031547-428c40898db4 // https://pkg.go.dev/github.com/88250/lute
 	github.com/88250/protyle v0.0.0-20210807012712-9e3fb38884a3
+	github.com/PuerkitoBio/goquery v1.7.1
 	github.com/alecthomas/chroma v0.9.2
 	github.com/alecthomas/repr v0.0.0-20210801044451-80ca428c5142 // indirect
 	github.com/jinzhu/gorm v1.9.16 // indirect
