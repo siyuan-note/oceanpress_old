@@ -1,0 +1,263 @@
+I 2021/08/07 15:40:32 working.go:95: 
+  ____    _  __   __
+ / ___|  (_) \ \ / /  _   _    __ _   _ __
+ \___ \  | |  \ V /  | | | |  / _` | | '_ \
+  ___) | | |   | |   | |_| | | (_| | | | | |
+ |____/  |_|   |_|    \__,_|  \__,_| |_| |_|
+I 2021/08/07 15:40:32 runtime.go:13: kernel is booting:
+    * ver [1.2.31]
+    * arch [amd64]
+    * runtime mode [prod]
+    * working directory [C:\Users\llej\AppData\Local\Programs\SiYuan\resources]
+    * read only [false]
+    * container [std]
+    * database [ver=20210730]
+    * workspace directory [D:\code\oceanpress\test-doc]
+D 2021/08/07 15:40:32 conf.go:101: initialized language [zh_CN] based on device locale
+I 2021/08/07 15:40:32 conf.go:227: local serve path [http://192.168.0.23:6806]
+I 2021/08/07 15:40:32 database.go:119: initialized database tables
+I 2021/08/07 15:40:32 database.go:79: reinitialized database [D:\code\oceanpress\test-doc\temp\siyuan.db]
+I 2021/08/07 15:40:32 conf.go:375: pre-init database size [29 kB]
+I 2021/08/07 15:40:32 conf.go:386: post-init database size [29 kB]
+I 2021/08/07 15:40:32 serve.go:66: kernel HTTP server is booting [http://127.0.0.1:6806]
+I 2021/08/07 15:40:33 working.go:109: kernel booted
+I 2021/08/07 15:49:29 box.go:546: rebuilding database of box [OceanPress]
+I 2021/08/07 15:49:29 box.go:550: rebuilt database of box [OceanPress]
+I 2021/08/07 15:53:22 conf.go:280: exited kernel
+I 2021/08/07 15:53:56 working.go:95: 
+  ____    _  __   __
+ / ___|  (_) \ \ / /  _   _    __ _   _ __
+ \___ \  | |  \ V /  | | | |  / _` | | '_ \
+  ___) | | |   | |   | |_| | | (_| | | | | |
+ |____/  |_|   |_|    \__,_|  \__,_| |_| |_|
+I 2021/08/07 15:53:56 runtime.go:13: kernel is booting:
+    * ver [1.2.31]
+    * arch [amd64]
+    * runtime mode [prod]
+    * working directory [C:\Users\llej\AppData\Local\Programs\SiYuan\resources]
+    * read only [false]
+    * container [std]
+    * database [ver=20210730]
+    * workspace directory [D:\code\oceanpress\test-doc]
+I 2021/08/07 15:53:57 conf.go:227: local serve path [http://192.168.0.23:6806]
+I 2021/08/07 15:53:57 database.go:119: initialized database tables
+I 2021/08/07 15:53:57 database.go:79: reinitialized database [D:\code\oceanpress\test-doc\temp\siyuan.db]
+I 2021/08/07 15:53:57 conf.go:375: pre-init database size [29 kB]
+I 2021/08/07 15:53:57 serve.go:66: kernel HTTP server is booting [http://127.0.0.1:6806]
+I 2021/08/07 15:53:57 box.go:546: rebuilding database of box [OceanPress]
+I 2021/08/07 15:53:57 box.go:550: rebuilt database of box [OceanPress]
+I 2021/08/07 15:53:57 conf.go:386: post-init database size [29 kB]
+I 2021/08/07 15:53:58 working.go:109: kernel booted
+I 2021/08/07 16:19:30 conf.go:280: exited kernel
+I 2021/08/07 17:07:40 working.go:95: 
+  ____    _  __   __
+ / ___|  (_) \ \ / /  _   _    __ _   _ __
+ \___ \  | |  \ V /  | | | |  / _` | | '_ \
+  ___) | | |   | |   | |_| | | (_| | | | | |
+ |____/  |_|   |_|    \__,_|  \__,_| |_| |_|
+I 2021/08/07 17:07:40 runtime.go:13: kernel is booting:
+    * ver [1.2.31]
+    * arch [amd64]
+    * runtime mode [prod]
+    * working directory [C:\Users\llej\AppData\Local\Programs\SiYuan\resources]
+    * read only [false]
+    * container [std]
+    * database [ver=20210730]
+    * workspace directory [D:\code\oceanpress\test-doc]
+I 2021/08/07 17:07:40 conf.go:227: local serve path [http://192.168.0.23:6806]
+I 2021/08/07 17:07:40 database.go:119: initialized database tables
+I 2021/08/07 17:07:40 database.go:79: reinitialized database [D:\code\oceanpress\test-doc\temp\siyuan.db]
+I 2021/08/07 17:07:40 conf.go:375: pre-init database size [29 kB]
+I 2021/08/07 17:07:40 serve.go:66: kernel HTTP server is booting [http://127.0.0.1:6806]
+I 2021/08/07 17:07:40 box.go:546: rebuilding database of box [OceanPress]
+I 2021/08/07 17:07:40 box.go:550: rebuilt database of box [OceanPress]
+I 2021/08/07 17:07:40 conf.go:386: post-init database size [61 kB]
+I 2021/08/07 17:07:41 working.go:109: kernel booted
+I 2021/08/07 17:08:17 conf.go:280: exited kernel
+I 2021/08/07 17:46:13 working.go:95: 
+  ____    _  __   __
+ / ___|  (_) \ \ / /  _   _    __ _   _ __
+ \___ \  | |  \ V /  | | | |  / _` | | '_ \
+  ___) | | |   | |   | |_| | | (_| | | | | |
+ |____/  |_|   |_|    \__,_|  \__,_| |_| |_|
+I 2021/08/07 17:46:13 runtime.go:13: kernel is booting:
+    * ver [1.2.31]
+    * arch [amd64]
+    * runtime mode [prod]
+    * working directory [C:\Users\llej\AppData\Local\Programs\SiYuan\resources]
+    * read only [false]
+    * container [std]
+    * database [ver=20210730]
+    * workspace directory [D:\code\oceanpress\test-doc]
+I 2021/08/07 17:46:13 conf.go:227: local serve path [http://192.168.190.223:6806]
+I 2021/08/07 17:46:13 database.go:119: initialized database tables
+I 2021/08/07 17:46:13 database.go:79: reinitialized database [D:\code\oceanpress\test-doc\temp\siyuan.db]
+I 2021/08/07 17:46:13 conf.go:375: pre-init database size [29 kB]
+I 2021/08/07 17:46:13 serve.go:66: kernel HTTP server is booting [http://127.0.0.1:6806]
+I 2021/08/07 17:46:13 box.go:546: rebuilding database of box [OceanPress]
+I 2021/08/07 17:46:13 box.go:550: rebuilt database of box [OceanPress]
+I 2021/08/07 17:46:13 conf.go:386: post-init database size [61 kB]
+I 2021/08/07 17:46:14 working.go:109: kernel booted
+I 2021/08/07 17:48:20 conf.go:280: exited kernel
+I 2021/08/16 21:07:35 working.go:95: 
+      ___                                   ___           ___           ___
+     /  /\        ___           ___        /__/\         /  /\         /__/\
+    /  /:/_      /  /\         /__/|       \  \:\       /  /::\        \  \:\
+   /  /:/ /\    /  /:/        |  |:|        \  \:\     /  /:/\:\        \  \:\
+  /  /:/ /::\  /__/::\        |  |:|    ___  \  \:\   /  /:/~/::\   _____\__\:\
+ /__/:/ /:/\:\ \__\/\:\__   __|__|:|   /__/\  \__\:\ /__/:/ /:/\:\ /__/::::::::\
+ \  \:\/:/~/:/    \  \:\/\ /__/::::\   \  \:\ /  /:/ \  \:\/:/__\/ \  \:\~~\~~\/
+  \  \::/ /:/      \__\::/    ~\~~\:\   \  \:\  /:/   \  \::/       \  \:\  ~~~
+   \__\/ /:/       /__/:/       \  \:\   \  \:\/:/     \  \:\        \  \:\
+     /__/:/        \__\/         \__\/    \  \::/       \  \:\        \  \:\
+     \__\/                                 \__\/         \__\/         \__\/
+I 2021/08/16 21:07:35 runtime.go:32: kernel is booting:
+    * ver [1.2.5-alpha5]
+    * arch [amd64]
+    * runtime mode [prod]
+    * working directory [C:\Users\llej\AppData\Local\Programs\SiYuan\resources]
+    * read only [false]
+    * container [std]
+    * database [ver=20210804]
+    * workspace directory [D:\code\oceanpress\test-doc]
+    * rsync [version 3.2.3  protocol version 31]
+I 2021/08/16 21:07:35 conf.go:411: migrated box [id=20210816210735-scu9ti5, name=OceanPress]
+D 2021/08/16 21:07:35 conf.go:419: migration need reopen box [OceanPress], remove it from conf
+I 2021/08/16 21:07:36 conf.go:232: local serve path [http://192.168.0.23:6806]
+I 2021/08/16 21:07:38 database.go:120: initialized database tables
+I 2021/08/16 21:07:38 database.go:80: reinitialized database [D:\code\oceanpress\test-doc\temp\siyuan.db]
+I 2021/08/16 21:07:38 conf.go:349: pre-init database size [29 kB]
+I 2021/08/16 21:07:38 conf.go:361: post-init database size [29 kB]
+I 2021/08/16 21:07:38 serve.go:66: kernel HTTP server is booting [http://127.0.0.1:6806]
+I 2021/08/16 21:07:39 working.go:109: kernel booted
+I 2021/08/16 21:07:50 box.go:486: migrated doc from [/OceanPress.sy] to [/20210807155017-xz6i9yy.sy]
+I 2021/08/16 21:07:50 box.go:486: migrated doc from [/被引用页面.sy] to [/20210807160022-0hn1p55.sy]
+I 2021/08/16 21:07:50 box.go:492: migrated all docs, old title.sy docs has been backup in box folder [D:\code\oceanpress\test-doc\data\20210816210735-scu9ti5\.siyuan\history\2021-08-16-210750-migrate]
+I 2021/08/16 21:07:50 box.go:573: rebuilding database of box [OceanPress]
+I 2021/08/16 21:07:50 box.go:577: rebuilt database of box [OceanPress]
+I 2021/08/16 21:11:18 conf.go:285: exited kernel
+I 2021/08/16 21:25:40 working.go:95: 
+      ___                                   ___           ___           ___
+     /  /\        ___           ___        /__/\         /  /\         /__/\
+    /  /:/_      /  /\         /__/|       \  \:\       /  /::\        \  \:\
+   /  /:/ /\    /  /:/        |  |:|        \  \:\     /  /:/\:\        \  \:\
+  /  /:/ /::\  /__/::\        |  |:|    ___  \  \:\   /  /:/~/::\   _____\__\:\
+ /__/:/ /:/\:\ \__\/\:\__   __|__|:|   /__/\  \__\:\ /__/:/ /:/\:\ /__/::::::::\
+ \  \:\/:/~/:/    \  \:\/\ /__/::::\   \  \:\ /  /:/ \  \:\/:/__\/ \  \:\~~\~~\/
+  \  \::/ /:/      \__\::/    ~\~~\:\   \  \:\  /:/   \  \::/       \  \:\  ~~~
+   \__\/ /:/       /__/:/       \  \:\   \  \:\/:/     \  \:\        \  \:\
+     /__/:/        \__\/         \__\/    \  \::/       \  \:\        \  \:\
+     \__\/                                 \__\/         \__\/         \__\/
+I 2021/08/16 21:25:40 runtime.go:32: kernel is booting:
+    * ver [1.2.5-alpha5]
+    * arch [amd64]
+    * runtime mode [prod]
+    * working directory [C:\Users\llej\AppData\Local\Programs\SiYuan\resources]
+    * read only [false]
+    * container [std]
+    * database [ver=20210804]
+    * workspace directory [D:\code\oceanpress\test-doc]
+    * rsync [version 3.2.3  protocol version 31]
+I 2021/08/16 21:25:40 conf.go:232: local serve path [http://192.168.0.23:6806]
+I 2021/08/16 21:25:42 database.go:120: initialized database tables
+I 2021/08/16 21:25:42 database.go:80: reinitialized database [D:\code\oceanpress\test-doc\temp\siyuan.db]
+I 2021/08/16 21:25:42 conf.go:349: pre-init database size [29 kB]
+I 2021/08/16 21:25:42 serve.go:66: kernel HTTP server is booting [http://127.0.0.1:6806]
+I 2021/08/16 21:25:42 box.go:573: rebuilding database of box [OceanPress]
+I 2021/08/16 21:25:42 box.go:577: rebuilt database of box [OceanPress]
+I 2021/08/16 21:25:42 conf.go:361: post-init database size [66 kB]
+I 2021/08/16 21:25:43 working.go:109: kernel booted
+I 2021/08/16 21:26:25 conf.go:285: exited kernel
+I 2021/09/05 22:41:06 working.go:94: 
+      ___                                   ___           ___           ___
+     /  /\        ___           ___        /__/\         /  /\         /__/\
+    /  /:/_      /  /\         /__/|       \  \:\       /  /::\        \  \:\
+   /  /:/ /\    /  /:/        |  |:|        \  \:\     /  /:/\:\        \  \:\
+  /  /:/ /::\  /__/::\        |  |:|    ___  \  \:\   /  /:/~/::\   _____\__\:\
+ /__/:/ /:/\:\ \__\/\:\__   __|__|:|   /__/\  \__\:\ /__/:/ /:/\:\ /__/::::::::\
+ \  \:\/:/~/:/    \  \:\/\ /__/::::\   \  \:\ /  /:/ \  \:\/:/__\/ \  \:\~~\~~\/
+  \  \::/ /:/      \__\::/    ~\~~\:\   \  \:\  /:/   \  \::/       \  \:\  ~~~
+   \__\/ /:/       /__/:/       \  \:\   \  \:\/:/     \  \:\        \  \:\
+     /__/:/        \__\/         \__\/    \  \::/       \  \:\        \  \:\
+     \__\/                                 \__\/         \__\/         \__\/
+I 2021/09/05 22:41:06 runtime.go:32: kernel is booting:
+    * ver [1.3.3]
+    * arch [amd64]
+    * runtime mode [prod]
+    * working directory [C:\Users\llej\AppData\Local\Programs\SiYuan\resources]
+    * read only [false]
+    * container [std]
+    * database [ver=20210818]
+    * workspace directory [D:\code\oceanpress\test-doc]
+    * rsync [version 3.2.3  protocol version 31]
+I 2021/09/05 22:41:07 conf.go:228: local serve path [http://192.168.0.23:6806]
+I 2021/09/05 22:41:07 database.go:124: initialized database tables
+I 2021/09/05 22:41:07 database.go:84: reinitialized database [D:\code\oceanpress\test-doc\temp\siyuan.db]
+I 2021/09/05 22:41:07 conf.go:403: pre-init database size [29 kB]
+I 2021/09/05 22:41:07 conf.go:415: post-init database size [29 kB]
+I 2021/09/05 22:41:07 serve.go:68: kernel HTTP server is booting [http://127.0.0.1:6806]
+I 2021/09/05 22:41:08 working.go:108: kernel booted
+I 2021/09/05 22:41:15 box.go:422: rebuilt database of box [20210816210735-scu9ti5] in [0.01s]
+I 2021/09/05 22:41:48 conf.go:281: exited kernel
+I 2021/09/05 22:41:52 working.go:94: 
+      ___                                   ___           ___           ___
+     /  /\        ___           ___        /__/\         /  /\         /__/\
+    /  /:/_      /  /\         /__/|       \  \:\       /  /::\        \  \:\
+   /  /:/ /\    /  /:/        |  |:|        \  \:\     /  /:/\:\        \  \:\
+  /  /:/ /::\  /__/::\        |  |:|    ___  \  \:\   /  /:/~/::\   _____\__\:\
+ /__/:/ /:/\:\ \__\/\:\__   __|__|:|   /__/\  \__\:\ /__/:/ /:/\:\ /__/::::::::\
+ \  \:\/:/~/:/    \  \:\/\ /__/::::\   \  \:\ /  /:/ \  \:\/:/__\/ \  \:\~~\~~\/
+  \  \::/ /:/      \__\::/    ~\~~\:\   \  \:\  /:/   \  \::/       \  \:\  ~~~
+   \__\/ /:/       /__/:/       \  \:\   \  \:\/:/     \  \:\        \  \:\
+     /__/:/        \__\/         \__\/    \  \::/       \  \:\        \  \:\
+     \__\/                                 \__\/         \__\/         \__\/
+I 2021/09/05 22:41:53 runtime.go:32: kernel is booting:
+    * ver [1.3.3]
+    * arch [amd64]
+    * runtime mode [prod]
+    * working directory [C:\Users\llej\AppData\Local\Programs\SiYuan\resources]
+    * read only [false]
+    * container [std]
+    * database [ver=20210818]
+    * workspace directory [D:\code\oceanpress\test-doc]
+    * rsync [version 3.2.3  protocol version 31]
+I 2021/09/05 22:41:53 conf.go:228: local serve path [http://192.168.0.23:6806]
+I 2021/09/05 22:41:53 database.go:124: initialized database tables
+I 2021/09/05 22:41:53 database.go:84: reinitialized database [D:\code\oceanpress\test-doc\temp\siyuan.db]
+I 2021/09/05 22:41:53 conf.go:403: pre-init database size [29 kB]
+I 2021/09/05 22:41:53 serve.go:68: kernel HTTP server is booting [http://127.0.0.1:6806]
+I 2021/09/05 22:41:53 box.go:422: rebuilt database of box [20210816210735-scu9ti5] in [0.00s]
+I 2021/09/05 22:41:53 conf.go:415: post-init database size [61 kB]
+I 2021/09/05 22:41:54 working.go:108: kernel booted
+I 2021/09/05 22:42:33 conf.go:281: exited kernel
+I 2021/09/06 22:03:18 working.go:94: 
+      ___                                   ___           ___           ___
+     /  /\        ___           ___        /__/\         /  /\         /__/\
+    /  /:/_      /  /\         /__/|       \  \:\       /  /::\        \  \:\
+   /  /:/ /\    /  /:/        |  |:|        \  \:\     /  /:/\:\        \  \:\
+  /  /:/ /::\  /__/::\        |  |:|    ___  \  \:\   /  /:/~/::\   _____\__\:\
+ /__/:/ /:/\:\ \__\/\:\__   __|__|:|   /__/\  \__\:\ /__/:/ /:/\:\ /__/::::::::\
+ \  \:\/:/~/:/    \  \:\/\ /__/::::\   \  \:\ /  /:/ \  \:\/:/__\/ \  \:\~~\~~\/
+  \  \::/ /:/      \__\::/    ~\~~\:\   \  \:\  /:/   \  \::/       \  \:\  ~~~
+   \__\/ /:/       /__/:/       \  \:\   \  \:\/:/     \  \:\        \  \:\
+     /__/:/        \__\/         \__\/    \  \::/       \  \:\        \  \:\
+     \__\/                                 \__\/         \__\/         \__\/
+I 2021/09/06 22:03:18 runtime.go:32: kernel is booting:
+    * ver [1.3.3]
+    * arch [amd64]
+    * runtime mode [prod]
+    * working directory [C:\Users\llej\AppData\Local\Programs\SiYuan\resources]
+    * read only [false]
+    * container [std]
+    * database [ver=20210818]
+    * workspace directory [D:\code\oceanpress\test-doc]
+    * rsync [version 3.2.3  protocol version 31]
+I 2021/09/06 22:03:18 conf.go:228: local serve path [http://192.168.0.23:6806]
+I 2021/09/06 22:03:18 database.go:124: initialized database tables
+I 2021/09/06 22:03:18 database.go:84: reinitialized database [D:\code\oceanpress\test-doc\temp\siyuan.db]
+I 2021/09/06 22:03:18 conf.go:403: pre-init database size [29 kB]
+I 2021/09/06 22:03:18 serve.go:68: kernel HTTP server is booting [http://127.0.0.1:6806]
+I 2021/09/06 22:03:18 box.go:422: rebuilt database of box [20210816210735-scu9ti5] in [0.01s]
+I 2021/09/06 22:03:18 conf.go:415: post-init database size [61 kB]
+I 2021/09/06 22:03:19 working.go:108: kernel booted
+I 2021/09/06 22:03:46 conf.go:281: exited kernel

@@ -1,0 +1,726 @@
+{
+  "logLevel": "debug",
+  "appearance": {
+    "mode": 0,
+    "darkThemes": [
+      "midnight"
+    ],
+    "lightThemes": [
+      "daylight"
+    ],
+    "themeDark": "midnight",
+    "themeLight": "daylight",
+    "icons": [
+      "ant",
+      "material"
+    ],
+    "icon": "material",
+    "nativeEmoji": false,
+    "codeBlockThemeLight": "github",
+    "codeBlockThemeDark": "base16/dracula",
+    "lang": "zh_CN",
+    "customCSS": false,
+    "closeButtonBehavior": 0,
+    "closeKernelWhenExitingUI": true
+  },
+  "langs": [
+    {
+      "label": "English",
+      "name": "en_US"
+    },
+    {
+      "label": "简体中文",
+      "name": "zh_CN"
+    }
+  ],
+  "lang": "zh_CN",
+  "fileTree": {
+    "alwaysSelectOpenedFile": false,
+    "openFilesUseCurrentTab": false,
+    "refCreateSavePath": "",
+    "createDocNameTemplate": "",
+    "maxListCount": 512,
+    "sort": 0
+  },
+  "editor": {
+    "autoSpace": false,
+    "mathEngine": "KaTeX",
+    "fontSize": 16,
+    "fontFamily": "",
+    "codeSyntaxHighlightLineNum": true,
+    "codeTabSpaces": 0,
+    "codeLineWrap": false,
+    "codeLigatures": false,
+    "displayBookmarkIcon": true,
+    "displayNetImgMark": false,
+    "generateHistoryInterval": 10,
+    "historyRetentionDays": 7,
+    "emoji": [
+      "1f642",
+      "huaji.gif",
+      "1f433"
+    ],
+    "virtualBlockRef": false,
+    "virtualBlockRefExclude": ""
+  },
+  "export": {
+    "paragraphBeginningSpace": false,
+    "blockRefMode": 2,
+    "blockEmbedMode": 0,
+    "blockRefTextLeft": "\"",
+    "blockRefTextRight": "\"",
+    "tagOpenMarker": "#",
+    "tagCloseMarker": "#"
+  },
+  "graph": {
+    "maxBlocks": 10240,
+    "local": {
+      "depth": 1,
+      "dailyNote": true,
+      "type": {
+        "tag": true,
+        "paragraph": true,
+        "heading": true,
+        "math": true,
+        "code": true,
+        "table": true,
+        "list": true,
+        "listItem": true,
+        "blockquote": true,
+        "super": true
+      },
+      "d3": {
+        "nodeSize": 15,
+        "linkWidth": 8,
+        "lineOpacity": 0.36,
+        "centerStrength": 0.01,
+        "collideRadius": 600,
+        "collideStrength": 0.08,
+        "linkDistance": 400,
+        "arrow": true
+      }
+    },
+    "global": {
+      "minRefs": 0,
+      "dailyNote": false,
+      "type": {
+        "tag": false,
+        "paragraph": false,
+        "heading": false,
+        "math": false,
+        "code": false,
+        "table": false,
+        "list": false,
+        "listItem": false,
+        "blockquote": false,
+        "super": false
+      },
+      "d3": {
+        "nodeSize": 15,
+        "linkWidth": 8,
+        "lineOpacity": 0.36,
+        "centerStrength": 0.01,
+        "collideRadius": 600,
+        "collideStrength": 0.08,
+        "linkDistance": 400,
+        "arrow": true
+      }
+    }
+  },
+  "uiLayout": {
+    "bottom": [],
+    "hideDock": false,
+    "layout": {
+  "children": [
+  {
+    "children": [
+  {
+    "children": [],
+    "instance": "Wnd"
+  },
+  {
+    "children": [],
+    "instance": "Wnd",
+    "resize": "lr"
+  }
+],
+    "direction": "lr",
+    "instance": "Layout",
+    "size": "0px",
+    "type": "top"
+  },
+  {
+    "children": [
+  {
+    "children": [
+  {
+    "children": [],
+    "instance": "Wnd"
+  },
+  {
+    "children": [],
+    "instance": "Wnd",
+    "resize": "tb"
+  }
+],
+    "direction": "tb",
+    "instance": "Layout",
+    "size": "240px",
+    "type": "left"
+  },
+  {
+    "children": [
+  {
+    "children": [
+  {
+    "children": {
+  "blockId": "20210807155017-xz6i9yy",
+  "instance": "Editor"
+},
+    "instance": "Tab",
+    "title": "OceanPress"
+  },
+  {
+    "active": true,
+    "children": {
+  "blockId": "20210807160022-0hn1p55",
+  "instance": "Editor"
+},
+    "instance": "Tab",
+    "title": "被引用页面"
+  }
+],
+    "height": "",
+    "instance": "Wnd",
+    "width": ""
+  }
+],
+    "direction": "lr",
+    "instance": "Layout",
+    "resize": "lr",
+    "size": "auto",
+    "type": "center"
+  },
+  {
+    "children": [
+  {
+    "children": [],
+    "instance": "Wnd"
+  },
+  {
+    "children": [],
+    "instance": "Wnd",
+    "resize": "tb"
+  }
+],
+    "direction": "tb",
+    "instance": "Layout",
+    "resize": "lr",
+    "size": "0px",
+    "type": "right"
+  }
+],
+    "direction": "lr",
+    "instance": "Layout",
+    "resize": "tb",
+    "size": "auto",
+    "type": "normal"
+  },
+  {
+    "children": [
+  {
+    "children": [],
+    "instance": "Wnd"
+  },
+  {
+    "children": [],
+    "instance": "Wnd",
+    "resize": "lr"
+  }
+],
+    "direction": "lr",
+    "instance": "Layout",
+    "resize": "tb",
+    "size": "0px",
+    "type": "bottom"
+  }
+],
+  "direction": "tb",
+  "instance": "Layout",
+  "type": "normal"
+},
+    "left": [
+  [
+    {
+      "show": true,
+      "size": {
+  "height": 0,
+  "width": 240
+},
+      "type": "file"
+    },
+    {
+      "show": false,
+      "size": {
+  "height": 0,
+  "width": 240
+},
+      "type": "outline"
+    }
+  ],
+  [
+    {
+      "show": false,
+      "size": {
+  "height": 0,
+  "width": 240
+},
+      "type": "bookmark"
+    },
+    {
+      "show": false,
+      "size": {
+  "height": 0,
+  "width": 240
+},
+      "type": "tag"
+    }
+  ]
+],
+    "right": [
+  [
+    {
+      "show": false,
+      "size": {
+  "height": 0,
+  "width": 360
+},
+      "type": "graph"
+    },
+    {
+      "show": false,
+      "size": {
+  "height": 0,
+  "width": 360
+},
+      "type": "globalGraph"
+    }
+  ],
+  [
+    {
+      "show": false,
+      "size": {
+  "height": 0,
+  "width": 360
+},
+      "type": "backlink"
+    }
+  ]
+],
+    "top": []
+  },
+  "userData": "",
+  "account": {
+    "displayTitle": true,
+    "displayVIP": true
+  },
+  "rsa": {
+    "privateKey": "78efdf7115f8e19dd78d8ebfd7f53d6e848d5aaf0cc3a3b9d9d4bdf3e73e10bef4a6c1614667ef45a5fefe4a2f311f2d35b34e769fec891785a82548a32aad48e3bcd35393189b641f6bedc78d822883436767b39f3ad5f9b61cb9fdb60d06ca78842fc4f7c780b8febf84a04f6f8fa4d75814f69d05cd2e29fe7c316da3f58423156882f5b9da30a07670ea8eacbc5e42e73f9e5b56fcc23e1c685613b342534c00102bec4449a4d0c2313862251d6bf8ad63423c3f32a886450924e077f00511d48c65934905b1ad0a1cbc56877bcae07ea7f3142a4c1a1379cc6b3a674eee0fa9ff7ae067d615b50769bafea9ea3cd2648dde31662878918d062b9d6fb59b0de7ca5bd7afae4f60c9d00ce75587d723b92cd987b5995b3aeb03412468c0e8ff63421997a44b863ac18ddcfa165b5e75cf1e8544f20264c99fe55141d15ac5b9c2cac1c8c72de84ffa29dc488d3c926d36d8db3b2ecf07b800b14d6bc39e0ded8e384f4d4f57b894b29f271cd97f148bfa47fe040a9bb2177dba6bcddd27d633156fbfd985dcb01fe5bbadcf188907f88d1ded05d86e20994c0a2c72c7dac02d40c32381adc2f631db3018dd8757dfeefb88dedc0ea88cac149579b3ac0adad795f693a9c2e243fa7b98f6471c2373f9da368a935983d3873da7879e57d8f72ea5a18b78e5550d7437bb202814ae6b9d46ffe9be416dd51ab5ea3c12fcd9d4c4d62b5ce5c5ca29c86896b4c8a106e8f80193e822470a549104c3cdc22720fb7a543a40cf88c57c77293037b432ae0809ec9359d14d05f70dca52090d78cec898d52ff09e1826f71519bf73b816c142d1d4088231081937af04fb284ff4712a530e7ef63364f32bb25f03a83d90289c3dee1dc7f5273e4fd742d8c87cccde394df0c9fe466ee55c082e09f47374530d8e5b2a4b5cafd64f290c65422f286c7c128251c043780de69f1dc1df468b44f1cd84b44aead2dee319c03e504bdcd5539b93e732d33a18fdc6b972fbc527fd47305b78307e3eb17515f86cabafe4d1ba2f931f90603e3023b789e8f000eea0ec78bed27a0eed95ab53a56a26250b431616c1be74b1ea375af7759108274150887f8b08c0530e6a942f3da06a1c0892220eccbab09f933c70c29f30f59c3258fdef176427d777fc038e50e182671b02ffec579c372aa630cf0d9d0ce0a36ac36cf12f2f4a02d033d5bd8b181c2b33140f3bc986f8f2e79700965c7d04723c99052530acad948addc90abf3bf34a3e88c1b575437758efdf3d65bcd7307eb54ba1216f03bf4b0784710c2d9de5ff686bd9a47a36c086929807ee925f1e59087083f51dc78239f6c83ff887269cbc2bd84054cab93ae7e040ef5781d0f0c8892362e7bf0f89fc958e7aef3eb318afc6bc3a023266d5556efb67ea9c7ebace6ad84313d9b3ab3fad9e219575cffd4b837a99025f2937bb2cfe5bdba2872429b6d2718830bf5050e8da8af72a8d95ab666565d180f21afa13085d3dc5a4753a083908333df5ed04f847b9df8433dd550b001521b7583ee92f5b6b3ecc3f646cae09904b46db543d4ce7642484961f38113f756e539d151b96f2b9e490ad64bca0f72694f554fe33195f652af8a5256c5396bce6f0ebd48ef006740640a28cf2e3ac2bd918aaa5a1d5a9875410e06b8a2212186b189bcdf69677a08e0988f2f3030634da2b524c78cd6195b76a5b6b7f94f4d6d022a22effc3685e33270dfff7fcd27dc73ba044da97c4597fc92872bbda5d4f7e8f9a7ce1b087149afd51306d3eb2dc6f6656dccb5f7214e4c86701edf1f1bc4c76e2b034bf209ed16058b3fdddcb736fe524610ab6e5931c44efacb0ff158e5d8df628abc80a81daa6e53ec066e3fcff9045cfda9eb6760601c69144250b3b2e23ac1a82dc0857210afded35088ce386ca85243dfd08718b4da46c8beedcf10af680f62fff4e1410e99e7e283137708e87f3c60bfe9b88f0fbca75b5f0dfe12b812521a61cf30d7d1f813b1983810de97e1d2f1855d7f450fb0eaf6ba7268562c687a6aca56eea7708c6a83ae7aaaa68fa4152cb987fd4d12dc698b0bc1a29d46e1a7e5794950f798635eee524cc156fe78cb3fbdf908d552a17d20737e59bbb9c5f763cf0666eb6f7779286d5fd1f2d36c2619c1dc657d6444628492b39a67ebae1b1ff72ee66a842010d4af001d7cb41846c0d6f6ea4d750d3098bb26ca743d845dd50e9230102d6fd8bd6fb5cad8d0b5e2122a4a475563588553171120d3098f5e46c22974fc962a8c0363ce70bbbde41b60bf342b54ecd340902b299fde54e4a6a7bd95e2a0038cb0369fb9ecf99993473687ca0f7b4d18aa91dd0ff505fc61c2579da4ed2550ecd42f795ecf7f6f0f7c491db30d8072b96b8e7424adeda4fc8e65f2f3b25356d04f0f0757db97233a3ed90fba31a6bd418ded294c7f4b253cf365da7995102941e1b9b4f1d8c5c4f98b918651010c3c3c7298775bad7b72bccb8ba9cf34f30c264c121c9f4121b2954963d9c6e0676b9049681cfd5ad767508ec680b9e8b28d47aeec8e22ab59b9b62a7f9a4de26eaefb606029a536b0ebfbee68f47523f066fd165b0d0a19e8ddd355bec49b1923e378358dffadabf3731f1bcf891479a1fc57a329c4d9b316be23489498b15a8db43fb9466c561f614725398792ad10dda2b5f9683aec28796aa0924e1a09bdbeb55b74e5dc80ac498b99c79f648f4b1cf523532aeebd01b9e7424a31a59049a6690a82fbb16872973b863da52a147973cffbd5b99669784708e89c2a1a79305f99de7833f4a75e78abfe04d60872843cafcd57ab332743e88795a65dfa857963aa066cf0b61b5911a11e4919f6761afb11110e5989893d893a28fcbe3fecc109c7b3ba5824eaed867292053c5ad5b069b24f6800ad3b0ed921d1ae96ea3ef92c52a53ece090b2b5cbb99a38f7d6d8a28c149f6b52d93801b0e0bfc868cfb36ecff25c4f108a2deb8c9cd4ee13b9ada41601573fba8e9843197ae6853d62bd216abb95b41c080466a04e4bd69f8bee14ed401b014e9812d997189399cb851f3e71d4244bfcfdfe2dc008da1d4004f465a81cee89366f12e7d6fdedc421380c213274126ed85ff27497e35bda6e318108375883ae4ee104e6859bdd73b4e3018777a0d7945252356717ccf17721e503b1af40e77d0f03fcf9c1d21196198e85ff9839e196bade9754fa399b4f667673b98142ef0802c9966e4b03f421c42b0c6e1f262bbd5fdf17b3bf6bba823a6d51617dfba3f4c1705046cc81d86387ac3b46c598c4bf0a04854d01221eccd4b0ea91e6d42cda03ebd54b1e79c5dc13da6d83d28ad71dbf62d1137ec871ea20767836525a2f306516d666c83bc833d67c47cac79c116f7b5f74b7c644c20f7038c2eab93e9d60fd54be9460e7a05da7eaffe3a24ef8b6acb2423f5287623bf2b8e43577b3ab45e535b3cfeab1ad139f0fdba3b63d417ea8eeb51df8e7d67c144e4308793fb6c2fbadeba6cf98db28e0231d1557c6efac96fb98236669a84d42f0d974fc27b98c02406044ac520b909d17f7c2db47595f17a226e474705779881249008e451cc71b7deea94a897d40a53112ec83b0ff1ee26920186e5b6e05644a585bbcbba52d3d22b2e4ead094fe5d4bb46901d27e2f29ca3bd118aca26e4f4b1c18c3eb0694d9dfb1713ed4dde86731efd9db3aff091d44f06358fa3f5b8883c8db1dd39c0de5c9643fbc3f0b7cd96a98e3b7760c3708c95e0cf9a8815c981b7d6ed428683f1a246e18a343176bd722f3925dbe120f08843d7b79cbd198530101a3c72607dc36080274a09ad6f64b7906632e6d6f44b5904e67b65fe40db119ba3bb5e1f690c8d47d58a995ede27db2238407a3ddb4d1bde5e1113da70176d7406389b39546fb70d64546b43e8db4177f17b919d336ca9c4aa2333f40a8f0b3b1e5e29b1b986c7cc2d79c2e098e8fe3cdeccdf2fc10c4f4326cd56d9d0c4e71cb9749f2db944720fccedb386c53bc99fea92b6b7dea6e00185afa38654e05053600d90b0e3147eb9349936613b3b26291d033ea54c6baec0a90e370857abf9827062f54aba48228199fa6fd570f9f81ec810939fec33abd409dcfc0356a6ebf53a0a8b374160b1f8522b213fd38300e06b51f1e392a2cb7b98e964ac064c1e8c84ff268348379bc23d9ea0e58b4355ae7ba2af3a999d0aaf5bd5ae0d4286ca5029574cbf178a8de0a064477bc355f47bd0232e6fc9777d1278f3716c4ec19e3099c90eb835f6822c6648b72302b3975f5fc53616fab17fe61cb405e7faa0b448695a41890609bc60e11aaf285a9fee4630b90a9c7190fa3fb1f91877c1eff7fd1b927513f25443d9f5e90591aa772a19aa89292ba923618574b4c4f0133e8c924167c0a49a824be269c547391670e5358b44e4e7c26813ae3ce6da7f28bcf8240e6368e17037ff507338e16d9409a6f3878137d5f911e0eed88772f2ed7d87e72068a3aba94d6c021448d49ab6324708a50ef531cfbfb1a65cefc03118d3372a85fdd56f81613abc057de9fb4163f5be23dd93176268e2ab856ab72a7ac105e375b2592478e5b54bf151cc1d43460a0b05b90411fdd9f7ce3a2a16b8d1a9a6741d61ab0efc5708c4547936cefda576c030354da778de68bf1eb756f647257f1bee86db50f03478c07f48467d9887e88c0db38eff0b9ffc47c91c93218caf112ea7db0bfb620d9952dadcc2779e968886d84d32e09baffd158ae",
+    "publicKey": "c3NoLXJzYSBBQUFBQjNOemFDMXljMkVBQUFBREFRQUJBQUFCQVFETjdvN0orS1U1akpZdVAyeVpMcGZDRnQwcVdwQWplN1VBK0xJeFlsVEdsQitLbEJjUVpvVWZyZlJsakw1eVFWbWpDWERTK2dXRFQ4SWlVWlZ2bjFjVXkrbGFOT2tjb1Z2dkhrTFVHYUk2bmdHZE5IUy82amhKRnNLSjhaV25hNEZyOWFLMU81aFhVTTJVU2hGeXhDZDhUdStTd2FLaU1Nb0hUT1BuUWtROEhzVUYvcGRvY3AyWm85YWd5U2RYcWtObTdXK0srM1k0UllDdk1MMFVzT1dBTHczWW5FRmk2d3dPNk9EQzk3c0EySzZoa2VmeGFWWmZwdzlFSHRibUdZK2xIQUJvUjB5TDRXb2o1ekszWVJUUmptR2R6QS9ldTFLMXNvbC9ZakVlTDl0a1F0MnNyWnhIQytxY3lTQnZyazJkSUU1Rkw2cUgyL1JmRnFJTTlRVzcK"
+  },
+  "readonly": false,
+  "localServeURL": "http://192.168.0.23:6806",
+  "accessAuthCode": "",
+  "e2eePasswd": "",
+  "checkUpdate": 0,
+  "system": {
+    "kernelVersion": "1.3.3",
+    "os": "windows",
+    "container": "std",
+    "isInsider": false,
+    "homeDir": "C:\\Users\\llej",
+    "workspaceDir": "D:\\code\\oceanpress\\test-doc",
+    "appDir": "C:\\Users\\llej\\AppData\\Local\\Programs\\SiYuan\\resources",
+    "confDir": "D:\\code\\oceanpress\\test-doc\\conf",
+    "dataDir": "D:\\code\\oceanpress\\test-doc\\data",
+    "networkServe": false,
+    "useExistingDB": false
+  },
+  "keymap": {
+    "editor": {
+  "general": {
+  "alignCenter": {
+  "custom": "⌥C",
+  "default": "⌥C"
+},
+  "alignLeft": {
+  "custom": "⌥L",
+  "default": "⌥L"
+},
+  "alignRight": {
+  "custom": "⌥R",
+  "default": "⌥R"
+},
+  "attr": {
+  "custom": "⌥⌘A",
+  "default": "⌥⌘A"
+},
+  "backlinks": {
+  "custom": "⌥B",
+  "default": "⌥B"
+},
+  "copyBlockRef": {
+  "custom": "⇧⌘C",
+  "default": "⇧⌘C"
+},
+  "copyProtocol": {
+  "custom": "⇧⌘H",
+  "default": "⇧⌘H"
+},
+  "fullscreen": {
+  "custom": "⌥Y",
+  "default": "⌥Y"
+},
+  "globalSearch": {
+  "custom": "⇧⌘F",
+  "default": "⇧⌘F"
+},
+  "graphView": {
+  "custom": "⌥G",
+  "default": "⌥G"
+},
+  "history": {
+  "custom": "⌥H",
+  "default": "⌥H"
+},
+  "insertAfter": {
+  "custom": "⇧⌘A",
+  "default": "⇧⌘A"
+},
+  "insertBefore": {
+  "custom": "⇧⌘B",
+  "default": "⇧⌘B"
+},
+  "moveToDown": {
+  "custom": "⇧⌘↓",
+  "default": "⇧⌘↓"
+},
+  "moveToUp": {
+  "custom": "⇧⌘↑",
+  "default": "⇧⌘↑"
+},
+  "newContentFile": {
+  "custom": "F4",
+  "default": "F4"
+},
+  "newNameFile": {
+  "custom": "F3",
+  "default": "F3"
+},
+  "outline": {
+  "custom": "⌥O",
+  "default": "⌥O"
+},
+  "pasteAsPlainText": {
+  "custom": "⇧⌘V",
+  "default": "⇧⌘V"
+},
+  "ppt": {
+  "custom": "⌥⌘0",
+  "default": "⌥⌘0"
+},
+  "preview": {
+  "custom": "⌥⌘9",
+  "default": "⌥⌘9"
+},
+  "redo": {
+  "custom": "⌘Y",
+  "default": "⌘Y"
+},
+  "refresh": {
+  "custom": "F5",
+  "default": "F5"
+},
+  "rename": {
+  "custom": "F2",
+  "default": "F2"
+},
+  "search": {
+  "custom": "⌘F",
+  "default": "⌘F"
+},
+  "showInFolder": {
+  "custom": "⌥A",
+  "default": "⌥A"
+},
+  "undo": {
+  "custom": "⌘Z",
+  "default": "⌘Z"
+},
+  "wysiwyg": {
+  "custom": "⌥⌘7",
+  "default": "⌥⌘7"
+}
+},
+  "heading": {
+  "heading1": {
+  "custom": "⌥⌘1",
+  "default": "⌥⌘1"
+},
+  "heading2": {
+  "custom": "⌥⌘2",
+  "default": "⌥⌘2"
+},
+  "heading3": {
+  "custom": "⌥⌘3",
+  "default": "⌥⌘3"
+},
+  "heading4": {
+  "custom": "⌥⌘4",
+  "default": "⌥⌘4"
+},
+  "heading5": {
+  "custom": "⌥⌘5",
+  "default": "⌥⌘5"
+},
+  "heading6": {
+  "custom": "⌥⌘6",
+  "default": "⌥⌘6"
+}
+},
+  "insert": {
+  "blockRef": {
+  "custom": "⌘[",
+  "default": "⌘["
+},
+  "bold": {
+  "custom": "⌘B",
+  "default": "⌘B"
+},
+  "check": {
+  "custom": "⌘L",
+  "default": "⌘L"
+},
+  "font": {
+  "custom": "⌥X",
+  "default": "⌥X"
+},
+  "inline-code": {
+  "custom": "⌘G",
+  "default": "⌘G"
+},
+  "inline-math": {
+  "custom": "⌘M",
+  "default": "⌘M"
+},
+  "italic": {
+  "custom": "⌘I",
+  "default": "⌘I"
+},
+  "kbd": {
+  "custom": "⌘'",
+  "default": "⌘'"
+},
+  "link": {
+  "custom": "⌘K",
+  "default": "⌘K"
+},
+  "mark": {
+  "custom": "⌘E",
+  "default": "⌘E"
+},
+  "strike": {
+  "custom": "⌘D",
+  "default": "⌘D"
+},
+  "sub": {
+  "custom": "⌘J",
+  "default": "⌘J"
+},
+  "sup": {
+  "custom": "⌘H",
+  "default": "⌘H"
+},
+  "table": {
+  "custom": "⌘O",
+  "default": "⌘O"
+},
+  "tag": {
+  "custom": "⌘T",
+  "default": "⌘T"
+},
+  "underline": {
+  "custom": "⌘U",
+  "default": "⌘U"
+}
+},
+  "list": {
+  "checkToggle": {
+  "custom": "⌘Enter",
+  "default": "⌘Enter"
+},
+  "indent": {
+  "custom": "⇥",
+  "default": "⇥"
+},
+  "outdent": {
+  "custom": "⇧⇥",
+  "default": "⇧⇥"
+}
+},
+  "table": {
+  "delete-column": {
+  "custom": "⇧⌘-",
+  "default": "⇧⌘-"
+},
+  "delete-row": {
+  "custom": "⌘-",
+  "default": "⌘-"
+},
+  "insertColumnLeft": {
+  "custom": "⇧⌘L",
+  "default": "⇧⌘L"
+},
+  "insertColumnRight": {
+  "custom": "⇧⌘R",
+  "default": "⇧⌘R"
+},
+  "insertRowAbove": {
+  "custom": "⇧⌘T",
+  "default": "⇧⌘T"
+},
+  "insertRowBelow": {
+  "custom": "⇧⌘D",
+  "default": "⇧⌘D"
+},
+  "moveToDown": {
+  "custom": "⌥⌘B",
+  "default": "⌥⌘B"
+},
+  "moveToLeft": {
+  "custom": "⌥⌘L",
+  "default": "⌥⌘L"
+},
+  "moveToRight": {
+  "custom": "⌥⌘R",
+  "default": "⌥⌘R"
+},
+  "moveToUp": {
+  "custom": "⌥⌘T",
+  "default": "⌥⌘T"
+}
+}
+},
+    "general": {
+  "backlinks": {
+  "custom": "⌥7",
+  "default": "⌥7"
+},
+  "bookmark": {
+  "custom": "⌥3",
+  "default": "⌥3"
+},
+  "closeTab": {
+  "custom": "⌘W",
+  "default": "⌘W"
+},
+  "config": {
+  "custom": "⌥P",
+  "default": "⌥P"
+},
+  "dailyNote": {
+  "custom": "⌥5",
+  "default": "⌥5"
+},
+  "enter": {
+  "custom": "⌥→",
+  "default": "⌥→"
+},
+  "enterBack": {
+  "custom": "⌥←",
+  "default": "⌥←"
+},
+  "fileTree": {
+  "custom": "⌥1",
+  "default": "⌥1"
+},
+  "globalGraph": {
+  "custom": "⌥9",
+  "default": "⌥9"
+},
+  "goBack": {
+  "custom": "⌘←",
+  "default": "⌘←"
+},
+  "goForward": {
+  "custom": "⌘→",
+  "default": "⌘→"
+},
+  "graphView": {
+  "custom": "⌥8",
+  "default": "⌥8"
+},
+  "lockScreen": {
+  "custom": "⌥N",
+  "default": "⌥N"
+},
+  "move": {
+  "custom": "",
+  "default": ""
+},
+  "newFile": {
+  "custom": "⌘N",
+  "default": "⌘N"
+},
+  "outline": {
+  "custom": "⌥2",
+  "default": "⌥2"
+},
+  "search": {
+  "custom": "⌘P",
+  "default": "⌘P"
+},
+  "tag": {
+  "custom": "⌥4",
+  "default": "⌥4"
+},
+  "toggleWin": {
+  "custom": "⌥M",
+  "default": "⌥M"
+}
+}
+  },
+  "backup": {},
+  "sync": {
+    "cloudName": "",
+    "enabled": false,
+    "uploaded": 0,
+    "downloaded": 0,
+    "synced": 0,
+    "stat": ""
+  },
+  "search": {
+    "document": true,
+    "heading": true,
+    "list": false,
+    "listItem": false,
+    "codeBlock": true,
+    "mathBlock": true,
+    "table": true,
+    "blockquote": false,
+    "superBlock": false,
+    "paragraph": true,
+    "limit": 32,
+    "caseSensitive": false,
+    "name": true,
+    "alias": true,
+    "memo": true
+  },
+  "stat": {
+    "docCount": 2
+  },
+  "api": {
+    "token": "82jy141fv56dznrv"
+  },
+  "newbie": false
+}
