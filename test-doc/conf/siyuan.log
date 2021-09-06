@@ -261,3 +261,65 @@ I 2021/09/06 22:03:18 box.go:422: rebuilt database of box [20210816210735-scu9ti
 I 2021/09/06 22:03:18 conf.go:415: post-init database size [61 kB]
 I 2021/09/06 22:03:19 working.go:108: kernel booted
 I 2021/09/06 22:03:46 conf.go:281: exited kernel
+I 2021/09/06 22:09:35 working.go:94: 
+      ___                                   ___           ___           ___
+     /  /\        ___           ___        /__/\         /  /\         /__/\
+    /  /:/_      /  /\         /__/|       \  \:\       /  /::\        \  \:\
+   /  /:/ /\    /  /:/        |  |:|        \  \:\     /  /:/\:\        \  \:\
+  /  /:/ /::\  /__/::\        |  |:|    ___  \  \:\   /  /:/~/::\   _____\__\:\
+ /__/:/ /:/\:\ \__\/\:\__   __|__|:|   /__/\  \__\:\ /__/:/ /:/\:\ /__/::::::::\
+ \  \:\/:/~/:/    \  \:\/\ /__/::::\   \  \:\ /  /:/ \  \:\/:/__\/ \  \:\~~\~~\/
+  \  \::/ /:/      \__\::/    ~\~~\:\   \  \:\  /:/   \  \::/       \  \:\  ~~~
+   \__\/ /:/       /__/:/       \  \:\   \  \:\/:/     \  \:\        \  \:\
+     /__/:/        \__\/         \__\/    \  \::/       \  \:\        \  \:\
+     \__\/                                 \__\/         \__\/         \__\/
+I 2021/09/06 22:09:35 runtime.go:32: kernel is booting:
+    * ver [1.3.4]
+    * arch [amd64]
+    * runtime mode [prod]
+    * working directory [/opt/siyuan]
+    * read only [false]
+    * container [docker]
+    * database [ver=20210818]
+    * workspace directory [/root/code/oceanpress/test-doc]
+    * rsync [version 3.2.3  protocol version 31]
+I 2021/09/06 22:09:35 conf.go:228: local serve path [http://127.0.0.1:6806]
+I 2021/09/06 22:09:35 database.go:124: initialized database tables
+I 2021/09/06 22:09:35 database.go:84: reinitialized database [/root/code/oceanpress/test-doc/temp/siyuan.db]
+I 2021/09/06 22:09:35 conf.go:403: pre-init database size [29 kB]
+I 2021/09/06 22:09:35 serve.go:68: kernel HTTP server is booting [http://0.0.0.0:6806]
+I 2021/09/06 22:09:35 box.go:422: rebuilt database of box [20210816210735-scu9ti5] in [0.02s]
+I 2021/09/06 22:09:35 conf.go:415: post-init database size [61 kB]
+I 2021/09/06 22:09:35 working.go:108: kernel booted
+I 2021/09/06 22:17:45 process.go:36: received os signal [interrupt], exit kernel process now
+I 2021/09/06 22:17:45 conf.go:281: exited kernel
+I 2021/09/06 22:18:00 working.go:94: 
+      ___                                   ___           ___           ___
+     /  /\        ___           ___        /__/\         /  /\         /__/\
+    /  /:/_      /  /\         /__/|       \  \:\       /  /::\        \  \:\
+   /  /:/ /\    /  /:/        |  |:|        \  \:\     /  /:/\:\        \  \:\
+  /  /:/ /::\  /__/::\        |  |:|    ___  \  \:\   /  /:/~/::\   _____\__\:\
+ /__/:/ /:/\:\ \__\/\:\__   __|__|:|   /__/\  \__\:\ /__/:/ /:/\:\ /__/::::::::\
+ \  \:\/:/~/:/    \  \:\/\ /__/::::\   \  \:\ /  /:/ \  \:\/:/__\/ \  \:\~~\~~\/
+  \  \::/ /:/      \__\::/    ~\~~\:\   \  \:\  /:/   \  \::/       \  \:\  ~~~
+   \__\/ /:/       /__/:/       \  \:\   \  \:\/:/     \  \:\        \  \:\
+     /__/:/        \__\/         \__\/    \  \::/       \  \:\        \  \:\
+     \__\/                                 \__\/         \__\/         \__\/
+I 2021/09/06 22:18:00 runtime.go:32: kernel is booting:
+    * ver [1.3.4]
+    * arch [amd64]
+    * runtime mode [prod]
+    * working directory [/opt/siyuan]
+    * read only [false]
+    * container [docker]
+    * database [ver=20210818]
+    * workspace directory [/root/code/oceanpress/test-doc]
+    * rsync [version 3.2.3  protocol version 31]
+I 2021/09/06 22:18:00 conf.go:228: local serve path [http://127.0.0.1:6806]
+I 2021/09/06 22:18:00 database.go:124: initialized database tables
+I 2021/09/06 22:18:00 database.go:84: reinitialized database [/root/code/oceanpress/test-doc/temp/siyuan.db]
+I 2021/09/06 22:18:00 conf.go:403: pre-init database size [29 kB]
+I 2021/09/06 22:18:00 serve.go:68: kernel HTTP server is booting [http://0.0.0.0:6806]
+I 2021/09/06 22:18:00 box.go:422: rebuilt database of box [20210816210735-scu9ti5] in [0.01s]
+I 2021/09/06 22:18:00 conf.go:415: post-init database size [61 kB]
+I 2021/09/06 22:18:00 working.go:108: kernel booted
