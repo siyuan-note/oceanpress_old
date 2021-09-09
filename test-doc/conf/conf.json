@@ -333,8 +333,8 @@
     "publicKey": "c3NoLXJzYSBBQUFBQjNOemFDMXljMkVBQUFBREFRQUJBQUFCQVFETjdvN0orS1U1akpZdVAyeVpMcGZDRnQwcVdwQWplN1VBK0xJeFlsVEdsQitLbEJjUVpvVWZyZlJsakw1eVFWbWpDWERTK2dXRFQ4SWlVWlZ2bjFjVXkrbGFOT2tjb1Z2dkhrTFVHYUk2bmdHZE5IUy82amhKRnNLSjhaV25hNEZyOWFLMU81aFhVTTJVU2hGeXhDZDhUdStTd2FLaU1Nb0hUT1BuUWtROEhzVUYvcGRvY3AyWm85YWd5U2RYcWtObTdXK0srM1k0UllDdk1MMFVzT1dBTHczWW5FRmk2d3dPNk9EQzk3c0EySzZoa2VmeGFWWmZwdzlFSHRibUdZK2xIQUJvUjB5TDRXb2o1ekszWVJUUmptR2R6QS9ldTFLMXNvbC9ZakVlTDl0a1F0MnNyWnhIQytxY3lTQnZyazJkSUU1Rkw2cUgyL1JmRnFJTTlRVzcK"
   },
   "readonly": false,
-  "localServeURL": "http://127.0.0.1:6806",
-  "accessAuthCode": "",
+  "localServeURL": "http://dev.shenzilong.cn:7002",
+  "accessAuthCode": "szlsiyuan",
   "e2eePasswd": "",
   "checkUpdate": 0,
   "system": {

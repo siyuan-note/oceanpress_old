@@ -33,11 +33,18 @@
             //     // "-IsDev=true",
             // ],
             // 项目内测试文档
+            // "args": [
+            //     "-SourceDir=../test-doc/data/20210816210735-scu9ti5",
+            //     "-OutDir=../outHTML",
+            //     "-TemplateDir=../src/views/",
+            //     "-SqlitePath=../test-doc/temp/siyuan.db",
+            // ]
+            // 远程开发机测试测试
             "args": [
-                "-SourceDir=../test-doc/data/20210816210735-scu9ti5",
-                "-OutDir=../outHTML",
+                "-SourceDir=/root/doc/SiYuan/data/20210816161940-zo21go1",
+                "-OutDir=/root/doc/NoteOutHTML",
                 "-TemplateDir=../src/views/",
-                "-SqlitePath=../test-doc/temp/siyuan.db",
+                "-SqlitePath=/root/doc/SiYuan/temp/siyuan.db",
             ]
             // 旧版思源执行参数
             // "args": [

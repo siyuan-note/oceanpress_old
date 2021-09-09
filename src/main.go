@@ -228,9 +228,9 @@ func HandlingAssets(node *ast.Node, outDir string, fileEntity structAll.FileEnti
 
 			for {
 				assetsPath := path.Join(filepath.ToSlash(filepath.Dir(fileEntity.Path)), strings.Repeat("../", level), dest)
-				matched, _ := filepath.Match(workspaceDir+"*", assetsPath)
-
-				if matched {
+				matched, _ := filepath.Rel(workspaceDir+"*", assetsPath)
+				// 判断资源文件是否处于工作空间内，超出工作空间的不处理
+				if len(matched) > 0 {
 					_, err := os.Stat(assetsPath)
 					if err == nil {
 						matched, _ := filepath.Match(sourceDir+"*", assetsPath)

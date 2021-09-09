@@ -338,6 +338,7 @@
 			"Type": "NodeWidget",
 			"Data": "\u003ciframe src=\"http://dev.shenzilong.cn:6806/widgets/run-code\" data-src=\"http://dev.shenzilong.cn:6806/widgets/run-code\" data-subtype=\"widget\" border=\"0\" frameborder=\"no\" framespacing=\"0\" allowfullscreen=\"true\" style=\"width: 733px; height: 217px;\"\u003e\u003c/iframe\u003e",
 			"Properties": {
+				"custom-config": "{\u0026quot;source\u0026quot;:\u0026quot;\u0026quot;,\u0026quot;inside\u0026quot;:\u0026quot;inside\u0026quot;,\u0026quot;title\u0026quot;:\u0026quot;\u0026quot;,\u0026quot;preamble\u0026quot;:\u0026quot;\u0026quot;,\u0026quot;version\u0026quot;:\u0026quot;16.6.0\u0026quot;}",
 				"id": "20210906222234-063ys5f",
 				"updated": "20210906222234"
 			}
