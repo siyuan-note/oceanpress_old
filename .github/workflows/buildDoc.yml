@@ -1,4 +1,4 @@
-name: build
+name: buildDoc
 
 on:
   push:
@@ -6,6 +6,8 @@ on:
       - "v*"
     paths:
       - 'test-doc/**'
+      - 'test-doc/**.sy'
+      - 'buildDoc.yml'
 
 jobs:
   xgo:
