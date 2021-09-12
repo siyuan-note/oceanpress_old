@@ -35,7 +35,7 @@ jobs:
         run:  chmod 777 md2website-linux-amd64
 
       - name: build doc
-        run: md2website-linux-amd64 -SourceDir ./test-doc/data/20210816210735-scu9ti5 -OutDir ./outHTML -TemplateDir ./src/views/ -SqlitePath ./test-doc/temp/siyuan.db
+        run: ./md2website-linux-amd64 -SourceDir ./test-doc/data/20210816210735-scu9ti5 -OutDir ./outHTML -TemplateDir ./src/views/ -SqlitePath ./test-doc/temp/siyuan.db
 
       - name: Deploy to GitHub Pages
         if: success()
