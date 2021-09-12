@@ -2,12 +2,12 @@ name: buildDoc
 
 on:
   push:
-    tags:
-      - "v*"
     paths:
       - 'test-doc/**'
       - 'test-doc/**.sy'
       - 'buildDoc.yml'
+    tags:
+      - "v*"
 
 jobs:
   xgo:
