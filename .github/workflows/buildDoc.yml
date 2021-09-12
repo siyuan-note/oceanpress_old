@@ -23,8 +23,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: get app
-        run: wget releases https://github.com/siyuan-note/oceanpress/releases/latest/download/md2website-linux-amd64 && chmod 777 md2website-linux-amd64
+
+      - uses: suisei-cn/actions-download-file@v1
+        id: downloadfile  # Remember to give an ID if you need the output filename
+        name: Download the file
+        with:
+          url: "https://github.com/siyuan-note/oceanpress/releases/latest/download/md2website-linux-amd64"
+          target: ./
+
+      - name: chmod app
+        run:  chmod 777 md2website-linux-amd64
 
       - name: build doc
         run: md2website-linux-amd64 -SourceDir ./test-doc/data/20210816210735-scu9ti5 -OutDir ./outHTML -TemplateDir ./src/views/ -SqlitePath ./test-doc/temp/siyuan.db
