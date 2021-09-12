@@ -78,16 +78,14 @@ func (r *OceanPressRender) renderWidget(node *ast.Node, entering bool) ast.WalkS
 			iframe := dom.Find("iframe")
 			src, exists := iframe.Attr("src")
 			if exists {
-				localPrefix := "http://127.0.0.1:6806/"
-				if strings.HasPrefix(src, localPrefix) {
-					src = src[len(localPrefix):]
-					if strings.HasSuffix(src, "/") {
-						src += "index.html"
-					} else if !strings.HasSuffix(src, ".html") {
-						src += "/index.html"
-					}
-					iframe.SetAttr("src", r.context.BaseEntity.RootPath()+"assets/"+src)
+				start := strings.Index(src, "/widgets/")
+				src = src[start:]
+				if strings.HasSuffix(src, "/") {
+					src += "index.html"
+				} else if !strings.HasSuffix(src, ".html") {
+					src += "/index.html"
 				}
+				iframe.SetAttr("src", r.context.BaseEntity.RootPath()+"assets/"+src)
 				html, err := goquery.OuterHtml(iframe)
 				if err == nil {
 					node.Tokens = []byte(html)
