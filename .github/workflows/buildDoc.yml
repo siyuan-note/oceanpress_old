@@ -1,0 +1,37 @@
+name: build
+
+on:
+  push:
+    tags:
+      - "v*"
+    paths:
+      - 'test-doc/**'
+
+jobs:
+  xgo:
+    strategy:
+      fail-fast: false
+      matrix:
+        go_version:
+          - 1.13.x
+    runs-on: ubuntu-latest
+    steps:
+
+
+      - name: get app
+        run: wget releases https://github.com/siyuan-note/oceanpress/releases/latest/download/md2website-linux-amd64
+
+      - name: chmod app
+        run: chmod 777 md2website-linux-amd64
+
+      - name: build doc
+        run: md2website-linux-amd64 -SourceDir ./test-doc/data/20210816210735-scu9ti5 -OutDir ./outHTML -TemplateDir ./src/views/ -SqlitePath ./test-doc/temp/siyuan.db
+
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: outHTML
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}

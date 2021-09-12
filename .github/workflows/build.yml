@@ -37,20 +37,8 @@ jobs:
       - name: chmod app
         run: chmod 777 ./build/md2website-linux-amd64
 
-      - name: build doc
-        run: ./build/md2website-linux-amd64 -SourceDir ./test-doc/data/20210816210735-scu9ti5 -OutDir ./outHTML -TemplateDir ./src/views/ -SqlitePath ./test-doc/temp/siyuan.db
-
       - name: zip views
         run: zip -q -r ./build/views.zip ./src/views/
-
-      - name: Deploy to GitHub Pages
-        if: success()
-        uses: crazy-max/ghaction-github-pages@v2
-        with:
-          target_branch: gh-pages
-          build_dir: outHTML
-        env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
 
       - name: Release apk
         uses: ncipollo/release-action@v1.5.0
