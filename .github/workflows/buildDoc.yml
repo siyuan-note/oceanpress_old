@@ -12,7 +12,7 @@ on:
         - created
 
 jobs:
-  xgo:
+  buildDoc:
     strategy:
       fail-fast: false
       matrix:
@@ -21,12 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-
       - name: get app
-        run: wget releases https://github.com/siyuan-note/oceanpress/releases/latest/download/md2website-linux-amd64
-
-      - name: chmod app
-        run: chmod 777 md2website-linux-amd64
+        run: wget releases https://github.com/siyuan-note/oceanpress/releases/latest/download/md2website-linux-amd64 && chmod 777 md2website-linux-amd64
 
       - name: build doc
         run: md2website-linux-amd64 -SourceDir ./test-doc/data/20210816210735-scu9ti5 -OutDir ./outHTML -TemplateDir ./src/views/ -SqlitePath ./test-doc/temp/siyuan.db
