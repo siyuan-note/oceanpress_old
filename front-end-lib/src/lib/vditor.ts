@@ -7,12 +7,11 @@ d.setAttribute("id", id);
 d.style.display = "none";
 const vditor = new Vditor(d, {
   cache: { id: id },
-  cdn: "https://cdn.jsdelivr.net/npm/vditor@3.8.4",
-}).vditor;
-
+  // cdn: "https://cdn.jsdelivr.net/npm/vditor@3.8.4",
+})
 function generalAdaptation(
   adapterTarget: {
-    getMathElements: (element: HTMLElement) => NodeListOf<Element>;
+    getElements: (element: HTMLElement) => NodeListOf<Element>;
     getCode: (mathElement: Element) => string;
   },
   type: string,
@@ -25,57 +24,65 @@ function generalAdaptation(
   });
 }
 
-generalAdaptation(Vditor.adapter.mathRenderAdapter, "math");
+generalAdaptation(Vditor.adapterRender.mathRenderAdapter, "math");
 {
   //流程图
-  generalAdaptation(Vditor.adapter.mermaidRenderAdapter, "mermaid");
-  Vditor.adapter.mermaidRenderAdapter.getCode = (element) => {
+  generalAdaptation(Vditor.adapterRender.mermaidRenderAdapter, "mermaid");
+  Vditor.adapterRender.mermaidRenderAdapter.getCode = (element) => {
     element.innerHTML = (element as HTMLElement).dataset.content;
     return element.textContent;
   };
 }
 {
   //脑图
-  generalAdaptation(Vditor.adapter.mindmapRenderAdapter, "mindmap");
-  Vditor.adapter.mindmapRenderAdapter.getCode = (el) =>
+  generalAdaptation(Vditor.adapterRender.mindmapRenderAdapter, "mindmap");
+  Vditor.adapterRender.mindmapRenderAdapter.getCode = (el) =>
     (el as HTMLElement).dataset.parseContent;
 }
-generalAdaptation(Vditor.adapter.chartRenderAdapter, "echarts");
-generalAdaptation(Vditor.adapter.abcRenderAdapter, "abc");
-generalAdaptation(Vditor.adapter.graphvizRenderAdapter, "graphviz");
-Vditor.adapter.graphvizRenderAdapter.getMathElements = (e) => {
+generalAdaptation(Vditor.adapterRender.chartRenderAdapter, "echarts");
+generalAdaptation(Vditor.adapterRender.abcRenderAdapter, "abc");
+generalAdaptation(Vditor.adapterRender.graphvizRenderAdapter, "graphviz");
+Vditor.adapterRender.graphvizRenderAdapter.getElements = (e) => {
   return e.querySelectorAll(`[data-subtype=graphviz]`);
 };
-generalAdaptation(Vditor.adapter.flowchartRenderAdapter, "flowchart");
-generalAdaptation(Vditor.adapter.plantumlRenderAdapter, "plantuml");
+generalAdaptation(Vditor.adapterRender.flowchartRenderAdapter, "flowchart");
+generalAdaptation(Vditor.adapterRender.plantumlRenderAdapter, "plantuml");
 
-export function vditorRender(previewElement: HTMLElement) {
-  const cdn = vditor.options.cdn.replace(/-adapter\d+/, "");
+export async function vditorRender(previewElement: HTMLElement) {
+  // const cdn = v.options.cdn.replace(/-adapter\d+/, "");
+  console.log(vditor);
+  while(!vditor.vditor){
+    await sleep(3)
+  }
+  const v=vditor.vditor
   Vditor.setContentTheme(
-    vditor.options.preview.theme.current,
-    vditor.options.preview.theme.path,
+    v.options.preview.theme.current,
+    v.options.preview.theme.path,
   );
   Vditor.codeRender(previewElement);
   Vditor.highlightRender(
     //@ts-expect-error
-    JSON.stringify(vditor.options.preview.hljs),
+    JSON.stringify(v.options.preview.hljs),
     previewElement,
-    cdn,
   );
   Vditor.mathRender(previewElement, {
-    cdn: cdn,
     //@ts-expect-error
-    math: JSON.stringify(vditor.options.preview.math),
+    math: JSON.stringify(v.options.preview.math),
   });
   //@ts-expect-error
-  Vditor.mermaidRender(previewElement, cdn);
-  Vditor.flowchartRender(previewElement, cdn);
-  Vditor.graphvizRender(previewElement, cdn);
+  Vditor.mermaidRender(previewElement, );
+  Vditor.flowchartRender(previewElement, );
+  Vditor.graphvizRender(previewElement, );
   //@ts-expect-error
-  Vditor.chartRender(previewElement, cdn);
+  Vditor.chartRender(previewElement, );
   //@ts-expect-error
-  Vditor.mindmapRender(previewElement, cdn);
-  Vditor.abcRender(previewElement, cdn);
+  Vditor.mindmapRender(previewElement, );
+  Vditor.abcRender(previewElement, );
   Vditor.mediaRender(previewElement);
-  Vditor.plantumlRender(previewElement, cdn)
+  Vditor.plantumlRender(previewElement, )
+}
+function sleep(ms:number){
+  return new Promise((s)=>{
+    setTimeout(s,ms)
+  })
 }
