@@ -15836,7 +15836,7 @@ var app = (function () {
     });
     function generalAdaptation(adapterTarget, type) {
         Object.assign(adapterTarget, {
-            getMathElements: (element) => {
+            getElements: (element) => {
                 return element.querySelectorAll(`[data-subtype=${type}]`);
             },
             getCode: (element) => element.dataset.content,

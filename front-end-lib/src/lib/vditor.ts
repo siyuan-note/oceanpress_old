@@ -17,7 +17,7 @@ function generalAdaptation(
   type: string,
 ) {
   Object.assign(adapterTarget, {
-    getMathElements: (element) => {
+    getElements: (element) => {
       return element.querySelectorAll(`[data-subtype=${type}]`);
     },
     getCode: (element) => (element as HTMLElement).dataset.content,
