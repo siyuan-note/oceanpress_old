@@ -9,7 +9,7 @@ on:
       - '**.yml'
     release:
       types:
-        - created
+        - published
 
 jobs:
   buildDoc:
