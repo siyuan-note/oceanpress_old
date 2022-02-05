@@ -39,7 +39,7 @@
             //     "-TemplateDir=../src/views/",
             //     "-SqlitePath=../test-doc/temp/siyuan.db",
             // ]
-            // 远程开发机测试测试
+            // 远程开发机测试
             "args": [
                 "-SourceDir=/root/doc/SiYuan/data/20210816161940-zo21go1",
                 "-OutDir=/root/doc/NoteOutHTML",

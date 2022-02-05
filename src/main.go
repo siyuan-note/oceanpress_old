@@ -24,7 +24,6 @@ import (
 
 func main() {
 	util.RunningLog("0", "=== 🛬 开始转换 🛫 ===")
-	// 流程 1  用户输入 {源目录 输出目录}
 	util.RunningLog("1", "用户输入")
 	sourceDir := conf.SourceDir
 	outDir := conf.OutDir
@@ -33,7 +32,7 @@ func main() {
 	util.RunningLog("1.2", "outDir:"+outDir)
 	util.RunningLog("1.3", "viewsDir:"+conf.TemplateDir)
 	util.RunningLog("1.4", "SqlitePath:"+conf.SqlitePath)
-	tempDbPath := path.Join(filepath.ToSlash(sourceDir), "../oceanPressTemp.db")
+	tempDbPath := path.Join(filepath.ToSlash(sourceDir), "../../temp/oceanPress/oceanPressTemp.db")
 	err := copy.Copy(conf.SqlitePath, tempDbPath)
 	if err != nil {
 		util.DevLog("copy 数据库失败", err)
