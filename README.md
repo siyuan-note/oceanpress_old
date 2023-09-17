@@ -1,3 +1,7 @@
+## 这个项目已经停止维护
+
+现在推荐使用 [https://github.com/siyuan-note/oceanPress](https://github.com/siyuan-note/oceanPress)
+
 # OceanPress
 
 将 MarkDown 文件转换为 html 的静态站点
